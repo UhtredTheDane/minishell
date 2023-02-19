@@ -6,11 +6,11 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 10:42:02 by agengemb          #+#    #+#             */
-/*   Updated: 2022/09/30 16:24:04 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/02/19 18:08:20 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "../includes/get_next_line.h"
 
 int	is_contains_nl(char	*str)
 {

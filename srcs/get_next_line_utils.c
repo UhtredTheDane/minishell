@@ -6,11 +6,11 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 10:42:45 by agengemb          #+#    #+#             */
-/*   Updated: 2022/09/30 16:13:45 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/02/19 18:08:06 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "../includes/get_next_line.h"
 
 t_list	*ft_lstnew(char content)
 {
