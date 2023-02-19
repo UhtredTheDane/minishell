@@ -24,13 +24,13 @@ int	main(char **envp)
 	if (fd_pwd == -1)
 		return (1);
 	pwd[0] = "/bin/ls";
-	pwd[1] = NULL;
-	prompt = "text prompt:";	
+	pwd[1] = NULL;	
 	is_alive = 1;
 	if (dup2(fd_pwd, 1) == -1)
 		return (2);
 	execve(pwd[0], pwd, envp);
-	
+	prompt = get_next_line(fd_pwd);
+	dup2(STDOUT_FILENO, STDIN_FILENO); 
 	while (is_alive)
 	{
 		in_put = readline(prompt);
