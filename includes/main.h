@@ -17,5 +17,6 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <unistd.h>
+# include "get_next_line.h"
 
 #endif
