@@ -1,6 +1,4 @@
-#include <stdeff.h>
-#include <stdlib.h>
-
+#include "../includes/main.h"
 /*
  * Description:
  *
