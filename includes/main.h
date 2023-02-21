@@ -20,16 +20,12 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <unistd.h>
-# include "get_next_line.h"
+# include "pipex.h"
 # include <stdlib.h>
 # include <stddef.h>
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <sys/wait.h>
 
-char	**ft_split(char const *s, char c);
-char	*ft_strjoin(char const *s1, char const *s2);
-size_t	ft_strlen(const char *s);
-int	ft_strncmp(const char *s1, const char *s2, size_t n);
-
+void	son_proc(char *input_cmd, char **envp, int *pipe_fd, size_t num_proc);
 #endif
