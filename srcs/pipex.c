@@ -22,52 +22,6 @@ char	**make_cmd(char *one_string_cmd, char **envp)
 	cmd[0] = tempo_cmd;
 	return (cmd);
 }
-/*
-void	receiver(char **argv, char **envp, int *pipe_fd)
-{
-	int		fd_stdout;
-	char	**cmd;
-
-	close(pipe_fd[1]);
-	cmd = NULL;
-	fd_stdout = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR
-			| S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH);
-	if (fd_stdout == -1)
-		clean_exit(cmd, pipe_fd[0], fd_stdout, 2);
-	cmd = make_cmd(argv[3], envp);
-	if (!cmd)
-		clean_exit(cmd, pipe_fd[0], fd_stdout, 5);
-	if (dup2(pipe_fd[0], 0) == -1)
-		clean_exit(cmd, pipe_fd[0], fd_stdout, 3);
-	if (dup2(fd_stdout, 1) == -1)
-		clean_exit(cmd, pipe_fd[0], fd_stdout, 3);
-	close(pipe_fd[0]);
-	if (execve(cmd[0], cmd, envp) == -1)
-		clean_exit(cmd, -1, fd_stdout, 4);
-}
-
-void	sender(char **argv, char **envp, int *pipe_fd)
-{
-	int		fd_stdin;
-	char	**cmd;
-
-	close(pipe_fd[0]);
-	cmd = NULL;
-	fd_stdin = open(argv[1], O_RDONLY);
-	if (fd_stdin == -1)
-		clean_exit(cmd, pipe_fd[1], fd_stdin, 2);
-	cmd = make_cmd(argv[2], envp);
-	if (!cmd)
-		clean_exit(cmd, pipe_fd[1], fd_stdin, 5);
-	if (dup2(fd_stdin, 0) == -1)
-		clean_exit(cmd, pipe_fd[1], fd_stdin, 3);
-	if (dup2(pipe_fd[1], 1) == -1)
-		clean_exit(cmd, pipe_fd[1], fd_stdin, 3);
-	close(pipe_fd[1]);
-	if (execve(cmd[0], cmd, envp) == -1)
-		clean_exit(cmd, -1, fd_stdin, 4);
-}
-*/
 
 void	receiver(char *input_cmd, char **envp, int *pipe_fd, size_t num_proc, size_t pipes_nb)
 {
@@ -76,14 +30,15 @@ void	receiver(char *input_cmd, char **envp, int *pipe_fd, size_t num_proc, size_
 
 	//verif make cmd
 	cmd = make_cmd(input_cmd, envp);
+	
 	pipes_nb = (size_t) pipes_nb;
 	num_proc = (size_t) num_proc;
 		close(pipe_fd[1]);
 		dup2(pipe_fd[0], 0);
-		//close(pipe_fd[0]);
+		close(pipe_fd[0]);
 	execve(cmd[0], cmd, envp);
 	exit(0);
-	//verif execve
+
 }
 void	sender(char *input_cmd, char **envp, int *pipe_fd, size_t num_proc, size_t pipes_nb)
 {
@@ -98,7 +53,7 @@ void	sender(char *input_cmd, char **envp, int *pipe_fd, size_t num_proc, size_t 
 		close(pipe_fd[1]);
 	execve(cmd[0], cmd, envp);
 	exit(0);
-	//verif execve
+
 }
 
 int	run_pipe(int *pipe_fd, char *in_put, char **envp)
