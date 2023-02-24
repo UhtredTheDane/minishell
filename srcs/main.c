@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 17:09:09 by agengemb          #+#    #+#             */
-/*   Updated: 2023/02/24 19:44:34 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/02/24 19:47:26 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,6 @@ int	main(int argc, char **argv, char **envp)
 			waitpid(-1, NULL, 0);
 			close(pipe_fd[0]);
 			close(pipe_fd[1]);
-			rl_on_new_line();
-			//rl_replace_line("salut", 0);
-			rl_redisplay();
 		}
 		else
 			break;
