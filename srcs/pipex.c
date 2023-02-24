@@ -72,10 +72,8 @@ void	sender(char **argv, char **envp, int *pipe_fd)
 void	receiver(char *input_cmd, char **envp, int *pipe_fd, size_t num_proc, size_t pipes_nb)
 {
 	char	**cmd;
-	int		fd_stdout;
 
-	fd_stdout = open("test", O_WRONLY | O_CREAT, S_IRUSR
-			| S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH);
+
 	//verif make cmd
 	cmd = make_cmd(input_cmd, envp);
 	pipes_nb = (size_t) pipes_nb;
@@ -83,7 +81,6 @@ void	receiver(char *input_cmd, char **envp, int *pipe_fd, size_t num_proc, size_
 	
 		close(pipe_fd[1]);
 		dup2(pipe_fd[0], 0);
-		dup2(fd_stdout, 1);
 		close(pipe_fd[0]);
 	execve(cmd[0], cmd, envp);
 	//verif execve

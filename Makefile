@@ -11,7 +11,7 @@
 # **************************************************************************** #
 
 CC = gcc
-CFLAGS = -Wall -Werror -Wextra
+CFLAGS = -Wall -Werror -Wextra -g
 NAME = minishell
 LIBFT = ./libft/libft.a
 SRC = $(wildcard srcs/*.c)
