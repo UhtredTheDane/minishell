@@ -122,7 +122,7 @@ int	run_pipe(char *in_put, char **envp)
 	cmds = ft_split(in_put, '|');
 	envp = (char **) envp;
 
-	if (pipe(pipes_fd))
+	if (pipe(pipes_fd) == -1)
 	{
 		printf("Erreur init pipe\n");
 		return (0);
