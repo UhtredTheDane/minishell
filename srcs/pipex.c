@@ -78,11 +78,11 @@ void	receiver(char *input_cmd, char **envp, int *pipe_fd, size_t num_proc, size_
 	cmd = make_cmd(input_cmd, envp);
 	pipes_nb = (size_t) pipes_nb;
 	num_proc = (size_t) num_proc;
-	
 		close(pipe_fd[1]);
 		dup2(pipe_fd[0], 0);
-		close(pipe_fd[0]);
+		//close(pipe_fd[0]);
 	execve(cmd[0], cmd, envp);
+	exit(0);
 	//verif execve
 }
 void	sender(char *input_cmd, char **envp, int *pipe_fd, size_t num_proc, size_t pipes_nb)
@@ -97,16 +97,16 @@ void	sender(char *input_cmd, char **envp, int *pipe_fd, size_t num_proc, size_t 
 		dup2(pipe_fd[1], 1);
 		close(pipe_fd[1]);
 	execve(cmd[0], cmd, envp);
+	exit(0);
 	//verif execve
 }
 
-int	run_pipe(char *in_put, char **envp)
+int	run_pipe(int *pipe_fd, char *in_put, char **envp)
 {
 	size_t	i;
 	size_t	pipes_nb;
 	pid_t	pid;
 	char	**cmds;
-	int	pipes_fd[2];
 
 	i = 0;
 	pipes_nb = 0;
@@ -118,12 +118,6 @@ int	run_pipe(char *in_put, char **envp)
 	}
 	cmds = ft_split(in_put, '|');
 	envp = (char **) envp;
-
-	if (pipe(pipes_fd) == -1)
-	{
-		printf("Erreur init pipe\n");
-		return (0);
-	}
 
 	i = 0;
 	while (i < pipes_nb + 1)
@@ -137,9 +131,9 @@ int	run_pipe(char *in_put, char **envp)
 		else if (pid == 0)
 		{
 			if (i == 0)
-				sender(cmds[i], envp, pipes_fd, i, pipes_nb);
+				sender(cmds[i], envp, pipe_fd, i, pipes_nb);
 			else
-				receiver(cmds[i], envp, pipes_fd, i, pipes_nb);
+				receiver(cmds[i], envp, pipe_fd, i, pipes_nb);
 		}
 		++i;
 	}

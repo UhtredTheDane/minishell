@@ -18,7 +18,7 @@ size_t	ft_strlen(const char *s);
 char	**ft_split(char const *s, char c);
 void	receiver(char *input_cmd, char **envp, int *pipe_fd, size_t num_proc, size_t pipes_nb);
 void	sender(char *input_cmd, char **envp, int *pipe_fd, size_t num_proc, size_t pipes_nb);
-int	run_pipe(char * in_put, char **envp);
+int	run_pipe(int *pipe, char *in_put, char **envp);
 char	*test_path(char **all_paths, char *cmd_0);
 char	*get_path(char *path, char *cmd_0);
 char	**make_cmd(char *one_string_cmd, char **envp);
