@@ -17,31 +17,31 @@ int	main(int argc, char **argv, char **envp)
 {
 	char	*prompt;
 	char	*in_put;
-	int	is_alive;
-//	int status;
+	int status;
 	int pipe_fd[2];
 
-	argc = (int) argc;
+	if (argc < 1 || argc > 1)
+		return (1);
 	argv = (char **)argv;
 	prompt = ">$";
-	is_alive = 1;
-
-	while (is_alive)
+	while (1)
 	{
 		in_put = readline(prompt);
 		if (in_put)
 		{
 			add_history(in_put);
 			if (pipe(pipe_fd) == -1)
-				return (0);	
-			run_pipe(pipe_fd, in_put, envp);
-			waitpid(-1, NULL, 0);
-			close(pipe_fd[0]);
-			close(pipe_fd[1]);
+				return (2);	
+			if (!run_pipe(pipe_fd, in_put, envp))
+			{
+				close(pipe_fd[0]);
+				close(pipe_fd[1]);
+			}
+			free(in_put);
+			waitpid(-1, &status, 0);
 		}
 		else
 			break;
 	}
-
 	return (0);
 }
