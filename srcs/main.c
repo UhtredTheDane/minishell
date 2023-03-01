@@ -17,7 +17,6 @@ int	main(int argc, char **argv, char **envp)
 {
 	char	*prompt;
 	char	*in_put;
-	int		status;
 	int pipe_fd[2];
 
 	if (argc < 1 || argc > 1)
@@ -38,8 +37,8 @@ int	main(int argc, char **argv, char **envp)
 				close(pipe_fd[1]);
 			}
 			free(in_put);
-			waitpid(-1, &status, 0);
 		}
+		
 	}
 	rl_clear_history();
 	return (0);
