@@ -34,16 +34,19 @@ void	receiver(char *input_cmd, char **envp, int *pipe_fd)
 	{
 		close(pipe_fd[0]);
 		close(pipe_fd[1]);
+		free(input_cmd);
 		exit(1);
 	}
 	close(pipe_fd[1]);
 	if (dup2(pipe_fd[0], 0) == -1)
 	{
 		close(pipe_fd[0]);
+		free(input_cmd);
 		exit(2);
 	}
 	close(pipe_fd[0]);
 	execve(cmd[0], cmd, envp);
+	free(input_cmd);
 	exit(3);
 
 }
@@ -55,19 +58,22 @@ void sender(char *input_cmd, char **envp, int *pipe_fd)
 	cmd = make_cmd(input_cmd, envp);
 	if (!cmd)
 	{
+		
 		close(pipe_fd[0]);
 		close(pipe_fd[1]);
-		free(in)
+		free(input_cmd);
 		exit(1);
 	}
 	close(pipe_fd[0]);
 	if (dup2(pipe_fd[1], 1) == -1)
 	{
 		close(pipe_fd[1]);
+		free(input_cmd);
 		exit(2);
 	}
 	close(pipe_fd[1]);
 	execve(cmd[0], cmd, envp);
+	free(input_cmd);
 	exit(3);
 }
 
@@ -87,20 +93,11 @@ size_t	count_pipes(char *in_put)
 	return (pipes_nb);
 }
 
-int	run_pipe(int *pipe_fd, char *in_put, char **envp)
+void	run_pipe(char **cmds, char **envp, int *pipe_fd, size_t pipes_nb)
 {
 	size_t	i;
-	size_t	pipes_nb;
 	pid_t	pid;
-	char	**cmds;
 
-	pipes_nb = count_pipes(in_put);
-	cmds = ft_split(in_put, '|');
-	if (!cmds)
-	{
-		printf("Erreur ft_split |\n");
-		return (0);
-	}	
 	i = 0;
 	while (i < pipes_nb + 1)
 	{
@@ -108,6 +105,8 @@ int	run_pipe(int *pipe_fd, char *in_put, char **envp)
 		if (pid < 0)
 		{
 			perror("Probleme fork");
+			close(pipe_fd[0]);
+			close(pipe_fd[1]);
 			exit(0);
 		}
 		else if (pid == 0)
@@ -119,7 +118,23 @@ int	run_pipe(int *pipe_fd, char *in_put, char **envp)
 		}
 		++i;
 	}
+}
+
+int	init_pipe(int *pipe_fd, char *in_put, char **envp)
+{
+	size_t	pipes_nb;
+	char	**cmds;
+
+	pipes_nb = count_pipes(in_put);
+	cmds = ft_split(in_put, '|');
+	if (!cmds)
+	{
+		printf("Erreur ft_split |\n");
+		return (0);
+	}
+	run_pipe(cmds, envp, pipe_fd, pipes_nb);
 	close(pipe_fd[0]);
 	close(pipe_fd[1]);
+	clean_2d_tab(cmds);
 	return (1);
 }
