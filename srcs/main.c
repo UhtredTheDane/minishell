@@ -28,7 +28,7 @@ int	main(int argc, char **argv, char **envp)
 		if (in_put)
 		{
 			add_history(in_put);
-			if (!init_pipe(in_put, envp))
+			if (!execute(in_put, envp))
 			{
 				free(in_put);
 				return (1);

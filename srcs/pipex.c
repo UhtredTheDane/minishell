@@ -22,92 +22,50 @@ char	**make_cmd(char *one_string_cmd, char **envp)
 	return (cmd);
 }
 
-void	close_useless_pipes(int	*pipes_fd, int num_proc, int nb_procs)
+char **search_cmd(t_config *config, char *input_cmd, int num_read, int num_write)
 {
-	int num_read;
-	int num_write;
-	int i;
+	char	**cmd;
 
-	num_read = -1;
-	if (num_proc)
-		num_read = (num_proc - 1) * 2;
-	num_write = -1;
-	if (num_proc != nb_procs - 1)
-		num_write = 1 + 2 * num_proc;
-	i = 0;
-	while (i < (nb_procs - 1) * 2)
+	cmd = make_cmd(input_cmd, config->envp);
+	if (!cmd)
 	{
-		if (i != num_read && i != num_write)
-			close(pipes_fd[i]);
-		++i;
+		if (num_write)
+			close(config->pipes_fd[num_write]);
+		if (num_read)
+			close(config->pipes_fd[num_read]);
+		free(input_cmd);
+		free(config->pipes_fd);
+		return (NULL);
 	}
+	return (cmd);
 }
 
-void close_all_pipes(t_config *config)
-{
-	int i;
-
-	i = 0;
-	while (i < config->pipes_nb * 2)
-	{
-		close(config->pipes_fd[i]);
-		++i;
-	}
-}
-
-void manager(t_config *config, char *input_cmd, int num_proc, int nb_procs)
+void manager(t_config *config, char *input_cmd, int num_proc)
 {
 	char	**cmd;
 	int num_read;
 	int num_write;
 
-	close_useless_pipes(pipes_fd, num_proc, nb_procs);
-	num_read = -1;
-	if (num_proc != 0)
-		num_read = (num_proc - 1) * 2;
-	num_write = -1;
-	if (num_proc != nb_procs - 1)
-		num_write = 1 + 2 * num_proc;
-	cmd = make_cmd(input_cmd, envp);
+	set_num_pipe(config, &num_read, &num_write, num_proc);
+	close_useless_pipes(config, num_read, num_write);
+	cmd = search_cmd(config, input_cmd, num_read, num_write);
 	if (!cmd)
-	{
-		if (num_write)
-			close(pipes_fd[num_write]);
-		if (num_read)
-			close(pipes_fd[num_read]);
-		free(input_cmd);
 		exit(1);
-	}
-	if (num_read >= 0)
-	{
-		if (dup2(pipes_fd[num_read], 0) == -1)
-		{
-			close(pipes_fd[num_read]);
-			free(input_cmd);
-			exit(2);
-		}
-		close(pipes_fd[num_read]);
-	}
-	if (num_write >= 0)
-	{
-		if (dup2(pipes_fd[num_write], 1) == -1)
-		{
-			close(pipes_fd[num_write]);
-			free(input_cmd);
-			exit(2);
-		}
-		close(pipes_fd[num_write]);
-	}
+	if (!link_stdin(config, num_read))
+		exit(2);
+	if (!link_stdout(config, num_write))
+		exit(3);
 	execve(cmd[0], cmd, envp);
 	free(input_cmd);
-	exit(3);
+	free(config->pipes_fd);
+	exit(4);
 }
 
 void	run_pipe(t_config *config, char **cmds)
 {
 	size_t	i;
 	pid_t pid;
-	
+
 	i = 0;
 	while (i < config->pipes_nb + 1)
 	{
@@ -116,33 +74,17 @@ void	run_pipe(t_config *config, char **cmds)
 		{
 			perror("Probleme fork");
 			close_all_pipes(config);
-			//free_config
+			free(config->pipes_fd);
 			exit(0);
 		}
 		else if (pid == 0)
-			manager(config, cmds[i], i, config->pipes_nb + 1);
+			manager(config, cmds[i], i);
 		++i;
 	}
 	close_all_pipes(config);
 	waiting_all_sons(config->pipes_nb + 1);
 }
 
-int init_pipes(t_config *config)
-{
-	size_t i;
-	
-	i = 0;
-	while (i < config->pipes_nb * 2)
-	{
-		if (pipe(config->pipes_fd + i) == -1)
-		{
-			close_all_pipes(config->pipes_fd, i + 2);
-			return (0);
-		}
-		i += 2;
-	}
-	return (1);
-}
 
 int	execute(char *in_put, char **envp)
 {
@@ -160,13 +102,8 @@ int	execute(char *in_put, char **envp)
 		clean_2d_tab(cmds);
 		return (0);
 	}
-	if (!init_pipes(&config))
-	{
-		clean_2d_tab(cmds);
-		//free config
-		return (0);
-	}
 	run_pipe(cmds, envp, pipes_fd, pipes_nb);
 	clean_2d_tab(cmds);
+	free(config->pipes_fd);
 	return (1);
 }
