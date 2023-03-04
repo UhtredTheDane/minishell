@@ -43,19 +43,19 @@ void	close_useless_pipes(int	*pipes_fd, int num_proc, int nb_procs)
 	}
 }
 
-void close_all_pipes(int *pipes_fd, int nb_pipes)
+void close_all_pipes(t_config *config)
 {
 	int i;
 
 	i = 0;
-	while (i < nb_pipes * 2)
+	while (i < config->pipes_nb * 2)
 	{
-		close(pipes_fd[i]);
+		close(config->pipes_fd[i]);
 		++i;
 	}
 }
 
-void manager(char *input_cmd, char **envp, int *pipes_fd, int num_proc, int nb_procs)
+void manager(t_config *config, char *input_cmd, int num_proc, int nb_procs)
 {
 	char	**cmd;
 	int num_read;
@@ -103,57 +103,68 @@ void manager(char *input_cmd, char **envp, int *pipes_fd, int num_proc, int nb_p
 	exit(3);
 }
 
-void	run_pipe(char **cmds, char **envp, int *pipes_fd, size_t pipes_nb)
+void	run_pipe(t_config *config, char **cmds)
 {
 	size_t	i;
 	pid_t pid;
+	
 	i = 0;
-	while (i < pipes_nb + 1)
+	while (i < config->pipes_nb + 1)
 	{
 		pid = fork();
 		if (pid < 0)
 		{
 			perror("Probleme fork");
-			close_all_pipes(pipes_fd, pipes_nb);
+			close_all_pipes(config);
+			//free_config
 			exit(0);
 		}
 		else if (pid == 0)
-			manager(cmds[i], envp, pipes_fd, i, pipes_nb + 1);
+			manager(config, cmds[i], i, config->pipes_nb + 1);
 		++i;
 	}
-	close_all_pipes(pipes_fd, pipes_nb);
-	waiting_all_sons(pipes_nb + 1);
+	close_all_pipes(config);
+	waiting_all_sons(config->pipes_nb + 1);
 }
 
-int	init_pipe(char *in_put, char **envp)
+int init_pipes(t_config *config)
 {
-	size_t	pipes_nb;
-	char	**cmds;
-	int *pipes_fd;
-	size_t	i;
+	size_t i;
+	
+	i = 0;
+	while (i < config->pipes_nb * 2)
+	{
+		if (pipe(config->pipes_fd + i) == -1)
+		{
+			close_all_pipes(config->pipes_fd, i + 2);
+			return (0);
+		}
+		i += 2;
+	}
+	return (1);
+}
 
-	pipes_nb = count_pipes(in_put);
-	pipes_fd = malloc(sizeof(int) * pipes_nb * 2);
-	if (!pipes_fd)
-		return (0);
+int	execute(char *in_put, char **envp)
+{
+	t_config config;
+	char	**cmds;
+	
 	cmds = ft_split(in_put, '|');
 	if (!cmds)
 	{
 		printf("Erreur ft_split |\n");
-		free(pipes_fd);
 		return (0);
 	}
-	i = 0;
-	while (i < pipes_nb * 2)
+	if (!init_config(&config, envp))
 	{
-		if (pipe(pipes_fd + i) == -1)
-		{
-			clean_2d_tab(cmds);
-			close_all_pipes(pipes_fd, i + 2);
-			free(pipes_fd);
-			return (0);
-		}
-		i += 2;
+		clean_2d_tab(cmds);
+		return (0);
+	}
+	if (!init_pipes(&config))
+	{
+		clean_2d_tab(cmds);
+		//free config
+		return (0);
 	}
 	run_pipe(cmds, envp, pipes_fd, pipes_nb);
 	clean_2d_tab(cmds);
