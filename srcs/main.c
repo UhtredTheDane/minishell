@@ -22,6 +22,8 @@ int	main(int argc, char **argv, char **envp)
 		return (1);
 	argv = (char **)argv;
 	prompt = ">$";
+	if (!init_all_signal())
+		return (1);
 	while (1)
 	{
 		in_put = readline(prompt);
@@ -35,7 +37,8 @@ int	main(int argc, char **argv, char **envp)
 			}
 			free(in_put);
 		}
-		
+		else
+			exit(0);
 	}
 	rl_clear_history();
 	return (0);
