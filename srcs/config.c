@@ -1,10 +1,11 @@
 #include "../includes/pipex.h"
 
-int    init_config(t_config *config, char **envp)
+int    init_config(t_config *config, char *in_put, char **envp)
 {
-    size_t i;
+    int i;
 
     config->pipes_nb = count_pipes(in_put);
+	config->envp = envp;
     config->pipes_fd = malloc(sizeof(int) * config->pipes_nb * 2);
 	if (!config->pipes_fd)
 		return (0);

@@ -47,7 +47,6 @@ int	link_stdin(t_config *config, int num_read)
 		if (dup2(config->pipes_fd[num_read], 0) == -1)
 		{
 			close(config->pipes_fd[num_read]);
-			free(input_cmd);
 			free(config->pipes_fd);
 			return (0);
 		}
@@ -63,7 +62,6 @@ int	link_stdout(t_config *config, int num_write)
 		if (dup2(config->pipes_fd[num_write], 1) == -1)
 		{
 			close(config->pipes_fd[num_write]);
-			free(input_cmd);
 			free(config->pipes_fd);
 			return (0);
 		}

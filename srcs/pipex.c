@@ -49,21 +49,22 @@ void manager(t_config *config, char *input_cmd, int num_proc)
 	set_num_pipe(config, &num_read, &num_write, num_proc);
 	close_useless_pipes(config, num_read, num_write);
 	cmd = search_cmd(config, input_cmd, num_read, num_write);
+	free(input_cmd);
 	if (!cmd)
 		exit(1);
 	if (!link_stdin(config, num_read))
 		exit(2);
 	if (!link_stdout(config, num_write))
 		exit(3);
-	execve(cmd[0], cmd, envp);
-	free(input_cmd);
+	execve(cmd[0], cmd, config->envp);
+
 	free(config->pipes_fd);
 	exit(4);
 }
 
 void	run_pipe(t_config *config, char **cmds)
 {
-	size_t	i;
+	int	i;
 	pid_t pid;
 
 	i = 0;
@@ -97,13 +98,13 @@ int	execute(char *in_put, char **envp)
 		printf("Erreur ft_split |\n");
 		return (0);
 	}
-	if (!init_config(&config, envp))
+	if (!init_config(&config, in_put, envp))
 	{
 		clean_2d_tab(cmds);
 		return (0);
 	}
-	run_pipe(cmds, envp, pipes_fd, pipes_nb);
+	run_pipe(&config, cmds);
 	clean_2d_tab(cmds);
-	free(config->pipes_fd);
+	free(config.pipes_fd);
 	return (1);
 }
