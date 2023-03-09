@@ -17,11 +17,17 @@ int	main(int argc, char **argv, char **envp)
 {
 	char	*prompt;
 	char	*in_put;
+	t_dico *envp_dico;
+	char ** mini_envp;
 
 	if (argc < 1 || argc > 1)
 		return (1);
 	argv = (char **)argv;
 	prompt = ">$";
+	envp_dico = create_dico(envp);
+	if (!envp_dico)
+		return (1);
+	mini_envp = create_envp_tab(envp_dico);
 	if (!init_all_signal())
 		return (1);
 	while (1)
@@ -30,7 +36,11 @@ int	main(int argc, char **argv, char **envp)
 		if (in_put)
 		{
 			add_history(in_put);
-			if (!execute(in_put, envp))
+			if (ft_strncmp(in_put, "env", 3) == 0)
+				builtin_env(mini_envp);
+			else if (ft_strncmp(in_put, "exit", 4) == 0)
+				builtin_exit(1);
+			if (!execute(in_put, mini_envp))
 			{
 				free(in_put);
 				return (1);

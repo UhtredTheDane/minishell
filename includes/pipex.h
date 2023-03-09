@@ -2,6 +2,7 @@
 # define PIPEX_H
 
 # include "../libft/libft.h"
+# include "envp.h"
 # include "config.h"
 # include <unistd.h>
 # include <sys/types.h>
@@ -32,5 +33,13 @@ char	*format_string(char **cmd);
 char	*find_path(char **envp, char **cmd, size_t i);
 char	*test_path(char **all_paths, char *cmd_0);
 char	*get_path(char *path, char *cmd_0);
+t_dico  *create_dico(char **envp);
+t_dico	*ft_diconew(char *key, char *value);
+char    *getvalue(t_dico *envp, char *key);
+void	ft_dicoadd(t_dico **lst, t_dico *new);
+int	ft_dicosize(t_dico *lst);
+char **create_envp_tab(t_dico *dico);
+void    builtin_env(char **envp);
+void    builtin_exit(int return_value);
 
 #endif
