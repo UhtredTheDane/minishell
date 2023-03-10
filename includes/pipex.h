@@ -36,10 +36,15 @@ char	*get_path(char *path, char *cmd_0);
 t_dico  *create_dico(char **envp);
 t_dico	*ft_diconew(char *key, char *value);
 char    *getvalue(t_dico *envp, char *key);
+int   set_value(t_dico *envp, char *key, char *value);
 void	ft_dicoadd(t_dico **lst, t_dico *new);
 int	ft_dicosize(t_dico *lst);
 char **create_envp_tab(t_dico *dico);
 void    builtin_env(char **envp);
 void    builtin_exit(int return_value);
+int    builtin_export(t_dico *dico, char *key, char *value);
+void    builtin_echo(const char *message, int n_option);
+int builtin_cd(t_dico *dico, const char *path);
+char *builtin_pwd();
 
 #endif

@@ -18,7 +18,7 @@ int	main(int argc, char **argv, char **envp)
 	char	*prompt;
 	char	*in_put;
 	t_dico *envp_dico;
-	char ** mini_envp;
+	char **mini_envp;
 
 	if (argc < 1 || argc > 1)
 		return (1);
@@ -27,9 +27,9 @@ int	main(int argc, char **argv, char **envp)
 	envp_dico = create_dico(envp);
 	if (!envp_dico)
 		return (1);
-	mini_envp = create_envp_tab(envp_dico);
 	if (!init_all_signal())
 		return (1);
+	mini_envp = create_envp_tab(envp_dico);
 	while (1)
 	{
 		in_put = readline(prompt);
@@ -40,12 +40,13 @@ int	main(int argc, char **argv, char **envp)
 				builtin_env(mini_envp);
 			else if (ft_strncmp(in_put, "exit", 4) == 0)
 				builtin_exit(1);
-			if (!execute(in_put, mini_envp))
+			else if (!execute(in_put, mini_envp))
 			{
 				free(in_put);
 				return (1);
 			}
 			free(in_put);
+			mini_envp = create_envp_tab(envp_dico);
 		}
 		else
 			exit(0);

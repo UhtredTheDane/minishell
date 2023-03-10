@@ -1,38 +1,55 @@
 #include "../includes/pipex.h"
 
+#define PATH_MAX 4000
 
 void    builtin_echo(const char *message, int n_option)
 {
     printf("%s", message);
     if (!n_option)
-        write(0, "\n", 1);
+        printf("\n");
 }
 
-/*
-void builtin_cd(const char *path)
+char *builtin_pwd()
 {
-    if (chdir(path) == -1)
-        perror("Erreur cd\n");
-}
+    char    *buffer;
 
-void    builtin_pwd()
-{
-    char    buffer[4000];
-
-    location = getcwd(buffer, 4000);
-    if (!getcwd(buffer, 4000);)
+    buffer = ft_calloc(PATH_MAX + 1, sizeof(char));
+    if (!buffer)
+        return (NULL);
+    if (!getcwd(buffer, PATH_MAX))
     {
-        perror("Erreur pwd\n");
-        exit(0);
+        perror("Erreur getcwd\n");
+        free(buffer);
+        return (NULL);
     }
-    printf("%s\n", buffer);
+    return (buffer);
 }
-*/
 
-//void    builtin_export(t_dico *dico, const char *key, const char *value)
-//{
-    
-//}
+
+int builtin_cd(t_dico *dico, const char *path)
+{
+    char    *old_pwd;
+    char    *new_pwd;
+    char    *pwd;
+    size_t pwd_size;
+
+    if (chdir(path) == -1)
+    {
+        perror("Erreur cd\n");
+        return (0);
+    }
+    pwd = getvalue(dico, "PWD");
+    pwd_size = ft_strlen(pwd);
+    old_pwd = malloc(sizeof(char) * (pwd_size + 1));
+    if (!old_pwd)
+        return (0);
+    ft_strlcpy(old_pwd, pwd, pwd_size + 1);
+    new_pwd = builtin_pwd();
+    set_value(dico, "OLDPWD", old_pwd);
+    set_value(dico, "PWD", new_pwd);
+    return (1);
+}
+
 /*
 void    builtin_unset()
 {
@@ -40,6 +57,17 @@ void    builtin_unset()
 }
 
 */
+
+int    builtin_export(t_dico *dico, char *key, char *value)
+{
+    t_dico *new;
+
+    new = ft_diconew(key, value);
+    if (!new)
+        return (0);
+    ft_dicoadd(&dico, new);
+    return (1);
+}
 
 void    builtin_env(char **envp)
 {

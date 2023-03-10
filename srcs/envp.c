@@ -92,14 +92,33 @@ t_dico	*ft_diconew(char *key, char *value)
 	return (res);
 }
 
+
+int   set_value(t_dico *envp, char *key, char *value)
+{
+    size_t size_key;
+
+    while (envp)
+    {
+        size_key = ft_strlen(envp->key);
+        if (ft_strncmp(envp->key, key, size_key) == 0)
+        {
+            free(envp->value);
+            envp->value = value;
+            return (1);
+        }
+        envp = envp->next;
+    }
+    return (0);
+}
+
 char    *getvalue(t_dico *envp, char *key)
 {
 
     size_t size_key;
 
-    size_key = ft_strlen(key);
     while (envp)
     {
+        size_key = ft_strlen(envp->key);
         if (ft_strncmp(envp->key, key, size_key) == 0)
             return (envp->value);
         envp = envp->next;
