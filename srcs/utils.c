@@ -1,5 +1,4 @@
 #include "../includes/main.h"
-
 size_t	count_pipes(char *in_put)
 {
 	size_t	i;

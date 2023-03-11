@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 13:17:21 by lloisel           #+#    #+#             */
-/*   Updated: 2023/03/06 18:06:22 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/03/10 17:35:07 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "parsing.h"
+#include "../includes/parsing.h"
 
 void add_cmd_bis(t_parse *p,t_cmd *cmd)
 {
@@ -39,7 +39,12 @@ t_cmd *init_cmd(void)
 	if(!cmd)
 		return(NULL);
 	cmd->s = NULL;
+	cmd->cmd = NULL;
 	cmd->next = NULL;
+	cmd->filename_out = NULL;
+	cmd->filename_in = NULL;
+	cmd->in = -1;
+	cmd->out = -1;
 	//bzero(cmd,sizeof (t_cmd));
 	return (cmd);
 }
@@ -50,7 +55,7 @@ int add_cmd(t_parse *p ,int start,int end)
 	cmd = init_cmd();
 	int size;
 	size  = end-start;
-	printf("%d\n",size);
+	//printf("%d\n",size);
 	if(size <= 0 && p->s[start] != '\0')
 		return(0);
 	cmd->s = malloc(sizeof(char)*size + 1);
@@ -66,6 +71,7 @@ int add_cmd(t_parse *p ,int start,int end)
 	cmd->s[i] = '\0';
 	//printf("%s\n",cmd->s);
 	add_cmd_bis(p,cmd);
+	p->count = p->count + 1;
 	return(1);
 }
 t_parse *init_parse(void)
@@ -82,14 +88,14 @@ t_parse *init_parse(void)
 	return(p);
 }
 
-int parse(char **argv,t_parse *p)
+int parse(char *input,t_parse *p)
 {
 	int i;
 	int start_w;
 
 	i = 0;
 	start_w = 0;
-	p->s = argv[1];
+	p->s = input;
 	while(p->s[i] && p->s[i] != '\0')
 	{
 		if(p->s[i] == '|')
@@ -97,7 +103,6 @@ int parse(char **argv,t_parse *p)
 			if(!add_cmd(p,start_w,i))
 				return(0);
 			start_w = i + 1;
-			p->count += 1;
 		}
 		if(p->s[i] == '\'')
 		{
@@ -122,20 +127,17 @@ int parse(char **argv,t_parse *p)
 	return(1);
 }
 
-int main(int argc , char **argv)
+t_parse *parsing(char *input)
 {
 	t_parse *p;
 
 	p = init_parse();
 	if(!p)
-		return(0);
-	int rt;
-	rt = parse(argv,p);
-	printf("rt : %d\n",rt);
-
-	if(!rt)
-		printf("buged\n");
-	else 
+		return(NULL);
+	if(!parse(input,p))
+		return (NULL);
+	return (p);
+	/*else 
 	{
 		printf("count :%d\n",p->count);	
 		t_cmd *current;
@@ -147,5 +149,5 @@ int main(int argc , char **argv)
 			printf("%s\n",current->s);
 			current = current->next;
 		}
-	}
-}
+	}*/
+		}

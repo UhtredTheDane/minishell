@@ -1,4 +1,5 @@
 #include "../includes/pipex.h"
+#include "../includes/parsing.h"
 
 char	**make_cmd(char *one_string_cmd, char **envp)
 {
@@ -87,24 +88,27 @@ void	run_pipe(t_config *config, char **cmds)
 }
 
 
-int	execute(char *in_put, char **envp)
+int	execute(t_parse *p, char **envp)
 {
-	t_config config;
-	char	**cmds;
+	(void)p;
+	(void)envp;
+//	t_config config;
+	//char	**cmds;
 	
-	cmds = ft_split(in_put, '|');
+/*	cmds = ft_split(in_put, '|');
 	if (!cmds)
 	{
 		printf("Erreur ft_split |\n");
 		return (0);
 	}
-	if (!init_config(&config, in_put, envp))
+	
+	if (!init_config(&config, p->s, envp))
 	{
 		clean_2d_tab(cmds);
 		return (0);
 	}
 	run_pipe(&config, cmds);
 	clean_2d_tab(cmds);
-	free(config.pipes_fd);
+	free(config.pipes_fd);*/
 	return (1);
 }

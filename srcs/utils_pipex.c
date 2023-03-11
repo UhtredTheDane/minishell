@@ -1,4 +1,5 @@
 #include "../includes/pipex.h"
+#include "../includes/parsing.h"
 
 void	clean_2d_tab(char **tab_2d)
 {

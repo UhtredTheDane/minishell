@@ -6,17 +6,18 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 17:09:09 by agengemb          #+#    #+#             */
-/*   Updated: 2023/02/24 19:47:26 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/03/10 16:10:18 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../includes/parsing.h"
 #include "../includes/main.h"
-
-  
+/*
 int	main(int argc, char **argv, char **envp)
 {
 	char	*prompt;
 	char	*in_put;
+	t_parse *p;
 
 	if (argc < 1 || argc > 1)
 		return (1);
@@ -29,17 +30,20 @@ int	main(int argc, char **argv, char **envp)
 		in_put = readline(prompt);
 		if (in_put)
 		{
-			add_history(in_put);
-			if (!execute(in_put, envp))
+			p = parsing(input);
+			if(!p)
+				printf("parsing return is NULL\n");
+			else
 			{
+				add_history(in_put);
+				if (!execute(p, envp))
+					return (free(in_put),1);
 				free(in_put);
-				return (1);
 			}
-			free(in_put);
 		}
 		else
 			exit(0);
 	}
 	rl_clear_history();
 	return (0);
-}
+}*/

@@ -2,6 +2,7 @@
 # define PIPEX_H
 
 # include "../libft/libft.h"
+# include "../includes/parsing.h"
 # include "config.h"
 # include <unistd.h>
 # include <sys/types.h>
@@ -21,7 +22,6 @@ char	**make_cmd(char *one_string_cmd, char **envp);
 char **search_cmd(t_config *config, char *input_cmd, int num_read, int num_write);
 void manager(t_config *config, char *input_cmd, int num_proc);
 void	run_pipe(t_config *config, char **cmds);
-int	execute(char *in_put, char **envp);
 size_t	count_pipes(char *in_put);
 void waiting_all_sons(size_t nb_sons);
 void set_num_pipe(t_config *config, int *num_read, int *num_write, int num_proc);
