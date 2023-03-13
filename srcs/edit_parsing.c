@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 16:59:11 by lloisel           #+#    #+#             */
-/*   Updated: 2023/03/13 15:07:16 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/03/13 15:41:07 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,11 +150,10 @@ int main(int argc,char**argv)
 		}
 		else
 		{
-			display_parse(p);
+		//	display_parse(p);
+			free_parse(p);
 			return(1);
 		}
 	}
-
-
 }
 

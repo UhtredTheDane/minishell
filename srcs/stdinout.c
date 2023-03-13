@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 16:07:38 by lloisel           #+#    #+#             */
-/*   Updated: 2023/03/13 14:44:53 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/03/13 15:40:56 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int is_special(char c)
 char *trimming(int op,t_cmd *cmd,int start,int end)
 {
 	char *file_name;
+	char *tmp;
 	int size;
 	int i;
 
@@ -46,10 +47,9 @@ char *trimming(int op,t_cmd *cmd,int start,int end)
 	}
 	file_name[i] ='\0';
 	cmd->s[op] = '\0';
-
-	printf("%s\n",cmd->s + end);
+	tmp = cmd->s;
 	cmd->s = ft_strjoin(cmd->s,cmd->s + end);
-	printf("%s\n",file_name);
+	free(tmp);
 	return(file_name);
 
 }
