@@ -9,8 +9,9 @@
 /*   Updated: 2023/03/10 18:01:57 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#ifndef MAIN_H
-#define MAIN_H
+
+#ifndef PARSING_H
+#define PARSING_H
 
 
 typedef struct s_cmd {

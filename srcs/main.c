@@ -29,7 +29,6 @@ int	main(int argc, char **argv, char **envp)
 	envp_dico = create_dico(envp);
 	if (!envp_dico)
 		return (1);
-	builtin_unset(&envp_dico, "SYSTEMD_EXEC_PID");
 	if (!init_all_signal())
 		return (1);
 	mini_envp = create_envp_tab(envp_dico);
@@ -38,24 +37,15 @@ int	main(int argc, char **argv, char **envp)
 		in_put = readline(prompt);
 		if (in_put)
 		{
-			p = parsing(input);
-			if(!p)
-				printf("parsing return is NULL\n");
-			else
-
-			add_history(in_put);
-			if (ft_strncmp(in_put, "env", 3) == 0)
-				builtin_env(mini_envp);
-			else if (ft_strncmp(in_put, "exit", 4) == 0)
-				builtin_exit(1);
-			else if (!execute(in_put, mini_envp))
-
+			p = parsing(in_put);
+			if (!p)
 			{
-				add_history(in_put);
-				if (!execute(p, envp))
-					return (free(in_put),1);
-				free(in_put);
+				printf("parsing return is NULL\n");
+				return (1);
 			}
+			add_history(in_put);
+			if (!execute(p, mini_envp))
+				free(in_put);
 			free(in_put);
 			mini_envp = create_envp_tab(envp_dico);
 		}
