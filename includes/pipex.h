@@ -3,6 +3,7 @@
 
 # include "../libft/libft.h"
 # include "../includes/parsing.h"
+# include "envp.h"
 # include "config.h"
 # include <unistd.h>
 # include <sys/types.h>
@@ -32,5 +33,15 @@ char	*format_string(char **cmd);
 char	*find_path(char **envp, char **cmd, size_t i);
 char	*test_path(char **all_paths, char *cmd_0);
 char	*get_path(char *path, char *cmd_0);
+
+
+void    builtin_env(char **envp);
+void    builtin_exit(int return_value);
+int    builtin_export(t_dico *dico, char *key, char *value);
+void    builtin_echo(const char *message, int n_option);
+void builtin_unset(t_dico **dico, char *key);
+int builtin_cd(t_dico *dico, const char *path);
+char *builtin_pwd();
+void delete_key(t_dico **envp, char *key);
 
 #endif

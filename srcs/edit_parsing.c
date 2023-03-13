@@ -124,7 +124,7 @@ int edit_parsing(t_parse *p)
 	return(1);
 }
 
-
+/*
 int main(int argc,char**argv)
 {
 	t_parse *p;
@@ -155,5 +155,5 @@ int main(int argc,char**argv)
 			return(1);
 		}
 	}
-}
+}*/
 

@@ -28,5 +28,7 @@
 # include <sys/stat.h>
 # include <sys/wait.h>
 
+typedef struct s_dico t_dico;
+
 void	son_proc(char *input_cmd, char **envp, int *pipe_fd, size_t num_proc);
 #endif

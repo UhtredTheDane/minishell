@@ -38,4 +38,5 @@ int add_cmd(t_parse *p ,int start,int end);
 t_parse *parsing(char *input);
 int fill_stdin(t_cmd *cmd,int i);
 int fill_stdout(t_cmd *cmd,int i);
+int free_parse(t_parse *p);
 #endif
