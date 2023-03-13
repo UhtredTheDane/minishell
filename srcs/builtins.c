@@ -50,13 +50,11 @@ int builtin_cd(t_dico *dico, const char *path)
     return (1);
 }
 
-/*
-void    builtin_unset()
+void    builtin_unset(t_dico **dico, char *key)
 {
-
+    
+    delete_key(dico, key);
 }
-
-*/
 
 int    builtin_export(t_dico *dico, char *key, char *value)
 {

@@ -27,6 +27,7 @@ int	main(int argc, char **argv, char **envp)
 	envp_dico = create_dico(envp);
 	if (!envp_dico)
 		return (1);
+	builtin_unset(&envp_dico, "SYSTEMD_EXEC_PID");
 	if (!init_all_signal())
 		return (1);
 	mini_envp = create_envp_tab(envp_dico);

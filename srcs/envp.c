@@ -83,7 +83,7 @@ t_dico	*ft_diconew(char *key, char *value)
 {
 	t_dico	*res;
 
-	res = malloc(sizeof(t_list));
+	res = malloc(sizeof(t_dico));
 	if (!res)
 		return (NULL);
     res->key = key;
@@ -126,30 +126,6 @@ char    *getvalue(t_dico *envp, char *key)
     return (NULL);
 }
 
-
-/*
-void delete_key(t_dico **envp, char *key)
-{
-    size_t size_key;
-    t_dico  *elem;
-
-    size_key = ft_strlen(key);
-    elem = NULL;
-    if (envp)
-    {
-        while (*envp)
-        {
-            if (ft_strncmp(*envp->key, key, size_key) == 0)
-            {
-                if (!elem)
-                    envp =
-            }
-            *envp = envp->next;
-        }
-    }
-}
-*/
-
 void	ft_dicoadd(t_dico **lst, t_dico *new)
 {
 	t_dico	*elem;
@@ -166,4 +142,33 @@ void	ft_dicoadd(t_dico **lst, t_dico *new)
 			elem->next = new;
 		}
 	}
+}
+
+void delete_key(t_dico **envp, char *key)
+{
+    size_t size_key;
+    t_dico *prev;
+    t_dico *elem;
+
+    if (envp)
+    {
+        elem = *envp;
+        while (elem)
+        {
+            size_key = ft_strlen(elem->key);
+            if (ft_strncmp(elem->key, key, size_key) == 0)
+            {
+               free(elem->key);
+               free(elem->value);
+               if (elem == *envp)
+                    *envp = elem->next;
+                else
+                    prev->next = elem->next;
+                free(elem);
+                break;
+            }
+            prev = elem;
+            elem = elem->next;
+        }
+    }
 }
