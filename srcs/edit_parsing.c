@@ -6,13 +6,31 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 16:59:11 by lloisel           #+#    #+#             */
-/*   Updated: 2023/03/11 17:09:47 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/03/13 15:07:16 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/parsing.h"
+#include "../libft/libft.h"
 #include <stdio.h>
 
+int split_cmd(t_parse *p)
+{
+	t_cmd *current;
+	char *tmp;
+
+	current = p->first;	
+	while(current)
+	{
+		tmp = current->s;
+		current->cmd = ft_split(current->s, ' ' );
+		if(!current->cmd)
+			return(0);
+		current->s = tmp;
+		current= current->next;
+	}
+	return(1);
+}
 void display_cmd(t_cmd *cmd)
 {
 	printf("  String : %s\n",cmd->s);
@@ -21,11 +39,10 @@ void display_cmd(t_cmd *cmd)
 	printf("  Filename out : %s \n",cmd->filename_out);
 	printf("  Append : %d\n",cmd->append);
 	int i;
-
-	i = 0;
+	i=0;
 	if(cmd->cmd)
 	{
-		printf("  CMD TAB \n");
+		printf("  CMD TAB : \n");
 		while(cmd->cmd[i])	
 		{
 			printf("  %s\n",cmd->cmd[i]);
@@ -101,7 +118,7 @@ int edit_parsing(t_parse *p)
 			if(c !='<' && c!='>')
 				i++;
 		}
-		display_cmd(current);		
+		//display_cmd(current);		
 		current = current->next;
 	}
 	return(1);
@@ -124,6 +141,11 @@ int main(int argc,char**argv)
 		if(!edit_parsing(p))
 		{
 			printf("parsing has been cancel for some reasons");
+			return(0);
+		}
+		if(!split_cmd(p))
+		{
+			printf("split failed for some reason");
 			return(0);
 		}
 		else

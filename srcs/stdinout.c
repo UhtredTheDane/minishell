@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 16:07:38 by lloisel           #+#    #+#             */
-/*   Updated: 2023/03/11 17:18:41 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/03/13 14:44:53 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int fill_stdout(t_cmd *cmd,int i)
 	int op;	
 
 	op = i;
-	i++;	
+	i++;
 	if(cmd->s[i] && cmd->s[i] == '>')
 	{
 		cmd->append = 1;
