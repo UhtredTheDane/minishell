@@ -31,23 +31,22 @@ int	main(int argc, char **argv, char **envp)
 		return (1);
 	if (!init_all_signal())
 		return (1);
-	mini_envp = create_envp_tab(envp_dico);
 	while (1)
 	{
 		in_put = readline(prompt);
 		if (in_put)
 		{
 			p = parsing(in_put);
+			p->envp = create_envp_tab(envp_dico); 
 			if (!p)
 			{
 				printf("parsing return is NULL\n");
 				return (1);
 			}
 			add_history(in_put);
-			if (!execute(p, mini_envp))
+			if (!execute(p))
 				free(in_put);
 			free(in_put);
-			mini_envp = create_envp_tab(envp_dico);
 		}
 		else
 			exit(0);

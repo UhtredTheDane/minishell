@@ -7,9 +7,6 @@ char	**make_cmd(char *one_string_cmd, char **envp)
 	char	*tempo_cmd;
 	size_t	i;
 
-	cmd = ft_split(one_string_cmd, ' ');
-	if (!cmd)
-		return (NULL);
 	cmd[0] = format_string(cmd);
 	if (!cmd[0])
 		return (NULL);
@@ -23,16 +20,14 @@ char	**make_cmd(char *one_string_cmd, char **envp)
 	return (cmd);
 }
 
-char **search_cmd(t_config *config, char *input_cmd, int num_read, int num_write)
+char **search_cmd(t_parse *p, t_cmd *cmd)
 {
 	char	**cmd;
 
-	cmd = make_cmd(input_cmd, config->envp);
+	cmd = make_cmd(cmd->cmd[0], p->envp);
 	if (!cmd)
 	{
-		if (num_write)
 			close(config->pipes_fd[num_write]);
-		if (num_read)
 			close(config->pipes_fd[num_read]);
 		free(input_cmd);
 		free(config->pipes_fd);
@@ -41,74 +36,85 @@ char **search_cmd(t_config *config, char *input_cmd, int num_read, int num_write
 	return (cmd);
 }
 
-void manager(t_config *config, char *input_cmd, int num_proc)
+void manager(t_parse *p, t_cmd *cmd,int *pipe_in, int *pipe_out)
 {
-	char	**cmd;
-	int num_read;
-	int num_write;
-
-	set_num_pipe(config, &num_read, &num_write, num_proc);
-	close_useless_pipes(config, num_read, num_write);
-	cmd = search_cmd(config, input_cmd, num_read, num_write);
+	cmd->cmd = search_cmd(p, cmd);
 	free(input_cmd);
 	if (!cmd)
 		exit(1);
-	if (!link_stdin(config, num_read))
-		exit(2);
+
+	dup2(pipe_in[], 0);
 	if (!link_stdout(config, num_write))
 		exit(3);
+	
 	execve(cmd[0], cmd, config->envp);
-
 	free(config->pipes_fd);
 	exit(4);
 }
 
-void	run_pipe(t_config *config, char **cmds)
+int init_pipe(int *pipe_in, int *pipe_out, int num_pipe, int pipes_nb)
+{
+	if(num_pipe > 0)
+	{
+		pipe_in = pipe_out;
+	}
+	if (num_pipe >= 0 && num_pipe < pipes_nb -1)
+	{
+		if (!pipe(pipe_out))
+			return (0);
+	}
+	else
+		pipe_out = NULL;
+	return(1);
+}
+
+int	run_pipe(t_parse *p)
 {
 	int	i;
 	pid_t pid;
+	t_cmd *current;
+	int *pipe_in;
+	int *pipe_out;
 
+	current = p->first;
 	i = 0;
-	while (i < config->pipes_nb + 1)
+	while (current)
 	{
+		if (!init_pipe(pipe_in, pipe_out, i, p->count))
+			return (0);
 		pid = fork();
 		if (pid < 0)
 		{
 			perror("Probleme fork");
-			close_all_pipes(config);
-			free(config->pipes_fd);
-			exit(0);
+			return(0);
 		}
 		else if (pid == 0)
-			manager(config, cmds[i], i);
+			manager(p, current, pipe_in, pipe_out);
+		if(i < p->count - 1)
+			close(pipe_out[1])
+		if(pipe_in)
+			close(pipe_in[0]);
+		current = current->next;
 		++i;
 	}
-	close_all_pipes(config);
-	waiting_all_sons(config->pipes_nb + 1);
+	waiting_all_sons(p->count);
 }
 
-
-int	execute(t_parse *p, char **envp)
+int	execute(t_parse *p)
 {
-	(void)p;
-	(void)envp;
-//	t_config config;
-	//char	**cmds;
-	
-/*	cmds = ft_split(in_put, '|');
-	if (!cmds)
+	if(!edit_parsing(p))
 	{
-		printf("Erreur ft_split |\n");
-		return (0);
+		printf("parsing has been cancel for some reasons");
+		return(0);
 	}
-	
-	if (!init_config(&config, p->s, envp))
+	if(!split_cmd(p))
 	{
-		clean_2d_tab(cmds);
-		return (0);
-	}
-	run_pipe(&config, cmds);
-	clean_2d_tab(cmds);
-	free(config.pipes_fd);*/
+		printf("split failed for some reason");
+		return(0);
+	}	
+	if(!run_pipe(p))
+		return(0);
+	//	display_parse(p);
+	free_parse(p);
 	return (1);
 }

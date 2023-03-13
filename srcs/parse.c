@@ -82,6 +82,7 @@ t_parse *init_parse(void)
 	if(!p)
 		return(NULL);
 	p->s = NULL;
+	p->envp = NULL;
 	p->count  = 0;
 	p->first = NULL;
 	p->last = NULL;

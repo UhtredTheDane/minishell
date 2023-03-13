@@ -31,6 +31,7 @@ int split_cmd(t_parse *p)
 	}
 	return(1);
 }
+
 void display_cmd(t_cmd *cmd)
 {
 	printf("  String : %s\n",cmd->s);
@@ -123,37 +124,3 @@ int edit_parsing(t_parse *p)
 	}
 	return(1);
 }
-
-/*
-int main(int argc,char**argv)
-{
-	t_parse *p;
-
-	if(argc  == 2)
-	{
-		//printf("  INPUT : %s\n",argv[1]);
-		p = parsing(argv[1]);
-		if(!p)
-		{
-			printf("arg is not valid for some reasons");	
-			return(0);
-		}
-		if(!edit_parsing(p))
-		{
-			printf("parsing has been cancel for some reasons");
-			return(0);
-		}
-		if(!split_cmd(p))
-		{
-			printf("split failed for some reason");
-			return(0);
-		}
-		else
-		{
-		//	display_parse(p);
-			free_parse(p);
-			return(1);
-		}
-	}
-}*/
-
