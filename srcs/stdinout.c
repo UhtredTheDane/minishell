@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 16:07:38 by lloisel           #+#    #+#             */
-/*   Updated: 2023/03/13 15:40:56 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/03/13 19:16:19 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include <stdio.h>
 #include <stdlib.h>		
 #include "../libft/libft.h"
+
 int is_special(char c)
 {
 	if(c == ' ')
@@ -30,7 +31,7 @@ int is_special(char c)
 
 char *trimming(int op,t_cmd *cmd,int start,int end)
 {
-	char *file_name;
+	char *name;
 	char *tmp;
 	int size;
 	int i;
@@ -39,18 +40,18 @@ char *trimming(int op,t_cmd *cmd,int start,int end)
 	size = end-start;
 	if(size <= 0)
 		return(NULL);
-	file_name = malloc(sizeof(char)* (end -start)+1);
+	name = malloc(sizeof(char)* (end -start)+1);
 	while(i < size)
 	{
-		file_name[i] = cmd->s[start + i];
+		name[i] = cmd->s[start + i];
 		i++;
 	}
-	file_name[i] ='\0';
+	name[i] ='\0';
 	cmd->s[op] = '\0';
 	tmp = cmd->s;
 	cmd->s = ft_strjoin(cmd->s,cmd->s + end);
 	free(tmp);
-	return(file_name);
+	return(name);
 
 }
 

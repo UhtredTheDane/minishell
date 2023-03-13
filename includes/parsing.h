@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 13:19:03 by lloisel           #+#    #+#             */
-/*   Updated: 2023/03/10 18:01:57 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/03/13 19:16:58 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ typedef struct s_parse {
 	struct s_cmd *last;	
 } t_parse;
 
+int is_special(char c);
 int split_cmd(t_parse *p);
 int	execute(t_parse *p, char **envp);
 int add_cmd(t_parse *p ,int start,int end);

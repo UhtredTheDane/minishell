@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 16:59:11 by lloisel           #+#    #+#             */
-/*   Updated: 2023/03/13 15:41:07 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/03/13 19:54:45 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void display_parse(t_parse *p)
 	printf("\n");
 }
 
-int edit_parsing(t_parse *p)
+int edit_parsing(t_parse *p,t_dico **envp)
 {
 	t_cmd *current;
 	int i;
@@ -99,7 +99,7 @@ int edit_parsing(t_parse *p)
 					else
 						i++;
 				}
-			}			
+			}
 			if(current->s[i] == '$')
 			{
 				printf("there is a dollar here we can'thandle it help me\n");
@@ -119,8 +119,38 @@ int edit_parsing(t_parse *p)
 			if(c !='<' && c!='>')
 				i++;
 		}
-		//display_cmd(current);		
 		current = current->next;
 	}
 	return(1);
+}
+
+int main(int argc,char**argv)
+{
+	t_parse *p;
+	if(argc  == 2)
+	{
+		//printf("  INPUT : %s\n",argv[1]);
+		p = parsing(argv[1]);
+		if(!p)
+		{
+			printf("arg is not valid for some reasons");	
+			return(0);
+		}
+		if(!edit_parsing(p))
+		{
+			printf("parsing has been cancel for some reasons");
+			return(0);
+		}
+		if(!split_cmd(p))
+		{
+			printf("split failed for some reason");
+			return(0);
+		}
+		else
+		{
+			display_parse(p);
+			free_parse(p);
+			return(1);
+		}
+	}
 }
