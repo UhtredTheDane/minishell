@@ -6,12 +6,13 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 16:59:11 by lloisel           #+#    #+#             */
-/*   Updated: 2023/03/13 19:54:45 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/03/14 16:21:04 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/parsing.h"
 #include "../libft/libft.h"
+#include "../includes/envp.h"
 #include <stdio.h>
 
 int split_cmd(t_parse *p)
@@ -71,12 +72,13 @@ void display_parse(t_parse *p)
 	printf("\n");
 }
 
-int edit_parsing(t_parse *p,t_dico **envp)
+int edit_parsing(t_parse *p,t_dico *envp)
 {
 	t_cmd *current;
 	int i;
 	current = p->first;
 	char c;
+
 	while(current)
 	{
 		i = 0;
@@ -84,26 +86,30 @@ int edit_parsing(t_parse *p,t_dico **envp)
 		{
 			if(current->s[i] == '\'')		
 			{
+				printf("SIMPLE QUOTE\n");
+				i++;
 				while(current->s[i] && current->s[i] != '\'')
 					i++;
+				printf("After simple quote :%s\n",current->s+i);
 			}			
 			if(current->s[i] == '\"')
 			{
+				i++;
 				while(current->s[i] && current->s[i] != '\"')
 				{
 					if(current->s[i] == '$')
 					{
-						printf("there is a dollar here we can'thandle it help me\n");
-						return(0);
+						if(!fill_env(current,envp, i))
+							return(0);
 					}
 					else
 						i++;
 				}
 			}
 			if(current->s[i] == '$')
-			{
-				printf("there is a dollar here we can'thandle it help me\n");
-				return(0);
+			{	
+				if(!fill_env(current,envp, i))
+					return(0);
 			}				
 			if(current->s[i] == '<')
 			{
@@ -112,7 +118,7 @@ int edit_parsing(t_parse *p,t_dico **envp)
 			}
 			if(current->s[i] == '>')
 			{
-				if(!fill_stdout(current,i))
+				if(!fill_stdout(current,i,envp))
 					return(0);		
 			}
 			c = current->s[i];
@@ -124,9 +130,11 @@ int edit_parsing(t_parse *p,t_dico **envp)
 	return(1);
 }
 
-int main(int argc,char**argv)
+int main(int argc,char**argv,char **envp)
 {
 	t_parse *p;
+	t_dico *envp_dico;
+	envp_dico = create_dico(envp);
 	if(argc  == 2)
 	{
 		//printf("  INPUT : %s\n",argv[1]);
@@ -136,7 +144,10 @@ int main(int argc,char**argv)
 			printf("arg is not valid for some reasons");	
 			return(0);
 		}
-		if(!edit_parsing(p))
+
+		p->envp = create_envp_tab(envp_dico); 
+		display_parse(p);
+		if(!edit_parsing(p,envp_dico))
 		{
 			printf("parsing has been cancel for some reasons");
 			return(0);

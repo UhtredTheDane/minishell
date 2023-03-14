@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 16:07:38 by lloisel           #+#    #+#             */
-/*   Updated: 2023/03/13 19:16:19 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/03/14 18:11:32 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,25 +16,26 @@
 #include <stdlib.h>		
 #include "../libft/libft.h"
 
-int is_special(char c)
+int is_special(char c,char *charset)
 {
-	if(c == ' ')
-		return(1);
-	if (c== '<')
-		return (1);
-	if (c == '>')
-		return(1);
-	if(c == '\0')
-		return(1);
-	return(0);
+	int i;
+
+	i = 0;
+	while (charset[i])
+	{
+		if(charset[i] = c)
+			return (1);
+		i++;
+	}
+	return (0);
 }
 
 char *trimming(int op,t_cmd *cmd,int start,int end)
 {
-	char *name;
-	char *tmp;
-	int size;
-	int i;
+	char	*name;
+	char	*tmp;
+	int		size;
+	int		i;
 
 	i = 0;
 	size = end-start;
@@ -72,19 +73,20 @@ int fill_stdin(t_cmd *cmd,int i)
 		while(cmd->s[i] && cmd->s[i] == ' ')
 			i++;
 		if(is_special(cmd->s[i]))
-		{
-			printf("parse error\n");
 			return(0);
-		}
 		start_w = i;
 		while(cmd->s[i] && !is_special(cmd->s[i]))
 			i++;
-		cmd->filename_in = trimming(op,cmd,start_w,i);
+		if(cmd->s[i] == '\'')
+
+			if(cmd->s[i] == '\"')
+
+				cmd->filename_in = trimming(op,cmd,start_w,i);
 	}	
 	return(1);
 }
 
-int fill_stdout(t_cmd *cmd,int i)
+int fill_stdout(t_cmd *cmd,int i,t_dico *envp)
 {
 	int start_w;
 	int op;	
@@ -100,12 +102,39 @@ int fill_stdout(t_cmd *cmd,int i)
 		i++;
 	start_w = i;
 	if(is_special(cmd->s[i]))
+		return(0);	
+	if(cmd->s[i] == '\'')
 	{
-		printf("parse error\n");
-		return(0);
-	}
-	while(cmd->s[i] && !is_special(cmd->s[i]))
 		i++;
+		while(cmd->s[i] && cmd->s[i] != '\'')
+			i++;
+	}
+	else if(cmd->s[i] == '\"')
+	{
+		i++;
+		while(cmd->s[i] && cmd->s[i] != '\"')
+		{
+			if(cmd->s[i] == '$')
+			{
+				if(!fill_env(cmd,envp, i))
+					return(0);
+			}
+			i++;
+		}
+	}
+	else
+	{
+		while(cmd->s[i] && !is_special(cmd->s[i],"<> "))
+		{
+			if(cmd->s[i] == '$')
+			{
+				if(!fill_env(cmd,envp, i))
+					return(0);
+			}
+			else
+				i++;
+		}
+	}
 	cmd->filename_out = trimming(op,cmd,start_w,i);
 	return(1);
 }

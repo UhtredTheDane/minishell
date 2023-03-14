@@ -6,14 +6,14 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 17:09:09 by agengemb          #+#    #+#             */
-/*   Updated: 2023/03/10 16:10:18 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/03/14 12:34:26 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/parsing.h"
 #include "../includes/main.h"
 #include "../includes/envp.h"
-
+/*
 int	main(int argc, char **argv, char **envp)
 {
 	char	*prompt;
@@ -53,4 +53,4 @@ int	main(int argc, char **argv, char **envp)
 	}
 	rl_clear_history();
 	return (0);
-}
+}*/

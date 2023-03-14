@@ -1,6 +1,6 @@
 #include "../includes/pipex.h"
 #include "../includes/parsing.h"
-
+/*
 char	**make_cmd(char *one_string_cmd, char **envp)
 {
 	char	**cmd;
@@ -117,4 +117,4 @@ int	execute(t_parse *p)
 	//	display_parse(p);
 	free_parse(p);
 	return (1);
-}
+}*/
