@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
+/*   ft_lstiter_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/19 16:20:35 by agengemb          #+#    #+#             */
-/*   Updated: 2022/07/22 18:57:38 by agengemb         ###   ########.fr       */
+/*   Created: 2022/07/22 12:14:38 by agengemb          #+#    #+#             */
+/*   Updated: 2022/07/24 23:41:05 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,24 +15,18 @@
 /*
  * Description:
  *
- * Copy up to size - 1 characters form the NUL-terminated string src to dst, 
- * NUL-terminating the result.
+ * Iterates the list lst and applies the function f on the content of
+ * each node.
  */
-size_t	ft_strlcpy(char *dst, const char *src, size_t size)
-{
-	size_t	i;
 
-	i = 0;
-	if (size > 0)
+void	ft_lstiter(t_list *lst, void (*f)(void *))
+{
+	if (f && lst)
 	{
-		while (i < size - 1 && *(src + i))
+		while (lst)
 		{
-			*(dst + i) = *(src + i);
-			i++;
+			(*f)(lst->content);
+			lst = lst->next;
 		}
-		*(dst + i) = '\0';
 	}
-	while (*(src + i))
-		i++;
-	return (i);
 }

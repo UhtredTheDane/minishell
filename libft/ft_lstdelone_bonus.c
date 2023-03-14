@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
+/*   ft_lstdelone_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/19 16:20:35 by agengemb          #+#    #+#             */
-/*   Updated: 2022/07/22 18:57:38 by agengemb         ###   ########.fr       */
+/*   Created: 2022/07/22 12:01:18 by agengemb          #+#    #+#             */
+/*   Updated: 2022/07/24 23:48:39 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,24 +15,16 @@
 /*
  * Description:
  *
- * Copy up to size - 1 characters form the NUL-terminated string src to dst, 
- * NUL-terminating the result.
- */
-size_t	ft_strlcpy(char *dst, const char *src, size_t size)
-{
-	size_t	i;
+ * Takes as parameter a node and frees the memory of the node's content using
+ * the function del given as a parameter and free the node
+ * The memory of next must not be freed */
 
-	i = 0;
-	if (size > 0)
+void	ft_lstdelone(t_list *lst, void (*del)(void*))
+{
+	if (lst)
 	{
-		while (i < size - 1 && *(src + i))
-		{
-			*(dst + i) = *(src + i);
-			i++;
-		}
-		*(dst + i) = '\0';
+		if (del)
+			(*del)(lst->content);
+		free(lst);
 	}
-	while (*(src + i))
-		i++;
-	return (i);
 }
