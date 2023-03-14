@@ -49,7 +49,7 @@ t_cmd *init_cmd(void)
 	//bzero(cmd,sizeof (t_cmd));
 	return (cmd);
 }
-
+  
 int add_cmd(t_parse *p ,int start,int end)
 {
 	t_cmd *cmd;
