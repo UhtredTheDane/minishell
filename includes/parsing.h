@@ -9,7 +9,7 @@
 /*   Updated: 2023/03/10 18:01:57 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
+  
 #ifndef PARSING_H
 #define PARSING_H
 
@@ -31,12 +31,13 @@ typedef struct s_parse {
 	char *s;
 	int count;
 	char **envp;
+	int *pipes_fd;
 	struct s_cmd *first;	
 	struct s_cmd *last;	
 } t_parse;
 
 int split_cmd(t_parse *p);
-int	execute(t_parse *p, char **envp);
+int	execute(t_parse *p);
 int add_cmd(t_parse *p ,int start,int end);
 t_parse *parsing(char *input);
 int fill_stdin(t_cmd *cmd,int i);

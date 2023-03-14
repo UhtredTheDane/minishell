@@ -1,14 +1,14 @@
 #include "../includes/pipex.h"
 #include "../includes/parsing.h"
 
-char	**make_cmd(char *one_string_cmd, char **envp)
+char	*make_cmd(char *name_cmd, char **envp)
 {
-	char	**cmd;
+	char	*cmd;
 	char	*tempo_cmd;
 	size_t	i;
 
-	cmd[0] = format_string(cmd);
-	if (!cmd[0])
+	cmd = format_string(name_cmd);
+	if (!cmd)
 		return (NULL);
 	i = 0;
 	while (envp[i] && ft_strncmp(envp[i], "PATH=", 5) != 0)
@@ -16,56 +16,42 @@ char	**make_cmd(char *one_string_cmd, char **envp)
 	tempo_cmd = find_path(envp, cmd, i);
 	if (!tempo_cmd)
 		return (NULL);
-	cmd[0] = tempo_cmd;
-	return (cmd);
+	return (tempo_cmd);
 }
 
-char **search_cmd(t_parse *p, t_cmd *cmd)
+char *search_cmd(t_parse *p, t_cmd *cmd, int num_read, int num_write)
 {
-	char	**cmd;
+	char	*cmd_name;
 
-	cmd = make_cmd(cmd->cmd[0], p->envp);
-	if (!cmd)
+	cmd_name = make_cmd(cmd->cmd[0], p->envp);
+	if (!cmd_name)
 	{
-			close(config->pipes_fd[num_write]);
-			close(config->pipes_fd[num_read]);
-		free(input_cmd);
-		free(config->pipes_fd);
+		if (num_write)
+			close(p->pipes_fd[num_write]);
+		if (num_read)
+			close(p->pipes_fd[num_read]);
+		free(p->pipes_fd);
 		return (NULL);
 	}
-	return (cmd);
+	return (cmd_name);
 }
 
-void manager(t_parse *p, t_cmd *cmd,int *pipe_in, int *pipe_out)
+void manager(t_parse *p, t_cmd *cmd, int num_proc)
 {
-	cmd->cmd = search_cmd(p, cmd);
-	free(input_cmd);
-	if (!cmd)
+	int num_write;
+	int num_read;
+
+	set_num_pipe(p, &num_read, &num_write, num_proc);
+	close_useless_pipes(p, num_read, num_write);
+	cmd->cmd[0] = search_cmd(p, cmd, num_read, num_write);
+	if (!cmd->cmd[0])
 		exit(1);
-
-	dup2(pipe_in[], 0);
-	if (!link_stdout(config, num_write))
+	if (!link_stdin(p, num_read))
+		exit(2);
+	if (!link_stdout(p, num_write))
 		exit(3);
-	
-	execve(cmd[0], cmd, config->envp);
-	free(config->pipes_fd);
+	execve(cmd->cmd[0], cmd->cmd, p->envp);
 	exit(4);
-}
-
-int init_pipe(int *pipe_in, int *pipe_out, int num_pipe, int pipes_nb)
-{
-	if(num_pipe > 0)
-	{
-		pipe_in = pipe_out;
-	}
-	if (num_pipe >= 0 && num_pipe < pipes_nb -1)
-	{
-		if (!pipe(pipe_out))
-			return (0);
-	}
-	else
-		pipe_out = NULL;
-	return(1);
 }
 
 int	run_pipe(t_parse *p)
@@ -73,15 +59,11 @@ int	run_pipe(t_parse *p)
 	int	i;
 	pid_t pid;
 	t_cmd *current;
-	int *pipe_in;
-	int *pipe_out;
 
 	current = p->first;
 	i = 0;
 	while (current)
 	{
-		if (!init_pipe(pipe_in, pipe_out, i, p->count))
-			return (0);
 		pid = fork();
 		if (pid < 0)
 		{
@@ -89,16 +71,15 @@ int	run_pipe(t_parse *p)
 			return(0);
 		}
 		else if (pid == 0)
-			manager(p, current, pipe_in, pipe_out);
-		if(i < p->count - 1)
-			close(pipe_out[1])
-		if(pipe_in)
-			close(pipe_in[0]);
+			manager(p, current, i);
 		current = current->next;
 		++i;
 	}
+	close_all_pipes(p);
 	waiting_all_sons(p->count);
+	return (1);
 }
+
 
 int	execute(t_parse *p)
 {
@@ -113,8 +94,10 @@ int	execute(t_parse *p)
 		return(0);
 	}	
 	if(!run_pipe(p))
+	{
+		printf("Impossible de lancer les pip\n");
 		return(0);
-	//	display_parse(p);
+	}
 	free_parse(p);
 	return (1);
 }

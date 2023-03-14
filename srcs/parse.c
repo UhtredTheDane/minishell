@@ -15,6 +15,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "../includes/parsing.h"
+#include <unistd.h>
 
 void add_cmd_bis(t_parse *p,t_cmd *cmd)
 {
@@ -74,6 +75,7 @@ int add_cmd(t_parse *p ,int start,int end)
 	p->count = p->count + 1;
 	return(1);
 }
+
 t_parse *init_parse(void)
 {
 	t_parse *p;
@@ -131,12 +133,28 @@ int parse(char *input,t_parse *p)
 t_parse *parsing(char *input)
 {
 	t_parse *p;
+	int	i;
 
 	p = init_parse();
 	if(!p)
 		return(NULL);
 	if(!parse(input,p))
 		return (NULL);
+	p->pipes_fd = malloc(sizeof(int) * (p->count - 1) * 2);
+	if (!p->pipes_fd)
+		return (NULL);
+	i = 0;
+	while (i < (p->count - 1) * 2)
+	{
+		if (pipe(p->pipes_fd + i) == -1)
+		{
+			/*config->pipes_nb = i / 2;
+            close_all_pipes(config);
+            free(config->pipes_fd);
+			return (0);*/
+		}
+		i += 2;
+	}
 	return (p);
 	/*else 
 	{

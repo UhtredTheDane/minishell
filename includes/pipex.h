@@ -19,18 +19,21 @@ char	*ft_strjoin(char const *s1, char const *s2);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 size_t	ft_strlen(const char *s);
 char	**ft_split(char const *s, char c);
-char	**make_cmd(char *one_string_cmd, char **envp);
-char **search_cmd(t_config *config, char *input_cmd, int num_read, int num_write);
-void manager(t_config *config, char *input_cmd, int num_proc);
-void	run_pipe(t_config *config, char **cmds);
+char	*make_cmd(char *name_cmd, char **envp);
+char *search_cmd(t_parse *p, t_cmd *cmd, int num_read, int num_write);
+
+void manager(t_parse *p, t_cmd *cmd, int num_proc);
+int	run_pipe(t_parse *p);
 size_t	count_pipes(char *in_put);
+
 void waiting_all_sons(size_t nb_sons);
-void set_num_pipe(t_config *config, int *num_read, int *num_write, int num_proc);
-int	link_stdin(t_config *config, int num_read);
-int	link_stdout(t_config *config, int num_write);
+void set_num_pipe(t_parse *p, int *num_read, int *num_write, int num_proc);
+
+int	link_stdin(t_parse *p, int num_read);
+int	link_stdout(t_parse *p, int num_write);
 void	clean_2d_tab(char **tab_2d);
-char	*format_string(char **cmd);
-char	*find_path(char **envp, char **cmd, size_t i);
+char	*find_path(char **envp, char *cmd, size_t i);
+char	*format_string(char *name_cmd);
 char	*test_path(char **all_paths, char *cmd_0);
 char	*get_path(char *path, char *cmd_0);
 

@@ -20,7 +20,6 @@ int	main(int argc, char **argv, char **envp)
 	char	*in_put;
 	t_parse *p;
 	t_dico *envp_dico;
-	char **mini_envp;
 
 	if (argc < 1 || argc > 1)
 		return (1);
@@ -45,7 +44,8 @@ int	main(int argc, char **argv, char **envp)
 			}
 			add_history(in_put);
 			if (!execute(p))
-				free(in_put);
+				printf("Execution foiree\n");
+				
 			free(in_put);
 		}
 		else
