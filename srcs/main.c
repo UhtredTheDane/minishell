@@ -42,6 +42,7 @@ int	main(int argc, char **argv, char **envp)
 				printf("parsing return is NULL\n");
 				return (1);
 			}
+			edit_parsing(p);
 			add_history(in_put);
 			if (!execute(p))
 				printf("Execution foiree\n");

@@ -40,16 +40,38 @@ void manager(t_parse *p, t_cmd *cmd, int num_proc)
 {
 	int num_write;
 	int num_read;
-
+	int flags;
+	
 	set_num_pipe(p, &num_read, &num_write, num_proc);
 	close_useless_pipes(p, num_read, num_write);
 	cmd->cmd[0] = search_cmd(p, cmd, num_read, num_write);
 	if (!cmd->cmd[0])
 		exit(1);
-	if (!link_stdin(p, num_read))
-		exit(2);
-	if (!link_stdout(p, num_write))
-		exit(3);
+	if (cmd->filename_in)
+	{
+		cmd->in = open(cmd->filename_in, O_RDONLY);
+		dup2(cmd->in, 0);
+		close(cmd->in);
+	}
+	else
+		if (!link_stdin(p, num_read))
+			exit(2);
+	
+	if (cmd->out)
+	{
+		flags = O_WRONLY | O_CREAT;
+		if (cmd->append)
+		{
+			printf("couco\n");
+			flags = flags | O_TRUNC;
+		}
+		cmd->out = open(cmd->filename_out, flags, S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH);
+		dup2(cmd->out, 1);
+		close(cmd->out);
+	}
+	else
+		if (!link_stdout(p, num_write))
+			exit(3);
 	execve(cmd->cmd[0], cmd->cmd, p->envp);
 	exit(4);
 }
