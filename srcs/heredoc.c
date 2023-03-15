@@ -6,10 +6,10 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 16:47:53 by lloisel           #+#    #+#             */
-/*   Updated: 2023/03/14 18:12:22 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/03/15 16:02:16 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
+/*
 int here_doc(t_cmd *cmd,int i)
 {
 	char *word;
@@ -22,4 +22,4 @@ int here_doc(t_cmd *cmd,int i)
 		i++;	
 	
 	if()
-}
+}*/

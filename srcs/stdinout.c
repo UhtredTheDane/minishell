@@ -1,5 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   stdinout.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
@@ -23,7 +21,7 @@ int is_special(char c,char *charset)
 	i = 0;
 	while (charset[i])
 	{
-		if(charset[i] = c)
+		if(charset[i] == c)
 			return (1);
 		i++;
 	}
@@ -72,21 +70,32 @@ int fill_stdin(t_cmd *cmd,int i)
 	{
 		while(cmd->s[i] && cmd->s[i] == ' ')
 			i++;
-		if(is_special(cmd->s[i]))
+		if(is_special(cmd->s[i],"<> "))
 			return(0);
 		start_w = i;
-		while(cmd->s[i] && !is_special(cmd->s[i]))
+		while(cmd->s[i] && !is_special(cmd->s[i],"<> "))
+		{
+			if(cmd->s[i] == '\'')
+			{
+				i++;
+				while(cmd->s[i] && cmd->s[i] != '\'')
+					i++;
+				i++;
+			}
+			else if(cmd->s[i] == '\"')
+			{
+				i++;
+				while(cmd->s[i] && cmd->s[i] != '\"')
+					i++;
+			}
 			i++;
-		if(cmd->s[i] == '\'')
-
-			if(cmd->s[i] == '\"')
-
-				cmd->filename_in = trimming(op,cmd,start_w,i);
+		}
+		cmd->filename_in = trimming(op,cmd,start_w,i);
 	}	
 	return(1);
 }
 
-int fill_stdout(t_cmd *cmd,int i,t_dico *envp)
+int fill_stdout(t_cmd *cmd,int i)
 {
 	int start_w;
 	int op;	
@@ -100,41 +109,26 @@ int fill_stdout(t_cmd *cmd,int i,t_dico *envp)
 	}
 	while(cmd->s[i] && cmd->s[i] == ' ')
 		i++;
+
 	start_w = i;
-	if(is_special(cmd->s[i]))
-		return(0);	
-	if(cmd->s[i] == '\'')
+	while(cmd->s[i] && !is_special(cmd->s[i],"<> "))
 	{
-		i++;
-		while(cmd->s[i] && cmd->s[i] != '\'')
-			i++;
-	}
-	else if(cmd->s[i] == '\"')
-	{
-		i++;
-		while(cmd->s[i] && cmd->s[i] != '\"')
+		if(cmd->s[i] == '\'')
 		{
-			if(cmd->s[i] == '$')
-			{
-				if(!fill_env(cmd,envp, i))
-					return(0);
-			}
 			i++;
-		}
-	}
-	else
-	{
-		while(cmd->s[i] && !is_special(cmd->s[i],"<> "))
-		{
-			if(cmd->s[i] == '$')
-			{
-				if(!fill_env(cmd,envp, i))
-					return(0);
-			}
-			else
+			while(cmd->s[i] && cmd->s[i] != '\'')
 				i++;
 		}
+		else if(cmd->s[i] == '\"')
+		{
+			i++;
+			while(cmd->s[i] && cmd->s[i] != '\"')
+				i++;
+		}
+		i++;
 	}
+	if(is_special(cmd->s[i],"<> ") && start_w == i)
+		return(0);
 	cmd->filename_out = trimming(op,cmd,start_w,i);
 	return(1);
 }

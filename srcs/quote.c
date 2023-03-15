@@ -6,10 +6,11 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 15:48:36 by lloisel           #+#    #+#             */
-/*   Updated: 2023/03/14 18:12:31 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/03/15 16:02:31 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/*
 int replace(char *s,int start,int end, char *rep)
 {
 	char *addr;
@@ -41,4 +42,4 @@ char *replace_double_quote(t_cmd *cmd,int i)
 		i++;
 	tmp2 = ft_strjoin(tmp,tmp[start_w]);
 	cmd->s = ft_strjoin();
-}
+}*/
