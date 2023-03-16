@@ -56,14 +56,13 @@ void manager(t_parse *p, t_cmd *cmd, int num_proc)
 	else
 		if (!link_stdin(p, num_read))
 			exit(2);
-	
-	if (cmd->out)
+	if (cmd->filename_out)
 	{
 		flags = O_WRONLY | O_CREAT;
 		if (cmd->append)
 		{
-			printf("couco\n");
-			flags = flags | O_TRUNC;
+		
+			flags = flags | O_APPEND;
 		}
 		cmd->out = open(cmd->filename_out, flags, S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH);
 		dup2(cmd->out, 1);

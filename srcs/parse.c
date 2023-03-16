@@ -46,6 +46,7 @@ t_cmd *init_cmd(void)
 	cmd->filename_in = NULL;
 	cmd->in = -1;
 	cmd->out = -1;
+	cmd->append = 0;
 	//bzero(cmd,sizeof (t_cmd));
 	return (cmd);
 }
