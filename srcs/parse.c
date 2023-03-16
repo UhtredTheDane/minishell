@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 13:17:21 by lloisel           #+#    #+#             */
-/*   Updated: 2023/03/13 14:53:22 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/03/16 12:09:51 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ t_cmd *init_cmd(void)
 	cmd->filename_in = NULL;
 	cmd->in = -1;
 	cmd->out = -1;
+	cmd->append = 0;
 	//bzero(cmd,sizeof (t_cmd));
 	return (cmd);
 }

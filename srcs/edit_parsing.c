@@ -1,34 +1,123 @@
-/* ************************************************************************** */
-/*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   edit_parsing.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 16:59:11 by lloisel           #+#    #+#             */
-/*   Updated: 2023/03/15 18:03:23 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/03/16 14:47:19 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../includes/pipex.h"
 #include "../includes/parsing.h"
 #include "../libft/libft.h"
 #include "../includes/envp.h"
 #include <stdio.h>
 
+int skip_space(char *s,int i)
+{
+		while(s[i] && is_special(s[i]," "))
+			i++;	
+		return (i);
+}
+
+int skip_to_X(char *s,int i,char *charset)
+{
+	while(s[i] && !is_special(s[i],charset))
+		i++;
+	return(i);
+}
+
+int to_word_end(char *s,int *i)
+{	
+	int size;
+	
+	size = *i;
+	printf("s : %s i : %d\n",s + *i,*i);
+	while(s[*i] && !is_special(s[*i]," "))
+	{
+		if(s[*i] == '\'')
+			*i = skip_to_X(s,*i + 1,"\'") + 1;	
+		if(s[*i] == '\"')
+			*i = skip_to_X(s,*i + 1,"\"") + 1;	
+		if(s[*i])
+			*i = skip_to_X(s,*i,"\"\' ");	
+	}	
+	printf("s : %s i : %d\n",s + *i ,*i);
+	size = *i - size;
+	printf("%d\n",size);
+	return(size);
+}
+
+int size_of_tab(char *s)
+{
+	int i;
+	int count;
+	
+	count = 0;
+	i = 0 ;	
+	i = skip_space(s,i);
+	if(!s[i])
+		return(0);
+	while(s[i] != '\0')
+	{
+		i = skip_space(s,i);	
+		while(s[i] && !is_special(s[i]," "))
+		{
+			if(s[i] == '\'')
+				i = skip_to_X(s,i + 1,"\'") + 1;	
+			if(s[i] == '\"')
+				i = skip_to_X(s,i + 1,"\"") + 1;	
+			if(s[i])
+				i = skip_to_X(s,i,"\"\' ");	
+		}
+		count++;
+		i++;
+	}
+	printf("%d Word\n",count);
+	return(count);
+}
+char **create_tab(char *s,int size)
+{
+	int i;
+	int size_w;
+	char **tmp;
+	int nb;
+
+	nb = 0;
+	i = 0 ;	
+	i = skip_space(s,i);
+	if(s[i] == '\0')
+		return(NULL);
+	tmp = malloc(sizeof(char*)*size + 1);
+	if(!tmp)
+		return(NULL);
+	tmp[size] = NULL;	
+	while(s[i])
+	{
+		i = skip_space(s,i);	
+		size_w = to_word_end(s,&i);
+		printf("size_w : %d \n",size_w);
+		tmp[nb] = malloc(sizeof(char)*size_w + 1);
+		/*if(!tmp[i])
+			return(clean_2d_tab(tmp),NULL);	*/
+		ft_strlcat(tmp[nb],s + i - size_w ,size_w + 1);
+		i++;
+		nb++;
+	}
+	return(tmp);
+}
+
 int split_cmd(t_parse *p)
 {
 	t_cmd *current;
-	char *tmp;
 
 	current = p->first;	
 	while(current)
 	{
-		tmp = current->s;
-		current->cmd = ft_split(current->s, ' ' );
-		if(!current->cmd)
-			return(0);
-		current->s = tmp;
-		current= current->next;
+		//printf("|%s| : %d\n",current->s,size_of_tab(current->s));
+		current->cmd = create_tab(current->s,size_of_tab(current->s));
+		current = current->next;
 	}
 	return(1);
 }
@@ -45,7 +134,7 @@ void display_cmd(t_cmd *cmd)
 	if(cmd->cmd)
 	{
 		printf("  CMD TAB : \n");
-		while(cmd->cmd[i])	
+		while(cmd->cmd[i])
 		{
 			printf("  %s\n",cmd->cmd[i]);
 			++i;
@@ -70,123 +159,6 @@ void display_parse(t_parse *p)
 		++i; 
 	}
 	printf("\n");
-}
-
-char *big_join(char *first ,char  *second,char * last)
-{
-	int size;
-	char *new;
-
-	size = ft_strlen(first);
-	size =size +ft_strlen(second);
-	size = size + ft_strlen(last);
-//	printf("Size of new string :%d\n",size);
-	new  = malloc(sizeof(char)*size +1);
-	new[0] = '\0';
-//	printf("First : %s  ",first);
-//	printf("Second : %s  ",second);
-//	printf("Last : %s  \n",last);
-	ft_strlcat(new,first,size+1);
-	//printf("new :%s\n",new);
-	ft_strlcat(new,second,size+1);
-	//printf("new :%s\n",new);
-	ft_strlcat(new,last,size+1);
-	//free(first);
-//	printf("new :%s\n",new);
-	return(new);	
-}
-
-char *get_key(t_cmd *cmd ,t_dico *envp,int i,int end)
-{
-	char *key;
-	int index;
-	char *tmp;
-	index = 0;
-	if(end - i <= 0)
-		return(NULL);
-	key = malloc(sizeof(char)*(end-i+1));
-	if(!key)
-		return(NULL);
-	while(i < end)
-	{
-		key[index] = cmd->s[i];
-		i++;
-		index++;
-	}
-	key[index] = '\0';
-	tmp = getvalue(envp,key);
-	free(key);
-	//printf("Key result : %s\n",tmp);
-	return(tmp);
-}
-
-int change_dollard(t_cmd *cmd,int i, t_dico *envp)
-{
-	int end;
-	char *value;
-	
-	end = i;
-	end++;
-	if(is_special(cmd->s[end],"<> \""))
-			return(1);
-	else
-		cmd->s[i] = '\0';
-	if(cmd->s[end] && cmd->s[end] == '?')
-	{
-		printf("$? has been detected , how im i suposed to handle it ?\n");
-		return(0);
-	}
-	while(cmd->s[end] && !is_special(cmd->s[end],"<>\" $"))
-		end++;
-	value = get_key(cmd,envp,i + 1,end);
-	if(!value)
-		return(0);
-	cmd->s = big_join(cmd->s,value,cmd->s +end );
-	//free(value);
-	//display_cmd(cmd);	
-	return(1);
-}
-
-int replace_dollards(t_parse *p,t_dico *envp)
-{
-	t_cmd *current;
-	int i;
-
-	current = p->first;
-	while(current)
-	{
-		i = 0;
-		while(current->s[i])
-		{
-			if(current->s[i] == '$')
-			{
-				if(!change_dollard(current,i,envp))
-							return(0);
-			}
-			if(current->s[i] == '\'')
-			{
-				i++;
-				while(current->s[i] && current->s[i] != '\'')
-					i++;
-			}
-			if(current->s[i] == '\"')
-			{
-				i++;
-				while(current->s[i] && current->s[i] != '\"')
-				{
-					if(current->s[i] == '$')
-					{
-						if(!change_dollard(current,i,envp))
-							return(0);
-					}
-					i++;
-				}
-			}
-			i++;
-		}
-		current = current->next;
-	}
-	return(1);
 }
 
 int edit_parsing(t_parse *p)
@@ -230,47 +202,4 @@ int edit_parsing(t_parse *p)
 		current = current->next;
 	}
 	return(1);
-}
-
-int main(int argc,char**argv,char **envp)
-{
-	t_parse *p;
-	t_dico *envp_dico;
-	envp_dico = create_dico(envp);
-	if(argc  == 2)
-	{
-		//printf("  INPUT : %s\n",argv[1]);
-		p = parsing(argv[1]);
-		if(!p)
-		{
-			printf("arg is not valid for some reasons");	
-			return(0);
-		}
-
-		p->envp = create_envp_tab(envp_dico); 
-		display_parse(p);
-		if(!replace_dollards(p,envp_dico))
-		{
-			printf("we can't replace some variable");
-			return(0);
-
-		}	
-		display_parse(p);
-		if(!edit_parsing(p))
-		{
-			printf("parsing has been cancel for some reasons");
-			return(0);
-		}
-		if(!split_cmd(p))
-		{
-			printf("split failed for some reason");
-			return(0);
-		}
-		else
-		{
-			display_parse(p);
-			free_parse(p);
-			return(1);
-		}
-	}
 }
