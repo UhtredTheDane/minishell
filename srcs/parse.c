@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 13:17:21 by lloisel           #+#    #+#             */
-/*   Updated: 2023/03/16 12:09:51 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/03/19 15:57:00 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,8 @@ void add_cmd_bis(t_parse *p,t_cmd *cmd)
 	//	printf("%s\n",p->last->s);
 }
 
-t_cmd *init_cmd(void)
+void init_cmd(t_cmd *cmd)
 {
-	t_cmd *cmd;
-
-	cmd = malloc(sizeof(t_cmd));
-	if(!cmd)
-		return(NULL);
 	cmd->s = NULL;
 	cmd->cmd = NULL;
 	cmd->next = NULL;
@@ -46,14 +41,17 @@ t_cmd *init_cmd(void)
 	cmd->in = -1;
 	cmd->out = -1;
 	cmd->append = 0;
-	//bzero(cmd,sizeof (t_cmd));
-	return (cmd);
 }
 
 int add_cmd(t_parse *p ,int start,int end)
 {
 	t_cmd *cmd;
-	cmd = init_cmd();
+	
+	cmd = malloc(sizeof(t_cmd));
+	if(!cmd)
+		return(0);
+	bzero(cmd,sizeof (t_cmd));
+	//init_cmd(cmd);
 	int size;
 	size  = end-start;
 	//printf("%d\n",size);
@@ -75,21 +73,40 @@ int add_cmd(t_parse *p ,int start,int end)
 	p->count = p->count + 1;
 	return(1);
 }
-t_parse *init_parse(void)
+void init_parse(t_parse *p)
 {
-	t_parse *p;
-
-	p = malloc(sizeof(t_parse));
-	if(!p)
-		return(NULL);
 	p->s = NULL;
 	p->envp = NULL;
 	p->count  = 0;
 	p->first = NULL;
 	p->last = NULL;
-	return(p);
 }
 
+
+int single_quote_no_close(char *s,int *i)
+{
+	while(s[*i] != '\0' && s[*i] !='\'')
+				*i = *i +1;
+	if(s[*i] == '\0')
+		return(1);
+	return(0);
+}
+
+int double_quote_no_close(char *s,int *i)
+{
+	while(s[*i] != '\0' && s[*i] !='\"')
+				*i = *i +1;
+	if(s[*i] == '\0')
+		return(1);
+	return(0);
+}
+/*
+int pide_at_end(i)
+{
+
+
+}
+*/
 int parse(char *input,t_parse *p)
 {
 	int i;
@@ -101,25 +118,28 @@ int parse(char *input,t_parse *p)
 	while(p->s[i] && p->s[i] != '\0')
 	{
 		if(p->s[i] == '|')
-		{	
+		{
 			if(!add_cmd(p,start_w,i))
 				return(0);
 			start_w = i + 1;
+			i = skip_space(p->s,i + 1);
+			if(p->s[i] == '\0')
+			{
+				printf("we meed to complete the pipe \n");
+				return(0);	
+			}
+		
 		}
 		if(p->s[i] == '\'')
 		{
-			++i;
-			while(p->s[i] != '\0' && p->s[i] !='\'')
-				++i;
-			if(p->s[i] == '\0')
+			i++;
+			if(single_quote_no_close(p->s,&i))	
 				return(0);
 		}
-		if(p->s[i] == '"')
+		if(p->s[i] == '\"')
 		{
-			++i;
-			while(p->s[i] != '\0' && p->s[i] !='"')
-				++i;
-			if(p->s[i] == '\0')
+			i++;
+			if(double_quote_no_close(p->s,&i))	
 				return(0);
 		}
 		++i;
@@ -129,16 +149,14 @@ int parse(char *input,t_parse *p)
 	return(1);
 }
 
-t_parse *parsing(char *input)
-{
-	t_parse *p;
-
-	p = init_parse();
+int parsing(char *input,t_parse *p)
+{	
+	init_parse(p);
 	if(!p)
-		return(NULL);
+		return(0);
 	if(!parse(input,p))
-		return (NULL);
-	return (p);
+		return (0);
+	return (1);
 	/*else 
 	{
 		printf("count :%d\n",p->count);	

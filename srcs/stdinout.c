@@ -39,7 +39,7 @@ char *trimming(int op,t_cmd *cmd,int start,int end)
 	size = end-start;
 	if(size <= 0)
 		return(NULL);
-	name = malloc(sizeof(char)* (end -start)+1);
+	name = malloc(sizeof(char)* (size)+1);
 	while(i < size)
 	{
 		name[i] = cmd->s[start + i];
@@ -48,51 +48,15 @@ char *trimming(int op,t_cmd *cmd,int start,int end)
 	name[i] ='\0';
 	cmd->s[op] = '\0';
 	tmp = cmd->s;
-	cmd->s = ft_strjoin(cmd->s,cmd->s + end);
+	size  = (ft_strlen(tmp) + ft_strlen(tmp + end)) + 1; 
+	cmd->s = malloc(size);
+	cmd->s[0] = '\0';
+	if(!cmd->s)
+		return(NULL);	
+	ft_strlcpy(cmd->s ,tmp, size);
+	ft_strlcat(cmd->s,tmp + end, size);
 	free(tmp);
 	return(name);
-
-}
-
-int fill_stdin(t_cmd *cmd,int i)
-{
-	int start_w;
-	int op;	
-
-	op = i;	
-	i++;
-	if(cmd->s[i] && cmd->s[i] == '<')
-	{	
-		printf("Heredoc\n");
-		i++;
-	}
-	else
-	{
-		while(cmd->s[i] && cmd->s[i] == ' ')
-			i++;
-		if(is_special(cmd->s[i],"<> "))
-			return(0);
-		start_w = i;
-		while(cmd->s[i] && !is_special(cmd->s[i],"<> "))
-		{
-			if(cmd->s[i] == '\'')
-			{
-				i++;
-				while(cmd->s[i] && cmd->s[i] != '\'')
-					i++;
-				i++;
-			}
-			else if(cmd->s[i] == '\"')
-			{
-				i++;
-				while(cmd->s[i] && cmd->s[i] != '\"')
-					i++;
-			}
-			i++;
-		}
-		cmd->filename_in = trimming(op,cmd,start_w,i);
-	}	
-	return(1);
 }
 
 int fill_stdout(t_cmd *cmd,int i)

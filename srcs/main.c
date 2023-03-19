@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 17:09:09 by agengemb          #+#    #+#             */
-/*   Updated: 2023/03/16 17:51:33 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/03/19 15:58:58 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,14 +61,17 @@ int main(int argc,char**argv,char **envp)
 	t_dico *envp_dico;
 	char *tmp;
 	
+	p = malloc(sizeof(t_parse));
+	if(!p)
+		return(0);	
 	envp_dico = create_dico(envp);
 	if(argc  == 2)
 	{
 		//printf("  INPUT : %s\n",argv[1]);
-		tmp = malloc(sizeof(char)*ft_strlen(argv[1]) + 1);
-		ft_strlcat(tmp,argv[1],ft_strlen(argv[1]) + 1);
-		printf("tmp : %s\n",tmp);
-		p = parsing(tmp);
+		tmp = malloc(sizeof(char)*(ft_strlen(argv[1]) + 1));
+		ft_strlcpy(tmp,argv[1],ft_strlen(argv[1]) + 1);
+		if(!parsing(tmp , p))
+			return(0);
 		if(!p)
 		{
 			printf("arg is not valid for some reasons");	

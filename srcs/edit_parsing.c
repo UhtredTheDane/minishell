@@ -56,12 +56,13 @@ int size_of_tab(char *s)
 	
 	count = 0;
 	i = 0 ;	
+	printf("i : %dWord of heredoc : |%s|\n",i,s + i);
 	i = skip_space(s,i);
+	printf("i : %dWord of heredoc : |%s|\n",i,s +i);
 	if(!s[i])
 		return(0);
 	while(s[i] != '\0')
 	{
-		i = skip_space(s,i);	
 		while(s[i] && !is_special(s[i]," "))
 		{
 			if(s[i] == '\'')
@@ -71,10 +72,10 @@ int size_of_tab(char *s)
 			if(s[i])
 				i = skip_to_X(s,i,"\"\' ");	
 		}
+		i = skip_space(s,i);	
 		count++;
-		i++;
 	}
-	printf("%d Word\n",count);
+	printf("%d COUBEH\n",count);
 	return(count);
 }
 char **create_tab(char *s,int size)
@@ -84,27 +85,33 @@ char **create_tab(char *s,int size)
 	char **tmp;
 	int nb;
 
+	if(!s)
+		return(NULL);
+	
 	nb = 0;
 	i = 0 ;	
 	i = skip_space(s,i);
-	if(s[i] == '\0')
-		return(NULL);
-	tmp = malloc(sizeof(char*)*size + 1);
+	if(!(*(s + i)))
+		return(NULL);	
+	tmp = malloc(sizeof(char *)*(size + 1));
 	if(!tmp)
 		return(NULL);
-	tmp[size] = NULL;	
 	while(s[i])
 	{
-		i = skip_space(s,i);	
 		size_w = to_word_end(s,&i);
 		printf("size_w : %d \n",size_w);
-		tmp[nb] = malloc(sizeof(char)*size_w + 1);
-		/*if(!tmp[i])
-			return(clean_2d_tab(tmp),NULL);	*/
-		ft_strlcat(tmp[nb],s + i - size_w ,size_w + 1);
-		i++;
+		tmp[nb] = malloc(sizeof(char)*(size_w + 1));
+		if(!tmp[nb])
+		{
+			
+			return(clean_2d_tab(tmp),NULL);
+		}
+		ft_strlcpy(tmp[nb],s + i - size_w ,size_w + 1);
+		i = skip_space(s,i);	
 		nb++;
 	}
+	printf("size : %d\n",size);
+	tmp[size] = NULL;
 	return(tmp);
 }
 
@@ -134,11 +141,12 @@ void display_cmd(t_cmd *cmd)
 	if(cmd->cmd)
 	{
 		printf("  CMD TAB : \n");
-		while(cmd->cmd[i])
+		while(cmd->cmd[i] != NULL)
 		{
-			printf("  %s\n",cmd->cmd[i]);
+			printf("  |%s|\n",cmd->cmd[i]);
 			++i;
 		}
+		printf("-------------------\n");
 	}
 }
 
@@ -165,7 +173,7 @@ int edit_parsing(t_parse *p)
 {
 	t_cmd *current;
 	int i;
-	char c;
+	//char c;
 
 	current = p->first;
 	while(current)
@@ -173,6 +181,7 @@ int edit_parsing(t_parse *p)
 		i = 0;
 		while(current->s[i])
 		{
+			printf("test current : %c\n",current->s[i]);
 			if(current->s[i] == '\'')		
 			{
 				i++;
@@ -190,13 +199,12 @@ int edit_parsing(t_parse *p)
 				if(!fill_stdin(current,i))
 					return(0);
 			}
-			if(current->s[i] == '>')
+			else if(current->s[i] == '>')
 			{
 				if(!fill_stdout(current,i))
 					return(0);		
 			}
-			c = current->s[i];
-			if(c !='<' && c!='>')
+			else
 				i++;
 		}
 		current = current->next;
