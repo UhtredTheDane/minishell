@@ -1,38 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
+/*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/19 16:20:35 by agengemb          #+#    #+#             */
-/*   Updated: 2022/07/22 18:57:38 by agengemb         ###   ########.fr       */
+/*   Created: 2022/07/19 16:07:45 by agengemb          #+#    #+#             */
+/*   Updated: 2022/07/25 00:08:13 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 /*
- * Description:
+ *Description:
  *
- * Copy up to size - 1 characters form the NUL-terminated string src to dst, 
- * NUL-terminating the result.
+ * Copies n bytes from memory area src to memory area dest.
+ * The memory areas must not overlap.
  */
-size_t	ft_strlcpy(char *dst, const char *src, size_t size)
+
+void	*ft_memcpy(void *dest, const void *src, size_t n)
 {
+	char	*char_dest;
+	char	*char_src;
 	size_t	i;
 
+	char_dest = (char *)dest;
+	char_src = (char *)src;
 	i = 0;
-	if (size > 0)
+	if (char_dest || char_src)
 	{
-		while (i < size - 1 && *(src + i))
+		while (i < n)
 		{
-			*(dst + i) = *(src + i);
+			*(char_dest + i) = *(char_src + i);
 			i++;
 		}
-		*(dst + i) = '\0';
 	}
-	while (*(src + i))
-		i++;
-	return (i);
+	return (dest);
 }

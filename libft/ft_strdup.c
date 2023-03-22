@@ -1,44 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_calloc.c                                        :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/19 16:56:45 by agengemb          #+#    #+#             */
-/*   Updated: 2022/07/30 15:30:05 by agengemb         ###   ########.fr       */
+/*   Created: 2022/07/19 16:59:12 by agengemb          #+#    #+#             */
+/*   Updated: 2022/07/19 17:00:48 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <limits.h>
 
 /*
  * Description:
  *
- * Allocates space for nmemb objects, each size bytes in length.
- * The allocated memory is explicitly initialized to zero bytes.
+ * Allocates sufficient memory for a copy of the string s, 
+ * does the copy and returns a pointer to it.
  */
 
-void	*ft_calloc(size_t nmemb, size_t size)
+char	*ft_strdup(const char *s)
 {
-	char	*emplacement;
+	char	*dst;
+	size_t	src_len;
 	size_t	i;
-	size_t	max;
 
-	max = SIZE_MAX;
-	if (size && max / size < nmemb)
-		return (NULL);
-	emplacement = malloc(nmemb * size);
-	if (!emplacement)
+	src_len = ft_strlen(s);
+	dst = malloc(sizeof(char) * (src_len + 1));
+	if (!dst)
 		return (NULL);
 	i = 0;
-	while (i < nmemb * size)
+	while (*(s + i))
 	{
-		*(emplacement + i) = '\0';
+		*(dst + i) = *(s + i);
 		i++;
 	}
-	if (size * nmemb == 0)
-		emplacement[0] = '\0';
-	return ((void *) emplacement);
+	*(dst + i) = '\0';
+	return (dst);
 }

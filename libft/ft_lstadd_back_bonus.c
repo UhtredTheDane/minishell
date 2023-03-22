@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
+/*   ft_lstadd_back_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/19 16:20:35 by agengemb          #+#    #+#             */
-/*   Updated: 2022/07/22 18:57:38 by agengemb         ###   ########.fr       */
+/*   Created: 2022/07/21 15:58:09 by agengemb          #+#    #+#             */
+/*   Updated: 2022/07/24 23:33:43 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,24 +15,23 @@
 /*
  * Description:
  *
- * Copy up to size - 1 characters form the NUL-terminated string src to dst, 
- * NUL-terminating the result.
+ * Adds the node new at the end of the list.
  */
-size_t	ft_strlcpy(char *dst, const char *src, size_t size)
-{
-	size_t	i;
 
-	i = 0;
-	if (size > 0)
+void	ft_lstadd_back(t_list **lst, t_list *new)
+{
+	t_list	*elem;
+
+	if (lst && new)
 	{
-		while (i < size - 1 && *(src + i))
+		if (!*lst)
+			*lst = new;
+		else
 		{
-			*(dst + i) = *(src + i);
-			i++;
+			elem = *lst;
+			while (elem->next)
+				elem = elem->next;
+			elem->next = new;
 		}
-		*(dst + i) = '\0';
 	}
-	while (*(src + i))
-		i++;
-	return (i);
 }

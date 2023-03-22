@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
+/*   ft_striteri.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/19 16:20:35 by agengemb          #+#    #+#             */
-/*   Updated: 2022/07/22 18:57:38 by agengemb         ###   ########.fr       */
+/*   Created: 2022/07/19 21:10:09 by agengemb          #+#    #+#             */
+/*   Updated: 2022/07/19 22:48:18 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,24 +15,22 @@
 /*
  * Description:
  *
- * Copy up to size - 1 characters form the NUL-terminated string src to dst, 
- * NUL-terminating the result.
+ * Applies the function f on each character of the string passed as argument,
+ * passing its index as first argument. Each character is passed by adresse to f
+ * to be modified if necessary.
  */
-size_t	ft_strlcpy(char *dst, const char *src, size_t size)
+
+void	ft_striteri(char *s, void (*f)(unsigned int, char *))
 {
 	size_t	i;
 
-	i = 0;
-	if (size > 0)
+	if (s && f)
 	{
-		while (i < size - 1 && *(src + i))
+		i = 0;
+		while (*(s + i))
 		{
-			*(dst + i) = *(src + i);
+			(*f)(i, s + i);
 			i++;
 		}
-		*(dst + i) = '\0';
 	}
-	while (*(src + i))
-		i++;
-	return (i);
 }

@@ -1,4 +1,5 @@
 #include "../includes/pipex.h"
+#include "../includes/parsing.h"
 
 void	clean_2d_tab(char **tab_2d)
 {
@@ -14,31 +15,27 @@ void	clean_2d_tab(char **tab_2d)
 	free(tab_2d);
 }
 
-char	*format_string(char **cmd)
+char	*format_string(char *name_cmd)
 {
 	char	*temp;
 
-	temp = ft_strjoin("/", cmd[0]);
+	temp = ft_strjoin("/", name_cmd);
 	if (!temp)
-	{
-		clean_2d_tab(cmd);
 		return (NULL);
-	}
-	free(cmd[0]);
+	free(name_cmd);
 	return (temp);
 }
 
-char	*find_path(char **envp, char **cmd, size_t i)
+char	*find_path(char **envp, char *cmd, size_t i)
 {
 	char	*temp;
 
-	temp = get_path(envp[i] + 5, cmd[0]);
+	temp = get_path(envp[i] + 5, cmd);
 	if (!temp)
 	{
-		clean_2d_tab(cmd);
 		return (NULL);
 	}
-	free(cmd[0]);
+	free(cmd);
 	return (temp);
 }
 

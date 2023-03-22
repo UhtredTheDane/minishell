@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
+/*   ft_lstclear_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/19 16:20:35 by agengemb          #+#    #+#             */
-/*   Updated: 2022/07/22 18:57:38 by agengemb         ###   ########.fr       */
+/*   Created: 2022/07/22 12:10:04 by agengemb          #+#    #+#             */
+/*   Updated: 2022/07/24 23:32:13 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,24 +15,25 @@
 /*
  * Description:
  *
- * Copy up to size - 1 characters form the NUL-terminated string src to dst, 
- * NUL-terminating the result.
+ * Deletes and frees the given node and every successor of that node,
+ * using the function del and free.
+ * Finally, the pointer to the list must be set to NULL.
  */
-size_t	ft_strlcpy(char *dst, const char *src, size_t size)
-{
-	size_t	i;
 
-	i = 0;
-	if (size > 0)
+void	ft_lstclear(t_list **lst, void (*del)(void *))
+{
+	t_list	*elem;
+	t_list	*next;
+
+	if (lst && *lst)
 	{
-		while (i < size - 1 && *(src + i))
+		elem = *lst;
+		while (elem)
 		{
-			*(dst + i) = *(src + i);
-			i++;
+			next = elem->next;
+			ft_lstdelone(elem, *del);
+			elem = next;
 		}
-		*(dst + i) = '\0';
+		*lst = NULL;
 	}
-	while (*(src + i))
-		i++;
-	return (i);
 }

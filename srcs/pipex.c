@@ -1,16 +1,17 @@
 #include "../includes/pipex.h"
+#include "../includes/parsing.h"
+#include "../includes/bultins.h"
 
-char	**make_cmd(char *one_string_cmd, char **envp)
+char	*make_cmd(t_parse *p, char *name_cmd)
 {
-	char	**cmd;
+	char	*cmd;
 	char	*tempo_cmd;
 	size_t	i;
+	char **envp;
 
-	cmd = ft_split(one_string_cmd, ' ');
+	envp = create_envp_tab(p->dico);
+	cmd = format_string(name_cmd);
 	if (!cmd)
-		return (NULL);
-	cmd[0] = format_string(cmd);
-	if (!cmd[0])
 		return (NULL);
 	i = 0;
 	while (envp[i] && ft_strncmp(envp[i], "PATH=", 5) != 0)
@@ -18,93 +19,119 @@ char	**make_cmd(char *one_string_cmd, char **envp)
 	tempo_cmd = find_path(envp, cmd, i);
 	if (!tempo_cmd)
 		return (NULL);
-	cmd[0] = tempo_cmd;
-	return (cmd);
+	return (tempo_cmd);
 }
 
-char **search_cmd(t_config *config, char *input_cmd, int num_read, int num_write)
+char *search_cmd(t_parse *p, t_cmd *cmd, int num_read, int num_write)
 {
-	char	**cmd;
+	char	*cmd_name;
 
-	cmd = make_cmd(input_cmd, config->envp);
-	if (!cmd)
+	cmd_name = make_cmd(p, cmd->cmd[0]);
+	if (!cmd_name)
 	{
 		if (num_write)
-			close(config->pipes_fd[num_write]);
+			close(p->pipes_fd[num_write]);
 		if (num_read)
-			close(config->pipes_fd[num_read]);
-		free(input_cmd);
-		free(config->pipes_fd);
+			close(p->pipes_fd[num_read]);
+		free(p->pipes_fd);
 		return (NULL);
 	}
-	return (cmd);
+	return (cmd_name);
 }
 
-void manager(t_config *config, char *input_cmd, int num_proc)
+int manager(t_parse *p, t_cmd *cmd, int num_proc)
 {
-	char	**cmd;
-	int num_read;
 	int num_write;
+	int num_read;
+	int flags;
 
-	set_num_pipe(config, &num_read, &num_write, num_proc);
-	close_useless_pipes(config, num_read, num_write);
-	cmd = search_cmd(config, input_cmd, num_read, num_write);
-	free(input_cmd);
-	if (!cmd)
-		exit(1);
-	if (!link_stdin(config, num_read))
-		exit(2);
-	if (!link_stdout(config, num_write))
-		exit(3);
-	execve(cmd[0], cmd, config->envp);
-
-	free(config->pipes_fd);
-	exit(4);
+	set_num_pipe(p, &num_read, &num_write, num_proc);
+	close_useless_pipes(p, num_read, num_write);
+	if (cmd->filename_in)
+	{
+		cmd->in = open(cmd->filename_in, O_RDONLY);
+		dup2(cmd->in, 0);
+		close(cmd->in);
+	}
+	else
+		if (!link_stdin(p, num_read))
+			return(2);
+	if (cmd->filename_out)
+	{
+		flags = O_WRONLY | O_CREAT;
+		if (cmd->append)
+		{
+		
+			flags = flags | O_APPEND;
+		}
+		cmd->out = open(cmd->filename_out, flags, S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH);
+		dup2(cmd->out, 1);
+		close(cmd->out);
+	}
+	else
+		if (!link_stdout(p, num_write))
+			return(3);
+	if (execute_builtin(p, cmd))
+		return(0);
+	else
+	{
+		cmd->cmd[0] = search_cmd(p, cmd, num_read, num_write);
+		if (!cmd->cmd[0])
+			return(1);
+		execve(cmd->cmd[0], cmd->cmd, create_envp_tab(p->dico));//attetion
+	}
+	return(4);
 }
 
-void	run_pipe(t_config *config, char **cmds)
+int	run_pipe(t_parse *p)
 {
 	int	i;
 	pid_t pid;
+	t_cmd *current;
 
+	current = p->first;
 	i = 0;
-	while (i < config->pipes_nb + 1)
+	while (current)
 	{
 		pid = fork();
 		if (pid < 0)
 		{
 			perror("Probleme fork");
-			close_all_pipes(config);
-			free(config->pipes_fd);
-			exit(0);
+			return(0);
 		}
 		else if (pid == 0)
-			manager(config, cmds[i], i);
+		{
+			manager(p, current, i);
+			exit(4);
+		}
+		current = current->next;
 		++i;
 	}
-	close_all_pipes(config);
-	waiting_all_sons(config->pipes_nb + 1);
+	close_all_pipes(p);
+	waiting_all_sons(p->count);
+	return (1);
 }
 
 
-int	execute(char *in_put, char **envp)
+int	execute(t_parse *p)
 {
-	t_config config;
-	char	**cmds;
-	
-	cmds = ft_split(in_put, '|');
-	if (!cmds)
+	if(!edit_parsing(p))
 	{
-		printf("Erreur ft_split |\n");
-		return (0);
+		printf("parsing has been cancel for some reasons");
+		return(0);
 	}
-	if (!init_config(&config, in_put, envp))
+	if(!split_cmd(p))
 	{
-		clean_2d_tab(cmds);
-		return (0);
+		printf("split failed for some reason");
+		return(0);
+	}	
+	if (!p->pipes_fd && is_builtin(p->first))
+		manager(p, p->first, 0);
+	else if(!run_pipe(p))
+	{
+		printf("Impossible de lancer les pip\n");
+		return(0);
 	}
-	run_pipe(&config, cmds);
-	clean_2d_tab(cmds);
-	free(config.pipes_fd);
+	free_parse(p);
 	return (1);
 }

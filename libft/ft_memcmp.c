@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
+/*   ft_memcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/19 16:20:35 by agengemb          #+#    #+#             */
-/*   Updated: 2022/07/22 18:57:38 by agengemb         ###   ########.fr       */
+/*   Created: 2022/07/19 16:18:49 by agengemb          #+#    #+#             */
+/*   Updated: 2022/07/19 16:20:20 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,24 +15,24 @@
 /*
  * Description:
  *
- * Copy up to size - 1 characters form the NUL-terminated string src to dst, 
- * NUL-terminating the result.
+ * Compares the first n bytes (each interpreted as unsigned char) 
+ * of the memory areas s1 and s2.
+ *
  */
-size_t	ft_strlcpy(char *dst, const char *src, size_t size)
-{
-	size_t	i;
 
-	i = 0;
-	if (size > 0)
+int	ft_memcmp(const void *s1, const void *s2, size_t n)
+{
+	unsigned char	*s1_bis;
+	unsigned char	*s2_bis;
+
+	s1_bis = (unsigned char *)s1;
+	s2_bis = (unsigned char *)s2;
+	while (n--)
 	{
-		while (i < size - 1 && *(src + i))
-		{
-			*(dst + i) = *(src + i);
-			i++;
-		}
-		*(dst + i) = '\0';
+		if (*s1_bis != *s2_bis)
+			return (*s1_bis - *s2_bis);
+		s1_bis++;
+		s2_bis++;
 	}
-	while (*(src + i))
-		i++;
-	return (i);
+	return (0);
 }

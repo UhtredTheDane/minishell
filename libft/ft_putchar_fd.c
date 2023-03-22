@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
+/*   ft_putchar_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/19 16:20:35 by agengemb          #+#    #+#             */
-/*   Updated: 2022/07/22 18:57:38 by agengemb         ###   ########.fr       */
+/*   Created: 2022/07/19 19:09:51 by agengemb          #+#    #+#             */
+/*   Updated: 2022/07/24 23:25:48 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,24 +15,11 @@
 /*
  * Description:
  *
- * Copy up to size - 1 characters form the NUL-terminated string src to dst, 
- * NUL-terminating the result.
+ * Outputs the chrcter c to th given file descripor.
  */
-size_t	ft_strlcpy(char *dst, const char *src, size_t size)
-{
-	size_t	i;
 
-	i = 0;
-	if (size > 0)
-	{
-		while (i < size - 1 && *(src + i))
-		{
-			*(dst + i) = *(src + i);
-			i++;
-		}
-		*(dst + i) = '\0';
-	}
-	while (*(src + i))
-		i++;
-	return (i);
+void	ft_putchar_fd(char c, int fd)
+{
+	if (fd >= 0)
+		write(fd, &c, sizeof(char));
 }
