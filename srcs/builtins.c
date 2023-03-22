@@ -54,7 +54,7 @@ int is_cd(t_parse *p, t_cmd *cmd)
 int is_builtin(t_cmd *cmd)
 {
     if (ft_strncmp(cmd->cmd[0], "cd", 2) == 0)
-        return (1)
+        return (1);
     else if (ft_strncmp(cmd->cmd[0], "echo", 4) == 0)
         return (1);
     else if (ft_strncmp(cmd->cmd[0], "pwd", 3) == 0)

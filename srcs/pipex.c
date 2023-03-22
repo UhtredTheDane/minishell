@@ -71,7 +71,7 @@ int manager(t_parse *p, t_cmd *cmd, int num_proc)
 	else
 		if (!link_stdout(p, num_write))
 			return(3);
-	if (is_builtin(p, cmd))
+	if (execute_builtin(p, cmd))
 		return(0);
 	else
 	{
@@ -125,9 +125,8 @@ int	execute(t_parse *p)
 		printf("split failed for some reason");
 		return(0);
 	}	
-	if (!pipes_fd && is_bultin(p->first))
+	if (!p->pipes_fd && is_builtin(p->first))
 		manager(p, p->first, 0);
-	}
 	else if(!run_pipe(p))
 	{
 		printf("Impossible de lancer les pip\n");
