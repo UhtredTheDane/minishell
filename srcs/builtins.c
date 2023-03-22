@@ -1,22 +1,27 @@
 #include "../includes/pipex.h"
+#include "../includes/bultins.h"
 
 #define PATH_MAX 4000
-/*
+
 int is_echo(t_cmd *cmd)
 {
+    int n_option;
+    int i;
+    char *message;
+
     if (ft_strncmp(cmd->cmd[0], "echo", 4) == 0)
     {
         n_option = 0;
         i = 1;
-        while (cmd[i])
+        while (cmd->cmd[i])
         {
-            if (cmd[i][0] == '-')
+            if (cmd->cmd[i][0] == '-')
             {
-                if (cmd[i][1] == 'n' || cmd[i][1] == 'N')
+                if (cmd->cmd[i][1] == 'n' || cmd->cmd[i][1] == 'N')
                     n_option = 1;
             }
             else
-                message = cmd[i];
+                message = cmd->cmd[i];
             ++i;
         }
         builtin_echo(message, n_option);
@@ -35,28 +40,32 @@ int is_pwd(t_cmd *cmd)
     return (0);
 }
 
-int is_cd(t_cmd *cmd)
+int is_cd(t_parse *p, t_cmd *cmd)
 {
     if (ft_strncmp(cmd->cmd[0], "cd", 2) == 0)
     {
-        builtin_cd(t_dico *dico, const char *path)
+        builtin_cd(p->dico, cmd->cmd[1]);
         return (1);
     }
     return (0);
 }
 
+//int is_unset()
+
 int is_builtin(t_parse *p, t_cmd *cmd)
 {
-    int i;
-    int n_option;
-    char *message;
-
     if (is_echo(cmd))
         return (1);
     else if (is_pwd(cmd))
         return (1);
-    else if (is_cd())
+    else if (is_cd(p, cmd))
         return (1);
+    else
+    {
+        printf("sa passe par ici\n");
+        return (0);
+    }
+    /*
     else if (is_unset())
         return (1);
     else if (is_export())
@@ -64,11 +73,9 @@ int is_builtin(t_parse *p, t_cmd *cmd)
     else if (is_env())
         return (1);
     else if (is_exit())
-        return (1);
-    else
-        return (0);
+        return (1);*/
 }
-*/
+
 void    builtin_echo(const char *message, int n_option)
 {
     printf("%s", message);

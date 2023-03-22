@@ -118,8 +118,13 @@ char    *getvalue(t_dico *envp, char *key)
 
     while (envp)
     {
-        size_key = ft_strlen(envp->key);
-        if (ft_strncmp(envp->key, key, size_key) == 0)
+		if(ft_strlen(key) > ft_strlen(envp->key))
+        	size_key = ft_strlen(key);
+        else
+		{
+        	size_key = ft_strlen(envp->key);
+		}
+		if (ft_strncmp(key, envp->key, size_key) == 0)
             return (envp->value);
         envp = envp->next;
     }

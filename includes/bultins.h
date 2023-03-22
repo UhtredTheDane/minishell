@@ -9,4 +9,5 @@ void    builtin_echo(const char *message, int n_option);
 void builtin_unset(t_dico **dico, char *key);
 int builtin_cd(t_dico *dico, const char *path);
 char *builtin_pwd();
+int is_builtin(t_parse *p, t_cmd *cmd);
 #endif

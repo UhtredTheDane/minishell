@@ -19,7 +19,7 @@ char	*ft_strjoin(char const *s1, char const *s2);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 size_t	ft_strlen(const char *s);
 char	**ft_split(char const *s, char c);
-char	*make_cmd(char *name_cmd, char **envp);
+char	*make_cmd(t_parse *p, char *name_cmd);
 char *search_cmd(t_parse *p, t_cmd *cmd, int num_read, int num_write);
 
 void manager(t_parse *p, t_cmd *cmd, int num_proc);
@@ -38,13 +38,7 @@ char	*test_path(char **all_paths, char *cmd_0);
 char	*get_path(char *path, char *cmd_0);
 
 
-void    builtin_env(char **envp);
-void    builtin_exit(int return_value);
-int    builtin_export(t_dico *dico, char *key, char *value);
-void    builtin_echo(const char *message, int n_option);
-void builtin_unset(t_dico **dico, char *key);
-int builtin_cd(t_dico *dico, const char *path);
-char *builtin_pwd();
+
 void delete_key(t_dico **envp, char *key);
 
 #endif

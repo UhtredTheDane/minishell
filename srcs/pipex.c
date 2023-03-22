@@ -1,12 +1,15 @@
 #include "../includes/pipex.h"
 #include "../includes/parsing.h"
+#include "../includes/bultins.h"
 
-char	*make_cmd(char *name_cmd, char **envp)
+char	*make_cmd(t_parse *p, char *name_cmd)
 {
 	char	*cmd;
 	char	*tempo_cmd;
 	size_t	i;
+	char **envp;
 
+	envp = create_envp_tab(p->dico);
 	cmd = format_string(name_cmd);
 	if (!cmd)
 		return (NULL);
@@ -23,7 +26,7 @@ char *search_cmd(t_parse *p, t_cmd *cmd, int num_read, int num_write)
 {
 	char	*cmd_name;
 
-	cmd_name = make_cmd(cmd->cmd[0], p->envp);
+	cmd_name = make_cmd(p, cmd->cmd[0]);
 	if (!cmd_name)
 	{
 		if (num_write)
@@ -41,12 +44,9 @@ void manager(t_parse *p, t_cmd *cmd, int num_proc)
 	int num_write;
 	int num_read;
 	int flags;
-	
+
 	set_num_pipe(p, &num_read, &num_write, num_proc);
 	close_useless_pipes(p, num_read, num_write);
-	cmd->cmd[0] = search_cmd(p, cmd, num_read, num_write);
-	if (!cmd->cmd[0])
-		exit(1);
 	if (cmd->filename_in)
 	{
 		cmd->in = open(cmd->filename_in, O_RDONLY);
@@ -71,7 +71,15 @@ void manager(t_parse *p, t_cmd *cmd, int num_proc)
 	else
 		if (!link_stdout(p, num_write))
 			exit(3);
-	execve(cmd->cmd[0], cmd->cmd, p->envp);
+	if (is_builtin(p, cmd))
+		exit(0);
+	else
+	{
+		cmd->cmd[0] = search_cmd(p, cmd, num_read, num_write);
+		if (!cmd->cmd[0])
+			exit(1);
+		execve(cmd->cmd[0], cmd->cmd, create_envp_tab(p->dico));
+	}
 	exit(4);
 }
 

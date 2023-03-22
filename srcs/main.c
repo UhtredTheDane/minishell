@@ -35,14 +35,12 @@ int	main(int argc, char **argv, char **envp)
 		in_put = readline(prompt);
 		if (in_put)
 		{
-			p = parsing(in_put);
-			p->envp = create_envp_tab(envp_dico); 
+			p = parsing(in_put, envp_dico);
 			if (!p)
 			{
 				printf("parsing return is NULL\n");
 				return (1);
 			}
-			edit_parsing(p);
 			add_history(in_put);
 			if (!execute(p))
 				printf("Execution foiree\n");

@@ -12,6 +12,7 @@
   
 #ifndef PARSING_H
 #define PARSING_H
+ # include "envp.h"
 
 typedef struct s_cmd {
 	char *s;
@@ -25,11 +26,12 @@ typedef struct s_cmd {
 	int append;
 } t_cmd;
 
+typedef struct s_dico t_dico;
 
 typedef struct s_parse {
 	char *s;
 	int count;
-	char **envp;
+	t_dico *dico;
 	int *pipes_fd;
 	struct s_cmd *first;	
 	struct s_cmd *last;	
@@ -38,7 +40,7 @@ typedef struct s_parse {
 int split_cmd(t_parse *p);
 int	execute(t_parse *p);
 int add_cmd(t_parse *p ,int start,int end);
-t_parse *parsing(char *input);
+t_parse *parsing(char *input, t_dico *envp_dico);
 int fill_stdin(t_cmd *cmd,int i);
 int fill_stdout(t_cmd *cmd,int i);
 int free_parse(t_parse *p);
