@@ -78,7 +78,7 @@ int manager(t_parse *p, t_cmd *cmd, int num_proc)
 		cmd->cmd[0] = search_cmd(p, cmd, num_read, num_write);
 		if (!cmd->cmd[0])
 			return(1);
-		execve(cmd->cmd[0], cmd->cmd, create_envp_tab(p->dico));
+		execve(cmd->cmd[0], cmd->cmd, create_envp_tab(p->dico));//attetion
 	}
 	return(4);
 }
