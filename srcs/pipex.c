@@ -39,7 +39,7 @@ char *search_cmd(t_parse *p, t_cmd *cmd, int num_read, int num_write)
 	return (cmd_name);
 }
 
-void manager(t_parse *p, t_cmd *cmd, int num_proc)
+int manager(t_parse *p, t_cmd *cmd, int num_proc)
 {
 	int num_write;
 	int num_read;
@@ -55,7 +55,7 @@ void manager(t_parse *p, t_cmd *cmd, int num_proc)
 	}
 	else
 		if (!link_stdin(p, num_read))
-			exit(2);
+			return(2);
 	if (cmd->filename_out)
 	{
 		flags = O_WRONLY | O_CREAT;
@@ -70,17 +70,17 @@ void manager(t_parse *p, t_cmd *cmd, int num_proc)
 	}
 	else
 		if (!link_stdout(p, num_write))
-			exit(3);
+			return(3);
 	if (is_builtin(p, cmd))
-		exit(0);
+		return(0);
 	else
 	{
 		cmd->cmd[0] = search_cmd(p, cmd, num_read, num_write);
 		if (!cmd->cmd[0])
-			exit(1);
+			return(1);
 		execve(cmd->cmd[0], cmd->cmd, create_envp_tab(p->dico));
 	}
-	exit(4);
+	return(4);
 }
 
 int	run_pipe(t_parse *p)
@@ -122,7 +122,10 @@ int	execute(t_parse *p)
 		printf("split failed for some reason");
 		return(0);
 	}	
-	if(!run_pipe(p))
+	if (!p->pipes_fd)
+		manager(p, p->first, 0);
+	}
+	else if(!run_pipe(p))
 	{
 		printf("Impossible de lancer les pip\n");
 		return(0);

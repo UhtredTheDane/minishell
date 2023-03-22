@@ -61,10 +61,7 @@ int is_builtin(t_parse *p, t_cmd *cmd)
     else if (is_cd(p, cmd))
         return (1);
     else
-    {
-        printf("sa passe par ici\n");
         return (0);
-    }
     /*
     else if (is_unset())
         return (1);
