@@ -1,13 +1,8 @@
 #include "../includes/pipex.h"
 #include "../includes/parsing.h"
-<<<<<<< HEAD
 #include "../includes/bultins.h"
 
 char	*make_cmd(t_parse *p, char *name_cmd)
-=======
-/*
-char	**make_cmd(char *one_string_cmd, char **envp)
->>>>>>> origin/parsing
 {
 	char	*cmd;
 	char	*tempo_cmd;

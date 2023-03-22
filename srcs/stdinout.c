@@ -1,9 +1,5 @@
-<<<<<<< HEAD
-
 /* ************************************************************************** */
 /*                                                                            */
-=======
->>>>>>> origin/parsing
 /*                                                        :::      ::::::::   */
 /*   stdinout.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
@@ -20,11 +16,7 @@
 #include <stdlib.h>		
 #include "../libft/libft.h"
 
-<<<<<<< HEAD
-int is_special(char c)
-=======
 int is_special(char c,char *charset)
->>>>>>> origin/parsing
 {
 	int i;
 

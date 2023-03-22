@@ -7,12 +7,7 @@
 /*   Updated: 2023/03/16 14:21:24 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-<<<<<<< HEAD
   
-=======
-
-#include "../includes/envp.h"
->>>>>>> origin/parsing
 #ifndef PARSING_H
 #define PARSING_H
  # include "envp.h"
@@ -46,11 +41,7 @@ int is_special(char c,char *charset);
 int split_cmd(t_parse *p);
 int	execute(t_parse *p);
 int add_cmd(t_parse *p ,int start,int end);
-<<<<<<< HEAD
 t_parse *parsing(char *input, t_dico *envp_dico);
-=======
-int parsing(char *input,t_parse *p);
->>>>>>> origin/parsing
 int fill_stdin(t_cmd *cmd,int i);
 int fill_stdout(t_cmd *cmd,int i);
 void display_parse(t_parse *p);
