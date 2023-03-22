@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 13:17:21 by lloisel           #+#    #+#             */
-/*   Updated: 2023/03/22 18:45:48 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/03/22 20:59:40 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,13 @@ void add_cmd_bis(t_parse *p,t_cmd *cmd)
 	//	printf("%s\n",p->last->s);
 }
 
-void init_cmd(t_cmd *cmd)
+t_cmd *init_cmd(void)
 {
+	t_cmd *cmd;
+
+	cmd = malloc(sizeof(t_cmd));
+	if (!cmd)
+		return (NULL);
 	cmd->s = NULL;
 	cmd->cmd = NULL;
 	cmd->next = NULL;
