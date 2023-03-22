@@ -100,7 +100,10 @@ int	run_pipe(t_parse *p)
 			return(0);
 		}
 		else if (pid == 0)
+		{
 			manager(p, current, i);
+			exit(4);
+		}
 		current = current->next;
 		++i;
 	}
@@ -122,7 +125,7 @@ int	execute(t_parse *p)
 		printf("split failed for some reason");
 		return(0);
 	}	
-	if (!p->pipes_fd)
+	if (!pipes_fd && is_bultin(p->first))
 		manager(p, p->first, 0);
 	}
 	else if(!run_pipe(p))
