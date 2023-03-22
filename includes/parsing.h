@@ -1,15 +1,18 @@
-/* ************************************************************************** */
-/*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 13:19:03 by lloisel           #+#    #+#             */
-/*   Updated: 2023/03/10 18:01:57 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/03/16 14:21:24 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+<<<<<<< HEAD
   
+=======
+
+#include "../includes/envp.h"
+>>>>>>> origin/parsing
 #ifndef PARSING_H
 #define PARSING_H
  # include "envp.h"
@@ -37,13 +40,25 @@ typedef struct s_parse {
 	struct s_cmd *last;	
 } t_parse;
 
+int replace_dollards(t_parse *p,t_dico *envp);
+int fill_env(t_cmd *cmd,t_dico *envp, int i);
+int is_special(char c,char *charset);
 int split_cmd(t_parse *p);
 int	execute(t_parse *p);
 int add_cmd(t_parse *p ,int start,int end);
+<<<<<<< HEAD
 t_parse *parsing(char *input, t_dico *envp_dico);
+=======
+int parsing(char *input,t_parse *p);
+>>>>>>> origin/parsing
 int fill_stdin(t_cmd *cmd,int i);
 int fill_stdout(t_cmd *cmd,int i);
+void display_parse(t_parse *p);
 int free_parse(t_parse *p);
 int edit_parsing(t_parse *p);
+void display_cmd(t_cmd *cmd);
 
+int skip_to_X(char *s,int i,char *charset);
+int skip_space(char *s,int i);
+char *trimming(int op,t_cmd *cmd,int start,int end);
 #endif
