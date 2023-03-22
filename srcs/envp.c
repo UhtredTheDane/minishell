@@ -1,4 +1,5 @@
 #include "../includes/pipex.h"
+#include "../includes/envp.h"
 
 size_t  egal_pos(char *key)
 {
