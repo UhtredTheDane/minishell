@@ -12,6 +12,7 @@ int is_echo(t_cmd *cmd)
     if (ft_strncmp(cmd->cmd[0], "echo", 4) == 0)
     {
         n_option = 0;
+	message = "";
         i = 1;
         while (cmd->cmd[i])
         {
