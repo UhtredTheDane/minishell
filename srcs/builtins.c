@@ -71,12 +71,12 @@ int is_export(t_parse *p, t_cmd *cmd)
 
     if (ft_strncmp(cmd->cmd[0], "export", 6) == 0)
     {
-        entries = ft_split(cmd->cmd[1], '=')
+        entries = ft_split(cmd->cmd[1], '=');
         if (!entries)
             return (0);
         key = entries[0];
         value = entries[1];
-        builtin_export(p-dico, key, value);
+        builtin_export(p->dico, key, value);
         free(entries);
         return (1);
     }
@@ -105,10 +105,13 @@ int is_exit(t_cmd *cmd)
 
     if (ft_strncmp(cmd->cmd[0], "exit", 4) == 0)
     {
-        return_value = cmd->cmd[1];
-        builtin_exit(return_value)
+        return_value = 0;
+	if (cmd->cmd[1])
+		return_value = ft_atoi(cmd->cmd[1]);
+        builtin_exit(return_value);
         return (1);
     }
+    return (0);
 }
 
 int is_builtin(t_cmd *cmd)
@@ -145,17 +148,7 @@ int execute_builtin(t_parse *p, t_cmd *cmd)
         return (1);
     else if (is_exit(cmd))
         return (1);
-    else
-        return (0);
-    /*
-    else if (is_unset())
-        return (1);
-    else if (is_export())
-        return (1);
-    else if (is_env())
-        return (1);
-    else if (is_exit())
-        return (1);*/
+    return (0);
 }
 
 void    builtin_echo(const char *message, int n_option)
@@ -236,6 +229,6 @@ void    builtin_env(char **envp)
 
 void    builtin_exit(int return_value)
 {
-    printf("exit");
+    printf("exit\n");
     exit(return_value);
 }

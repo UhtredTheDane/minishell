@@ -1,8 +1,8 @@
 #ifndef BULTINS_H
 #define BULTINS_H
 # include "envp.h"
-
-int is_echo(t_cmd *cmd)s
+# include "../libft/libft.h"
+int is_echo(t_cmd *cmd);
 int is_pwd(t_cmd *cmd);
 int is_cd(t_parse *p, t_cmd *cmd);
 int is_unset(t_parse *p, t_cmd *cmd);
