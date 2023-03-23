@@ -1,7 +1,6 @@
 #include "../includes/pipex.h"
 
 
-
 void	close_useless_pipes(t_parse *p, int num_read, int num_write)
 {
 	int i;

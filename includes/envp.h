@@ -2,20 +2,29 @@
 #ifndef ENVP_H
 # define ENVP_H
 
-typedef struct s_dico
+# include "pipex.h"
+
+typedef struct s_envp
 {
     char *value;
     char *key;
-    struct s_dico *next;
+    struct s_envp *next;
 
-}   t_dico;
+}   t_envp;
 
-t_dico  *create_dico(char **envp);
-t_dico	*ft_diconew(char *key, char *value);
-char    *getvalue(t_dico *envp, char *key);
-int   set_value(t_dico *envp, char *key, char *value);
-void	ft_dicoadd(t_dico **lst, t_dico *new);
-int	ft_dicosize(t_dico *lst);
-char **create_envp_tab(t_dico *dico);
+t_envp  *create_shell_envp(char **envp);
+t_envp	*ft_envp_new(char *key, char *value);
+void	ft_envp_add(t_envp**lst, t_envp *new);
+
+int   set_value(t_envp *envp, char *key, char *value);
+void delete_key(t_envp **envp, char *key);
+char    *get_value(t_envp *envp, char *key);
+
+size_t  egal_pos(char *key);
+char **create_envp_tab(t_envp *envp);
+int	ft_envp_size(t_envp *envp);
+
+
+
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 13:17:21 by lloisel           #+#    #+#             */
-/*   Updated: 2023/03/22 20:59:40 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/03/23 15:02:17 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,10 @@
 #include <stdlib.h>
 #include "../includes/parsing.h"
 #include <unistd.h>
+#include "../libft/libft.h"
+# include <readline/readline.h>
+# include <readline/history.h>
+
 
 void add_cmd_bis(t_parse *p,t_cmd *cmd)
 {
@@ -47,28 +51,25 @@ t_cmd *init_cmd(void)
 	cmd->in = -1;
 	cmd->out = -1;
 	cmd->append = 0;
-	//bzero(cmd,sizeof (t_cmd));
 	return (cmd);
 }
   
 int add_cmd(t_parse *p ,int start,int end)
 {
 	t_cmd *cmd;
-	
+	int size;
+	int i;
+
 	cmd = malloc(sizeof(t_cmd));
 	if(!cmd)
 		return(0);
 	bzero(cmd,sizeof (t_cmd));
-	//init_cmd(cmd);
-	int size;
 	size  = end-start;
-	//printf("%d\n",size);
 	if(size <= 0 && p->s[start] != '\0')
 		return(0);
 	cmd->s = malloc(sizeof(char)*size + 1);
 	if(!cmd->s)
 		return(0);
-	int i;
 	i = 0;
 	while(i < size)
 	{	
@@ -76,13 +77,12 @@ int add_cmd(t_parse *p ,int start,int end)
 		++i;
 	}
 	cmd->s[i] = '\0';
-	//printf("%s\n",cmd->s);
 	add_cmd_bis(p,cmd);
 	p->count = p->count + 1;
 	return(1);
 }
 
-t_parse *init_parse(t_dico *envp_dico)
+t_parse *init_parse(t_envp *envp_dico)
 {
 	t_parse *p;
 
@@ -90,7 +90,7 @@ t_parse *init_parse(t_dico *envp_dico)
 	if(!p)
 		return(NULL);
 	p->s = NULL;
-	p->dico = envp_dico;
+	p->envp = envp_dico;
 	p->count  = 0;
 	p->first = NULL;
 	p->last = NULL;
@@ -115,13 +115,26 @@ int double_quote_no_close(char *s,int *i)
 		return(1);
 	return(0);
 }
-/*
-int pide_at_end(i)
+
+int pipe_at_end(t_parse *p)
 {
+	char *input;
+	char *tmp;
+	int size;
 
-
+	input = readline("pipe>");
+	tmp = p->s;
+	size  = ft_strlen(input) + ft_strlen(p->s) + 1;
+	p->s = malloc(sizeof(char)*size);
+	if(!p->s)
+		return (0);
+	p->s[0] = '\0';
+	ft_strlcat(p->s,tmp,size);
+	ft_strlcat(p->s,input,size);
+	free(tmp);
+	return(1);	
 }
-*/
+
 int parse(char *input,t_parse *p)
 {
 	int i;
@@ -140,10 +153,9 @@ int parse(char *input,t_parse *p)
 			i = skip_space(p->s,i + 1);
 			if(p->s[i] == '\0')
 			{
-				printf("we meed to complete the pipe \n");
-				return(0);	
-			}
-		
+				if(!pipe_at_end(p))
+					return(0);
+			}	
 		}
 		if(p->s[i] == '\'')
 		{
@@ -164,7 +176,7 @@ int parse(char *input,t_parse *p)
 	return(1);
 }
 
-t_parse *parsing(char *input, t_dico *envp_dico)
+t_parse *parsing(char *input, t_envp *envp_dico)
 {
 	t_parse *p;
 	int	i;

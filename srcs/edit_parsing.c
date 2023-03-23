@@ -33,7 +33,6 @@ int to_word_end(char *s,int *i)
 	int size;
 	
 	size = *i;
-	printf("s : %s i : %d\n",s + *i,*i);
 	while(s[*i] && !is_special(s[*i]," "))
 	{
 		if(s[*i] == '\'')
@@ -43,9 +42,7 @@ int to_word_end(char *s,int *i)
 		if(s[*i])
 			*i = skip_to_X(s,*i,"\"\' ");	
 	}	
-	printf("s : %s i : %d\n",s + *i ,*i);
 	size = *i - size;
-	printf("%d\n",size);
 	return(size);
 }
 
@@ -56,9 +53,7 @@ int size_of_tab(char *s)
 	
 	count = 0;
 	i = 0 ;	
-	printf("i : %dWord of heredoc : |%s|\n",i,s + i);
 	i = skip_space(s,i);
-	printf("i : %dWord of heredoc : |%s|\n",i,s +i);
 	if(!s[i])
 		return(0);
 	while(s[i] != '\0')
@@ -75,7 +70,6 @@ int size_of_tab(char *s)
 		i = skip_space(s,i);	
 		count++;
 	}
-	printf("%d COUBEH\n",count);
 	return(count);
 }
 char **create_tab(char *s,int size)
@@ -86,8 +80,7 @@ char **create_tab(char *s,int size)
 	int nb;
 
 	if(!s)
-		return(NULL);
-	
+		return(NULL);	
 	nb = 0;
 	i = 0 ;	
 	i = skip_space(s,i);
@@ -99,7 +92,6 @@ char **create_tab(char *s,int size)
 	while(s[i])
 	{
 		size_w = to_word_end(s,&i);
-		printf("size_w : %d \n",size_w);
 		tmp[nb] = malloc(sizeof(char)*(size_w + 1));
 		if(!tmp[nb])
 		{
@@ -110,7 +102,6 @@ char **create_tab(char *s,int size)
 		i = skip_space(s,i);	
 		nb++;
 	}
-	printf("size : %d\n",size);
 	tmp[size] = NULL;
 	return(tmp);
 }
@@ -122,7 +113,6 @@ int split_cmd(t_parse *p)
 	current = p->first;	
 	while(current)
 	{
-		//printf("|%s| : %d\n",current->s,size_of_tab(current->s));
 		current->cmd = create_tab(current->s,size_of_tab(current->s));
 		current = current->next;
 	}
@@ -146,8 +136,8 @@ void display_cmd(t_cmd *cmd)
 			printf("  |%s|\n",cmd->cmd[i]);
 			++i;
 		}
-		printf("-------------------\n");
 	}
+	printf("-------------------\n");
 }
 
 void display_parse(t_parse *p)
@@ -173,7 +163,6 @@ int edit_parsing(t_parse *p)
 {
 	t_cmd *current;
 	int i;
-	//char c;
 
 	current = p->first;
 	while(current)
@@ -181,7 +170,6 @@ int edit_parsing(t_parse *p)
 		i = 0;
 		while(current->s[i])
 		{
-			printf("test current : %c\n",current->s[i]);
 			if(current->s[i] == '\'')		
 			{
 				i++;

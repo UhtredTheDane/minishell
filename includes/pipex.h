@@ -4,7 +4,7 @@
 # include "../libft/libft.h"
 # include "../includes/parsing.h"
 # include "envp.h"
-# include "config.h"
+# include "builtins.h"
 # include <unistd.h>
 # include <sys/types.h>
 # include <sys/stat.h>
@@ -38,7 +38,8 @@ char	*test_path(char **all_paths, char *cmd_0);
 char	*get_path(char *path, char *cmd_0);
 
 
+void	close_useless_pipes(t_parse *p, int num_read, int num_write);
+void close_all_pipes(t_parse *p);
 
-void delete_key(t_dico **envp, char *key);
 
 #endif

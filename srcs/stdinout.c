@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 16:07:38 by lloisel           #+#    #+#             */
-/*   Updated: 2023/03/14 18:11:32 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/03/23 16:21:16 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ int fill_stdout(t_cmd *cmd,int i)
 	}
 	while(cmd->s[i] && cmd->s[i] == ' ')
 		i++;
-
 	start_w = i;
 	while(cmd->s[i] && !is_special(cmd->s[i],"<> "))
 	{

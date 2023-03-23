@@ -24,24 +24,24 @@ typedef struct s_cmd {
 	int append;
 } t_cmd;
 
-typedef struct s_dico t_dico;
+typedef struct s_envp t_envp;
 
 typedef struct s_parse {
 	char *s;
 	int count;
-	t_dico *dico;
+	t_envp *envp;
 	int *pipes_fd;
 	struct s_cmd *first;	
 	struct s_cmd *last;	
 } t_parse;
 
-int replace_dollards(t_parse *p,t_dico *envp);
-int fill_env(t_cmd *cmd,t_dico *envp, int i);
+int replace_dollards(t_parse *p,t_envp *envp);
+int fill_env(t_cmd *cmd,t_envp *envp, int i);
 int is_special(char c,char *charset);
 int split_cmd(t_parse *p);
 int	execute(t_parse *p);
 int add_cmd(t_parse *p ,int start,int end);
-t_parse *parsing(char *input, t_dico *envp_dico);
+t_parse *parsing(char *input, t_envp *envp_dico);
 int fill_stdin(t_cmd *cmd,int i);
 int fill_stdout(t_cmd *cmd,int i);
 void display_parse(t_parse *p);
