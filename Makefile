@@ -15,15 +15,13 @@ CFLAGS = -Wall -Werror -Wextra -g
 NAME = minishell
 LIBFT = ./libft/libft.a
 SRC = $(wildcard srcs/*.c)
-BUILT = $(wildcard srcs/builtins/*.c)
-ENVP = $(wildcard srcs/envp/*.c)
+FOLDER = $(wildcard srcs/*/*.c)
 OBJ = $(SRC:.c=.o)
-OBJBUILT = $(BUILT:.c=.o)
-OBJENVP = $(ENVP:.c=.o)
+OBJFOLDER = $(FOLDER:.c=.o)
 
 all: $(NAME)
 
-$(NAME): $(OBJ) $(OBJBUILT) $(OBJENVP) $(LIBFT)
+$(NAME): $(OBJ) $(OBJFOLDER) $(LIBFT)
 	$(CC) $^ -o $@ -lreadline
 
 %.o: %.c

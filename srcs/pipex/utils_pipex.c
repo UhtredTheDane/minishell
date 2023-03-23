@@ -1,5 +1,4 @@
-#include "../includes/pipex.h"
-#include "../includes/parsing.h"
+#include "../../includes/pipex.h"
 
 void	clean_2d_tab(char **tab_2d)
 {
@@ -13,30 +12,6 @@ void	clean_2d_tab(char **tab_2d)
 		++i;
 	}
 	free(tab_2d);
-}
-
-char	*format_string(char *name_cmd)
-{
-	char	*temp;
-
-	temp = ft_strjoin("/", name_cmd);
-	if (!temp)
-		return (NULL);
-	free(name_cmd);
-	return (temp);
-}
-
-char	*find_path(char **envp, char *cmd, size_t i)
-{
-	char	*temp;
-
-	temp = get_path(envp[i] + 5, cmd);
-	if (!temp)
-	{
-		return (NULL);
-	}
-	free(cmd);
-	return (temp);
 }
 
 char	*test_path(char **all_paths, char *cmd_0)
@@ -69,4 +44,29 @@ char	*get_path(char *path, char *cmd_0)
 	cmd_path = test_path(all_paths, cmd_0);
 	clean_2d_tab(all_paths);
 	return (cmd_path);
+}
+
+void	close_useless_pipes(t_parse *p, int num_read, int num_write)
+{
+	int i;
+
+	i = 0;
+	while (i < (p->count - 1) * 2)
+	{
+		if (i != num_read && i != num_write)
+			close(p->pipes_fd[i]);
+		++i;
+	}
+}
+
+void close_all_pipes(t_parse *p)
+{
+	int i;
+
+	i = 0;
+	while (i < (p->count - 1) * 2)
+	{
+		close(p->pipes_fd[i]);
+		++i;
+	}
 }

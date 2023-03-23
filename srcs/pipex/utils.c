@@ -1,4 +1,5 @@
-#include "../includes/main.h"
+#include "../../includes/pipex.h"
+
 size_t	count_pipes(char *in_put)
 {
 	size_t	i;
