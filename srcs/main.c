@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 17:09:09 by agengemb          #+#    #+#             */
-/*   Updated: 2023/03/23 14:47:45 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/03/23 23:24:18 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,21 +49,6 @@ int	main(int argc, char **argv, char **envp)
 				return(0);
 
 			}	
-			//		display_parse(p);
-			if(!edit_parsing(p))
-			{
-				printf("parsing has been cancel for some reasons");
-				return(0);
-			}
-			if(!split_cmd(p))
-			{
-				printf("split failed for some reason");
-				return(0);
-			}
-			else
-			{
-				display_parse(p);
-			}
 			if (!execute(p))
 				printf("Execution foiree\n");
 

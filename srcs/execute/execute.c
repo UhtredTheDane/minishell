@@ -69,11 +69,11 @@ int manager(t_parse *p, t_cmd *cmd, int num_proc)
 	old_stdin = dup(0);
 	old_stdout = dup(1);
 	if (!redirect_stdin(p, cmd, num_read))
-		return (2)
+		return (2);
 	if (!redirect_stdout(p, cmd, num_write))
-		return (3)
+		return (3);
 	if (!execute_cmd(p, cmd, old_stdin, old_stdout))
-		return (4)
+		return (4);
 	/*if (num_write)
 			close(p->pipes_fd[num_write]);
 		if (num_read)
