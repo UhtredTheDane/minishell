@@ -68,16 +68,21 @@ t_dico  *create_dico(char **envp)
         ft_dicoadd(&dico, ft_diconew(key, value));
         ++i;
     }
-    lvl = getvalue(envp, "SHLVL");
-    if (!lvl)
-        ft_dicoadd(&dico, ft_diconew("SHLVL", "1"));
-    else
+    lvl = getvalue(dico, "SHLVL");
+    if (lvl == NULL)
+	{
+        	lvl = malloc(sizeof(char) * 2);
+		if (!lvl)
+			return (NULL);
+		ft_strlcpy(lvl, "1", 2);
+		ft_dicoadd(&dico, ft_diconew("SHLVL", lvl));
+    	}
+	else
     {
-        tempo_lvl = ft_atoa(lvl);
-        ++tempo_lvl;
-        lvl = ft_itoa(tempo_lvl);
-        fre(tempo_lvl);
-        set_value(dico, "SHLVL", lvl);
+        tempo_lvl = ft_atoi(lvl);
+	++tempo_lvl;
+	lvl = ft_itoa(tempo_lvl);
+	set_value(dico, "SHLVL", lvl);
     }
     return (dico);
 }
@@ -179,10 +184,10 @@ void delete_key(t_dico **envp, char *key)
         elem = *envp;
         while (elem)
         {
-            if(ft_strlen(key) > ft_strlen(envp->key))
+            if(ft_strlen(key) > ft_strlen(elem->key))
         	    size_key = ft_strlen(key);
              else
-        	    size_key = ft_strlen(envp->key);
+        	    size_key = ft_strlen(elem->key);
             if (ft_strncmp(elem->key, key, size_key) == 0)
             {
                free(elem->key);
