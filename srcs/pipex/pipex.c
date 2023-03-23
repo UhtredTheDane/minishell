@@ -31,20 +31,13 @@ char	*make_cmd(t_parse *p, char *name_cmd)
 	return (tempo_cmd);
 }
 
-char *search_cmd(t_parse *p, t_cmd *cmd, int num_read, int num_write)
+char *search_cmd(t_parse *p, t_cmd *cmd)
 {
 	char	*cmd_name;
 
 	cmd_name = make_cmd(p, cmd->cmd[0]);
 	if (!cmd_name)
-	{
-		if (num_write)
-			close(p->pipes_fd[num_write]);
-		if (num_read)
-			close(p->pipes_fd[num_read]);
-		free(p->pipes_fd);
 		return (NULL);
-	}
 	return (cmd_name);
 }
 

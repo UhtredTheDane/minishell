@@ -21,7 +21,7 @@ char	**ft_split(char const *s, char c);
 
 
 char	*make_cmd(t_parse *p, char *name_cmd);
-char *search_cmd(t_parse *p, t_cmd *cmd, int num_read, int num_write);
+char *search_cmd(t_parse *p, t_cmd *cmd);
 int	run_pipe(t_parse *p);
 size_t	count_pipes(char *in_put);
 void waiting_all_sons(size_t nb_sons);

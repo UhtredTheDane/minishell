@@ -1,19 +1,7 @@
 #include "../../includes/execute.h"
 
-int manager(t_parse *p, t_cmd *cmd, int num_proc)
-{
-	int num_write;
-	int num_read;
-
-	int flags;
-
-	int old_stdin;
-	int old_stdout;
-
-	set_num_pipe(p, &num_read, &num_write, num_proc);
-	close_useless_pipes(p, num_read, num_write);
-	old_stdin = dup(0);
-	old_stdout = dup(1);
+int redirect_stdin(t_parse *p, t_cmd *cmd, int num_read)
+{ 
 	if (cmd->filename_in)
 	{
 		cmd->in = open(cmd->filename_in, O_RDONLY);
@@ -22,7 +10,14 @@ int manager(t_parse *p, t_cmd *cmd, int num_proc)
 	}
 	else
 		if (!link_stdin(p, num_read))
-			return(2);
+			return(0);
+	return (1);
+}
+
+int redirect_stdout(t_parse *p, t_cmd *cmd, int num_write)
+{
+	int flags;
+
 	if (cmd->filename_out)
 	{
 		flags = O_WRONLY | O_CREAT;
@@ -37,21 +32,54 @@ int manager(t_parse *p, t_cmd *cmd, int num_proc)
 	}
 	else
 		if (!link_stdout(p, num_write))
-			return(3);
+			return(0);
+	return (1);
+}
+
+int execute_cmd(t_parse *p, t_cmd *cmd, int old_stdin, int old_stdout)
+{
 	if (execute_builtin(p, cmd))
 	{
 		dup2(old_stdin, 0);
 		dup2(old_stdout, 1);
-		return(0);
+		return(1);
 	}
 	else
 	{
-		cmd->cmd[0] = search_cmd(p, cmd, num_read, num_write);
+		cmd->cmd[0] = search_cmd(p, cmd);
 		if (!cmd->cmd[0])
-			return(1);
+		{
+			//free
+			return(0);
+		}
 		execve(cmd->cmd[0], cmd->cmd, create_envp_tab(p->envp));//attetion bien free
 	}
-	return(4);
+	return (0);
+}
+
+int manager(t_parse *p, t_cmd *cmd, int num_proc)
+{
+	int num_write;
+	int num_read;
+	int old_stdin;
+	int old_stdout;
+
+	set_num_pipe(p, &num_read, &num_write, num_proc);
+	close_useless_pipes(p, num_read, num_write);
+	old_stdin = dup(0);
+	old_stdout = dup(1);
+	if (!redirect_stdin(p, cmd, num_read))
+		return (2)
+	if (!redirect_stdout(p, cmd, num_write))
+		return (3)
+	if (!execute_cmd(p, cmd, old_stdin, old_stdout))
+		return (4)
+	/*if (num_write)
+			close(p->pipes_fd[num_write]);
+		if (num_read)
+			close(p->pipes_fd[num_read]);
+		free(p->pipes_fd);*/
+	return (0);
 }
 
 int	execute(t_parse *p)
