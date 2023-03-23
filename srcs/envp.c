@@ -21,6 +21,7 @@ char **create_envp_tab(t_dico *dico)
     int nb_env;
     int i;
     char *temp;
+
     nb_env = ft_dicosize(dico);
     envp = malloc(sizeof(char *) * (nb_env + 1));
     if (!envp)
@@ -46,15 +47,18 @@ t_dico  *create_dico(char **envp)
     t_dico *dico;
     size_t keylen;
     size_t valuelen;
-
+    char *lvl;
+    int tempo_lvl;
     i = 0;
     dico = NULL;
+   
     while (envp[i])
     {
         keylen = egal_pos(envp[i]);
         key = malloc(sizeof(char) * (keylen + 1));
         if (!key)
             return (NULL);
+        
         ft_strlcpy(key, envp[i], keylen + 1);
         valuelen = ft_strlen(envp[i] + keylen + 1);
         value = malloc(sizeof(char) * (valuelen + 1));
@@ -63,6 +67,17 @@ t_dico  *create_dico(char **envp)
         ft_strlcpy(value, envp[i] + keylen + 1, valuelen + 1);
         ft_dicoadd(&dico, ft_diconew(key, value));
         ++i;
+    }
+    lvl = getvalue(envp, "SHLVL");
+    if (!lvl)
+        ft_dicoadd(&dico, ft_diconew("SHLVL", "1"));
+    else
+    {
+        tempo_lvl = ft_atoa(lvl);
+        ++tempo_lvl;
+        lvl = ft_itoa(tempo_lvl);
+        fre(tempo_lvl);
+        set_value(dico, "SHLVL", lvl);
     }
     return (dico);
 }
@@ -100,7 +115,10 @@ int   set_value(t_dico *envp, char *key, char *value)
 
     while (envp)
     {
-        size_key = ft_strlen(envp->key);
+        if(ft_strlen(key) > ft_strlen(envp->key))
+        	size_key = ft_strlen(key);
+        else
+        	size_key = ft_strlen(envp->key);
         if (ft_strncmp(envp->key, key, size_key) == 0)
         {
             free(envp->value);
@@ -161,7 +179,10 @@ void delete_key(t_dico **envp, char *key)
         elem = *envp;
         while (elem)
         {
-            size_key = ft_strlen(elem->key);
+            if(ft_strlen(key) > ft_strlen(envp->key))
+        	    size_key = ft_strlen(key);
+             else
+        	    size_key = ft_strlen(envp->key);
             if (ft_strncmp(elem->key, key, size_key) == 0)
             {
                free(elem->key);
