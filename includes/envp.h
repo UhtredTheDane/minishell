@@ -24,6 +24,9 @@ size_t  egal_pos(char *key);
 char **create_envp_tab(t_envp *envp);
 int	ft_envp_size(t_envp *envp);
 
+char *create_key(char *str, size_t key_len);
+int create_entries(char *str, char **key, char **value);
+char *create_value(char *str, size_t value_len);
 
 
 

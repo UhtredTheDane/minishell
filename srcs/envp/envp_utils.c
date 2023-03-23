@@ -62,3 +62,25 @@ int	ft_envp_size(t_envp *envp)
 	}
 	return (size);
 }
+
+char *create_key(char *str, size_t key_len)
+{
+    char *key;
+
+    key = malloc(sizeof(char) * (key_len + 1));
+    if (!key)
+        return (NULL);
+    ft_strlcpy(key, str, key_len + 1);
+    return (key);
+}
+
+char *create_value(char *str, size_t key_len, size_t value_len)
+{
+    char *value;
+
+    value = malloc(sizeof(char) * (value_len + 1));
+    if (!value)
+        return (NULL);
+    ft_strlcpy(value, str + key_len + 1, value_len + 1);
+    return (value);
+}

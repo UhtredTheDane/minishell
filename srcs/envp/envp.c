@@ -37,28 +37,6 @@ int update_shlvl(t_envp *shell_envp)
     return (1);
 }
 
-char *create_key(char *str, size_t key_len)
-{
-    char *key;
-
-    key = malloc(sizeof(char) * (key_len + 1));
-    if (!key)
-        return (NULL);
-    ft_strlcpy(key, str, key_len + 1);
-    return (key);
-}
-
-char *create_value(char *str, size_t value_len)
-{
-    char *value;
-
-    value = malloc(sizeof(char) * (value_len + 1));
-    if (!value)
-        return (NULL);
-    ft_strlcpy(value, str + key_len + 1, value_len + 1);
-    return (value);
-}
-
 int create_entries(char *str, char **key, char **value)
 {
     size_t key_len;
@@ -69,7 +47,7 @@ int create_entries(char *str, char **key, char **value)
     *key = create_key(str, key_len);
     if (!*key)
         return (0);
-    *value = create_value(str, value_len);
+    *value = create_value(str, key_len, value_len);
     if (!*value)
         return (0);
     return (1);
