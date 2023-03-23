@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 16:07:38 by lloisel           #+#    #+#             */
-/*   Updated: 2023/03/23 16:21:16 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/03/23 20:02:52 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,16 +37,13 @@ char *trimming(int op,t_cmd *cmd,int start,int end)
 	int		size;
 	int		i;
 
-	i = 0;
+	i = -1;
 	size = end-start;
 	if(size <= 0)
 		return(NULL);
 	name = malloc(sizeof(char)* (size)+1);
-	while(i < size)
-	{
+	while(++i < size)
 		name[i] = cmd->s[start + i];
-		i++;
-	}
 	name[i] ='\0';
 	cmd->s[op] = '\0';
 	tmp = cmd->s;
@@ -73,23 +70,14 @@ int fill_stdout(t_cmd *cmd,int i)
 		cmd->append = 1;
 		i++;
 	}
-	while(cmd->s[i] && cmd->s[i] == ' ')
-		i++;
+	i = skip_space(cmd->s,i);	
 	start_w = i;
 	while(cmd->s[i] && !is_special(cmd->s[i],"<> "))
 	{
 		if(cmd->s[i] == '\'')
-		{
-			i++;
-			while(cmd->s[i] && cmd->s[i] != '\'')
-				i++;
-		}
+			i = skip_to_X(cmd->s,i,"\'");
 		else if(cmd->s[i] == '\"')
-		{
-			i++;
-			while(cmd->s[i] && cmd->s[i] != '\"')
-				i++;
-		}
+			i = skip_to_X(cmd->s,i,"\"");
 		i++;
 	}
 	if(is_special(cmd->s[i],"<> ") && start_w == i)

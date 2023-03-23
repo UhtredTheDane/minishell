@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 13:17:21 by lloisel           #+#    #+#             */
-/*   Updated: 2023/03/23 15:02:17 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/03/23 20:02:19 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ t_cmd *init_cmd(void)
 	cmd->append = 0;
 	return (cmd);
 }
-  
+
 int add_cmd(t_parse *p ,int start,int end)
 {
 	t_cmd *cmd;
@@ -100,8 +100,9 @@ t_parse *init_parse(t_dico *envp_dico)
 
 int single_quote_no_close(char *s,int *i)
 {
+	*i = *i + 1;
 	while(s[*i] != '\0' && s[*i] !='\'')
-				*i = *i +1;
+		*i = *i +1;
 	if(s[*i] == '\0')
 		return(1);
 	return(0);
@@ -109,8 +110,9 @@ int single_quote_no_close(char *s,int *i)
 
 int double_quote_no_close(char *s,int *i)
 {
+	*i = *i + 1;
 	while(s[*i] != '\0' && s[*i] !='\"')
-				*i = *i +1;
+		*i = *i +1;
 	if(s[*i] == '\0')
 		return(1);
 	return(0);
@@ -134,42 +136,45 @@ int pipe_at_end(t_parse *p)
 	free(tmp);
 	return(1);	
 }
+int parse_bis(t_parse *p,int *i,int *start_w)
+{
+	if(p->s[*i] == '|')
+	{
+		if(!add_cmd(p,*start_w,*i))
+			return(0);
+		*start_w = *i + 1;
+		*i = skip_space(p->s,*i + 1);
+		if(p->s[*i] == '\0')
+		{
+			if(!pipe_at_end(p))
+				return(0);
+		}	
+	}
+	if(p->s[*i] == '\'')
+	{
+		if(single_quote_no_close(p->s,i))	
+			return(0);
+	}
+	if(p->s[*i] == '\"')
+	{
+		if(double_quote_no_close(p->s,i))	
+			return(0);
+	}
+	return(1);
+}
 
 int parse(char *input,t_parse *p)
 {
 	int i;
 	int start_w;
 
-	i = 0;
+	i = -1;
 	start_w = 0;
 	p->s = input;
-	while(p->s[i] && p->s[i] != '\0')
+	while(p->s[++i] && p->s[i] != '\0')
 	{
-		if(p->s[i] == '|')
-		{
-			if(!add_cmd(p,start_w,i))
-				return(0);
-			start_w = i + 1;
-			i = skip_space(p->s,i + 1);
-			if(p->s[i] == '\0')
-			{
-				if(!pipe_at_end(p))
-					return(0);
-			}	
-		}
-		if(p->s[i] == '\'')
-		{
-			i++;
-			if(single_quote_no_close(p->s,&i))	
-				return(0);
-		}
-		if(p->s[i] == '\"')
-		{
-			i++;
-			if(double_quote_no_close(p->s,&i))	
-				return(0);
-		}
-		++i;
+		if(!parse_bis(p,&i,&start_w))
+			return(0);
 	}
 	if(!add_cmd(p,start_w,i))
 		return(0);
@@ -200,24 +205,11 @@ t_parse *parsing(char *input, t_dico *envp_dico)
 		if (pipe(p->pipes_fd + i) == -1)
 		{
 			/*config->pipes_nb = i / 2;
-            close_all_pipes(config);
-            free(config->pipes_fd);
-			return (0);*/
+			  close_all_pipes(config);
+			  free(config->pipes_fd);
+			  return (0);*/
 		}
 		i += 2;
 	}
-	return (p);
-	/*else 
-	{
-		printf("count :%d\n",p->count);	
-		t_cmd *current;
-		printf("printf all : \n");
-		current = p->first;
-
-		while(current)
-		{
-			printf("%s\n",current->s);
-			current = current->next;
-		}
-	}*/
+	return (p);	
 }

@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 16:47:53 by lloisel           #+#    #+#             */
-/*   Updated: 2023/03/23 15:57:34 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/03/23 19:18:46 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,17 +42,14 @@ int max(char *input,char *word)
 		return(ft_strlen(input));
 	return (ft_strlen(word));
 }
-char *here_doc(t_cmd *cmd,int i,int op)
+
+char *get_heredoc(char *word)
 {
-	char *word;
 	char *value;
 	char *input;
 	char *tmp;
 	int size;
 
-	word = get_name(cmd,i,op);
-	if(!word)
-		return(NULL);
 	input = readline("Heredoc>");
 	tmp = "";
 	value = "";
@@ -71,9 +68,18 @@ char *here_doc(t_cmd *cmd,int i,int op)
 		ft_strlcat(value,"\n",size);
 		input = readline("Heredoc>");
 	}
-	return (value);
-		
+	return (value);	
 }
+char *here_doc(t_cmd *cmd,int i,int op)
+{
+	char *word;
+	
+	word = get_name(cmd,i,op);
+	if(!word)
+		return(NULL);
+	return (get_heredoc(word));
+}
+
 int simple_stdin(t_cmd * cmd , int i,int op)
 {
 		

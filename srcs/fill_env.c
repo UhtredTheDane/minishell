@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 18:48:43 by lloisel           #+#    #+#             */
-/*   Updated: 2023/03/16 12:23:46 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/03/23 19:18:42 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ char *get_key(t_cmd *cmd ,t_dico *envp,int i,int end)
 	char *key;
 	int index;
 	char *tmp;
+
 	index = 0;
 	if(end - i <= 0)
 		return(NULL);
@@ -60,11 +61,11 @@ int change_dollard(t_cmd *cmd,int i, t_dico *envp)
 {
 	int end;
 	char *value;
-	
+
 	end = i;
 	end++;
 	if(is_special(cmd->s[end],"<> \""))
-			return(1);
+		return(1);
 	else
 		cmd->s[i] = '\0';
 	if(cmd->s[end] && cmd->s[end] == '?')
@@ -78,9 +79,33 @@ int change_dollard(t_cmd *cmd,int i, t_dico *envp)
 	if(!value)
 		return(0);
 	cmd->s = big_join(cmd->s,value,cmd->s +end );
-	//free(value);
-	//display_cmd(cmd);	
 	return(1);
+}
+
+int replace_dollards_current(t_cmd *current,int i,t_dico *envp)
+{
+	while(current->s[++i])
+	{
+		if(current->s[i] == '$')
+		{
+			if(!change_dollard(current,i,envp))
+				return(0);
+		}
+		if(current->s[i] == '\'')
+			i = skip_to_X(current->s,i+1,"\'");
+		if(current->s[i] == '\"')
+		{
+			while(current->s[++i] && current->s[i] != '\"')
+			{
+				if(current->s[i] == '$')
+				{
+					if(!change_dollard(current,i,envp))
+						return(0);
+				}
+			}
+		}
+	}
+	return (1);
 }
 
 int replace_dollards(t_parse *p,t_dico *envp)
@@ -91,35 +116,9 @@ int replace_dollards(t_parse *p,t_dico *envp)
 	current = p->first;
 	while(current)
 	{
-		i = 0;
-		while(current->s[i])
-		{
-			if(current->s[i] == '$')
-			{
-				if(!change_dollard(current,i,envp))
-							return(0);
-			}
-			if(current->s[i] == '\'')
-			{
-				i++;
-				while(current->s[i] && current->s[i] != '\'')
-					i++;
-			}
-			if(current->s[i] == '\"')
-			{
-				i++;
-				while(current->s[i] && current->s[i] != '\"')
-				{
-					if(current->s[i] == '$')
-					{
-						if(!change_dollard(current,i,envp))
-							return(0);
-					}
-					i++;
-				}
-			}
-			i++;
-		}
+		i = -1;
+		if(!replace_dollards_current(current,i,envp))
+			return (0);
 		current = current->next;
 	}
 	return(1);

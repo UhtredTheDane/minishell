@@ -16,9 +16,9 @@
 
 int skip_space(char *s,int i)
 {
-		while(s[i] && is_special(s[i]," "))
-			i++;	
-		return (i);
+	while(s[i] && is_special(s[i]," "))
+		i++;	
+	return (i);
 }
 
 int skip_to_X(char *s,int i,char *charset)
@@ -31,7 +31,7 @@ int skip_to_X(char *s,int i,char *charset)
 int to_word_end(char *s,int *i)
 {	
 	int size;
-	
+
 	size = *i;
 	while(s[*i] && !is_special(s[*i]," "))
 	{
@@ -50,7 +50,7 @@ int size_of_tab(char *s)
 {
 	int i;
 	int count;
-	
+
 	count = 0;
 	i = 0 ;	
 	i = skip_space(s,i);
@@ -72,36 +72,42 @@ int size_of_tab(char *s)
 	}
 	return(count);
 }
+
+int fill_cell(char *s,int *i,char **tmp)
+{
+	int nb;
+	int size_w;
+
+	nb = 0;
+	while(s[*i])
+	{
+		size_w = to_word_end(s,i);
+		tmp[nb] = malloc(sizeof(char)*(size_w + 1));
+		if(!tmp[nb])
+			return(clean_2d_tab(tmp),0);
+		ft_strlcpy(tmp[nb],s + *i - size_w ,size_w + 1);
+		*i = skip_space(s,*i);	
+		nb++;
+	}
+	return(1);
+}
+
 char **create_tab(char *s,int size)
 {
 	int i;
-	int size_w;
 	char **tmp;
-	int nb;
 
 	if(!s)
 		return(NULL);	
-	nb = 0;
 	i = 0 ;	
 	i = skip_space(s,i);
 	if(!(*(s + i)))
 		return(NULL);	
 	tmp = malloc(sizeof(char *)*(size + 1));
 	if(!tmp)
+		return(NULL);	
+	if(!fill_cell(s,&i,tmp))
 		return(NULL);
-	while(s[i])
-	{
-		size_w = to_word_end(s,&i);
-		tmp[nb] = malloc(sizeof(char)*(size_w + 1));
-		if(!tmp[nb])
-		{
-			
-			return(clean_2d_tab(tmp),NULL);
-		}
-		ft_strlcpy(tmp[nb],s + i - size_w ,size_w + 1);
-		i = skip_space(s,i);	
-		nb++;
-	}
 	tmp[size] = NULL;
 	return(tmp);
 }
@@ -159,42 +165,42 @@ void display_parse(t_parse *p)
 	printf("\n");
 }
 
+int edit_current(t_cmd *current)
+{
+	int i;
+
+	i = 0;
+	while(current->s[i])
+	{
+		if(current->s[i] == '\'')		
+			i = skip_to_X(current->s, i + 1, "\'") + 1;			
+		if(current->s[i] == '\"')
+			i = skip_to_X(current->s, i + 1, "\"") + 1;			
+		if(current->s[i] == '<')
+		{
+			if(!fill_stdin(current,i))
+				return(0);
+		}
+		else if(current->s[i] == '>')
+		{
+			if(!fill_stdout(current,i))
+				return(0);		
+		}
+		else
+			i++;
+	}
+	return(1);
+}
+
 int edit_parsing(t_parse *p)
 {
 	t_cmd *current;
-	int i;
 
 	current = p->first;
 	while(current)
 	{
-		i = 0;
-		while(current->s[i])
-		{
-			if(current->s[i] == '\'')		
-			{
-				i++;
-				while(current->s[i] && current->s[i] != '\'')
-					i++;
-			}			
-			if(current->s[i] == '\"')
-			{
-				i++;
-				while(current->s[i] && current->s[i] != '\"')
-						i++;
-			}	
-			if(current->s[i] == '<')
-			{
-				if(!fill_stdin(current,i))
-					return(0);
-			}
-			else if(current->s[i] == '>')
-			{
-				if(!fill_stdout(current,i))
-					return(0);		
-			}
-			else
-				i++;
-		}
+		if(!edit_current(current))
+			return (0);
 		current = current->next;
 	}
 	return(1);
