@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 16:47:53 by lloisel           #+#    #+#             */
-/*   Updated: 2023/03/19 11:16:07 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/03/23 15:57:34 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ char *here_doc(t_cmd *cmd,int i,int op)
 	int size;
 
 	word = get_name(cmd,i,op);
-	printf("Word of heredoc : |%s|\n",word);
 	if(!word)
 		return(NULL);
 	input = readline("Heredoc>");
@@ -72,7 +71,6 @@ char *here_doc(t_cmd *cmd,int i,int op)
 		ft_strlcat(value,"\n",size);
 		input = readline("Heredoc>");
 	}
-	printf("Value Heredoc:  |%s|\n",value);	
 	return (value);
 		
 }

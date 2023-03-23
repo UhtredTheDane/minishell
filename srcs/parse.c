@@ -51,28 +51,25 @@ t_cmd *init_cmd(void)
 	cmd->in = -1;
 	cmd->out = -1;
 	cmd->append = 0;
-	//bzero(cmd,sizeof (t_cmd));
 	return (cmd);
 }
   
 int add_cmd(t_parse *p ,int start,int end)
 {
 	t_cmd *cmd;
-	
+	int size;
+	int i;
+
 	cmd = malloc(sizeof(t_cmd));
 	if(!cmd)
 		return(0);
 	bzero(cmd,sizeof (t_cmd));
-	//init_cmd(cmd);
-	int size;
 	size  = end-start;
-	//printf("%d\n",size);
 	if(size <= 0 && p->s[start] != '\0')
 		return(0);
 	cmd->s = malloc(sizeof(char)*size + 1);
 	if(!cmd->s)
 		return(0);
-	int i;
 	i = 0;
 	while(i < size)
 	{	
@@ -80,7 +77,6 @@ int add_cmd(t_parse *p ,int start,int end)
 		++i;
 	}
 	cmd->s[i] = '\0';
-	//printf("%s\n",cmd->s);
 	add_cmd_bis(p,cmd);
 	p->count = p->count + 1;
 	return(1);
@@ -159,8 +155,7 @@ int parse(char *input,t_parse *p)
 			{
 				if(!pipe_at_end(p))
 					return(0);
-			}
-		
+			}	
 		}
 		if(p->s[i] == '\'')
 		{
