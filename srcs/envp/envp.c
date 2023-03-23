@@ -12,54 +12,86 @@
 
 #include "../../includes/envp.h"
 
-t_envp  *create_shell_envp(char **envp)
+int update_shlvl(t_envp *shell_envp)
 {
-    size_t  i;
-    char *key;
-    char *value;
-    t_envp *shell_envp;
-    size_t keylen;
-    size_t valuelen;
-    char *lvl;
+    char *lvl;  
     int tempo_lvl;
-    i = 0;
-    shell_envp = NULL;
-   
-    while (envp[i])
-    {
-        keylen = egal_pos(envp[i]);
-        key = malloc(sizeof(char) * (keylen + 1));
-        if (!key)
-            return (NULL);
-        
-        ft_strlcpy(key, envp[i], keylen + 1);
-        valuelen = ft_strlen(envp[i] + keylen + 1);
-        value = malloc(sizeof(char) * (valuelen + 1));
-        if (!value)
-            return (NULL);
-        ft_strlcpy(value, envp[i] + keylen + 1, valuelen + 1);
-        ft_envp_add(&shell_envp, ft_envp_new(key, value));
-        ++i;
-    }
-
-
 
     lvl = get_value(shell_envp, "SHLVL");
     if (lvl == NULL)
 	{
-        	lvl = malloc(sizeof(char) * 2);
+        lvl = malloc(sizeof(char) * 2);
 		if (!lvl)
-			return (NULL);
+			return (0);
 		ft_strlcpy(lvl, "1", 2);
 		ft_envp_add(&shell_envp, ft_envp_new("SHLVL", lvl));
-    	}
+    }
 	else
     {
         tempo_lvl = ft_atoi(lvl);
-	++tempo_lvl;
-	lvl = ft_itoa(tempo_lvl);
-	set_value(shell_envp, "SHLVL", lvl);
+	    ++tempo_lvl;
+	    lvl = ft_itoa(tempo_lvl);
+	    if (!set_value(shell_envp, "SHLVL", lvl))
+            return (0);
     }
+    return (1);
+}
+
+char *create_key(char *str, size_t key_len)
+{
+    char *key;
+
+    key = malloc(sizeof(char) * (key_len + 1));
+    if (!key)
+        return (NULL);
+    ft_strlcpy(key, str, key_len + 1);
+    return (key);
+}
+
+char *create_value(char *str, size_t value_len)
+{
+    char *value;
+
+    value = malloc(sizeof(char) * (value_len + 1));
+    if (!value)
+        return (NULL);
+    ft_strlcpy(value, str + key_len + 1, value_len + 1);
+    return (value);
+}
+
+int create_entries(char *str, char **key, char **value)
+{
+    size_t key_len;
+    size_t value_len;
+
+    key_len = egal_pos(str);
+    value_len = ft_strlen(str + key_len + 1);
+    *key = create_key(str, key_len);
+    if (!*key)
+        return (0);
+    *value = create_value(str, value_len);
+    if (!*value)
+        return (0);
+    return (1);
+}
+
+t_envp  *create_shell_envp(char **envp)
+{
+    t_envp *shell_envp;
+    char *key;
+    char *value;
+    size_t  i;
+    
+    i = 0;
+    shell_envp = NULL;
+    while (envp[i])
+    {
+        if (!create_entries(envp[i], &key, &value))
+            return (NULL);//avoir
+        ft_envp_add(&shell_envp, ft_envp_new(key, value));
+        ++i;
+    }
+    update_shlvl(shell_envp);
     return (shell_envp);
 }
 
@@ -76,7 +108,7 @@ t_envp	*ft_envp_new(char *key, char *value)
 	return (res);
 }
 
-void	ft_envp_add(t_envp**lst, t_envp *new)
+void	ft_envp_add(t_envp **lst, t_envp *new)
 {
 	t_envp	*elem;
 

@@ -2,7 +2,6 @@
 
 #define PATH_MAX 4000
 
-
 int is_builtin(t_cmd *cmd)
 {
     if (ft_strncmp(cmd->cmd[0], "cd", 2) == 0)

@@ -82,11 +82,7 @@ int change_dollard(t_cmd *cmd,int i, t_envp *envp)
 	return(1);
 }
 
-<<<<<<< HEAD
-int replace_dollards_current(t_cmd *current,int i,t_dico *envp)
-=======
-int replace_dollards(t_parse *p,t_envp *envp)
->>>>>>> origin/alex
+int replace_dollards_current(t_cmd *current,int i,t_envp *envp)
 {
 	while(current->s[++i])
 	{
@@ -112,7 +108,7 @@ int replace_dollards(t_parse *p,t_envp *envp)
 	return (1);
 }
 
-int replace_dollards(t_parse *p,t_dico *envp)
+int replace_dollards(t_parse *p,t_envp *envp)
 {
 	t_cmd *current;
 	int i;
