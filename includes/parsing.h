@@ -9,8 +9,9 @@
 /* ************************************************************************** */
   
 #ifndef PARSING_H
-#define PARSING_H
- # include "envp.h"
+# define PARSING_H
+
+# include "envp.h"
 
 typedef struct s_cmd {
 	char *s;

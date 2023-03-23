@@ -6,7 +6,7 @@
 #    By: agengemb <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/21 16:23:39 by agengemb          #+#    #+#              #
-#    Updated: 2023/03/23 18:11:46 by agengemb         ###   ########.fr        #
+#    Updated: 2023/03/23 22:40:30 by agengemb         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,6 +34,7 @@ clean:
 	make -C libft clean
 	rm -rf $(LIBFT)
 	rm -rf $(OBJ)
+	rm -rf $(OBJFOLDER)
 
 fclean: clean
 	rm -rf $(NAME)

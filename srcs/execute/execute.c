@@ -1,3 +1,5 @@
+#include "../../includes/execute.h"
+
 int manager(t_parse *p, t_cmd *cmd, int num_proc)
 {
 	int num_write;
