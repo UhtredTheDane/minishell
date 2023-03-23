@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 13:17:21 by lloisel           #+#    #+#             */
-/*   Updated: 2023/03/22 20:59:40 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/03/23 15:02:17 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,10 @@
 #include <stdlib.h>
 #include "../includes/parsing.h"
 #include <unistd.h>
+#include "../libft/libft.h"
+# include <readline/readline.h>
+# include <readline/history.h>
+
 
 void add_cmd_bis(t_parse *p,t_cmd *cmd)
 {
@@ -115,13 +119,26 @@ int double_quote_no_close(char *s,int *i)
 		return(1);
 	return(0);
 }
-/*
-int pide_at_end(i)
+
+int pipe_at_end(t_parse *p)
 {
+	char *input;
+	char *tmp;
+	int size;
 
-
+	input = readline("pipe>");
+	tmp = p->s;
+	size  = ft_strlen(input) + ft_strlen(p->s) + 1;
+	p->s = malloc(sizeof(char)*size);
+	if(!p->s)
+		return (0);
+	p->s[0] = '\0';
+	ft_strlcat(p->s,tmp,size);
+	ft_strlcat(p->s,input,size);
+	free(tmp);
+	return(1);	
 }
-*/
+
 int parse(char *input,t_parse *p)
 {
 	int i;
@@ -140,8 +157,8 @@ int parse(char *input,t_parse *p)
 			i = skip_space(p->s,i + 1);
 			if(p->s[i] == '\0')
 			{
-				printf("we meed to complete the pipe \n");
-				return(0);	
+				if(!pipe_at_end(p))
+					return(0);
 			}
 		
 		}
