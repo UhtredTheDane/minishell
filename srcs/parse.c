@@ -82,7 +82,7 @@ int add_cmd(t_parse *p ,int start,int end)
 	return(1);
 }
 
-t_parse *init_parse(t_dico *envp_dico)
+t_parse *init_parse(t_envp *envp_dico)
 {
 	t_parse *p;
 
@@ -90,7 +90,7 @@ t_parse *init_parse(t_dico *envp_dico)
 	if(!p)
 		return(NULL);
 	p->s = NULL;
-	p->dico = envp_dico;
+	p->envp = envp_dico;
 	p->count  = 0;
 	p->first = NULL;
 	p->last = NULL;
@@ -176,7 +176,7 @@ int parse(char *input,t_parse *p)
 	return(1);
 }
 
-t_parse *parsing(char *input, t_dico *envp_dico)
+t_parse *parsing(char *input, t_envp *envp_dico)
 {
 	t_parse *p;
 	int	i;
