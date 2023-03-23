@@ -11,19 +11,6 @@ char	*format_string(char *name_cmd)
 	return (temp);
 }
 
-char	*find_path(char **envp, char *cmd, size_t i)
-{
-	char	*temp;
-
-	temp = get_path(envp[i] + 5, cmd);
-	if (!temp)
-	{
-		return (NULL);
-	}
-	free(cmd);
-	return (temp);
-}
-
 char	*make_cmd(t_parse *p, char *name_cmd)
 {
 	char	*cmd;
@@ -60,6 +47,19 @@ char *search_cmd(t_parse *p, t_cmd *cmd, int num_read, int num_write)
 	}
 	return (cmd_name);
 }
+
+void waiting_all_sons(size_t nb_sons)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < nb_sons)
+	{
+		waitpid(-1, NULL, 0);
+		++i;
+	}
+}
+
 int	run_pipe(t_parse *p)
 {
 	int	i;

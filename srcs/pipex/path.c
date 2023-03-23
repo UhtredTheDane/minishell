@@ -1,19 +1,5 @@
 #include "../../includes/pipex.h"
 
-void	clean_2d_tab(char **tab_2d)
-{
-	size_t	i;
-
-	i = 0;
-	while (tab_2d[i])
-	{
-		if (tab_2d[i])
-			free(tab_2d[i]);
-		++i;
-	}
-	free(tab_2d);
-}
-
 char	*test_path(char **all_paths, char *cmd_0)
 {
 	size_t	i;
@@ -46,27 +32,15 @@ char	*get_path(char *path, char *cmd_0)
 	return (cmd_path);
 }
 
-void	close_useless_pipes(t_parse *p, int num_read, int num_write)
+char	*find_path(char **envp, char *cmd, size_t i)
 {
-	int i;
+	char	*temp;
 
-	i = 0;
-	while (i < (p->count - 1) * 2)
+	temp = get_path(envp[i] + 5, cmd);
+	if (!temp)
 	{
-		if (i != num_read && i != num_write)
-			close(p->pipes_fd[i]);
-		++i;
+		return (NULL);
 	}
-}
-
-void close_all_pipes(t_parse *p)
-{
-	int i;
-
-	i = 0;
-	while (i < (p->count - 1) * 2)
-	{
-		close(p->pipes_fd[i]);
-		++i;
-	}
+	free(cmd);
+	return (temp);
 }

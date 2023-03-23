@@ -11,6 +11,20 @@
 /* ************************************************************************** */
 #include "../includes/pipex.h"
 
+void	clean_2d_tab(char **tab_2d)
+{
+	size_t	i;
+
+	i = 0;
+	while (tab_2d[i])
+	{
+		if (tab_2d[i])
+			free(tab_2d[i]);
+		++i;
+	}
+	free(tab_2d);
+}
+
 int free_cmd(t_cmd *cmd)
 {
 	if(cmd->s)

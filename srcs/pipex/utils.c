@@ -1,33 +1,5 @@
 #include "../../includes/pipex.h"
 
-size_t	count_pipes(char *in_put)
-{
-	size_t	i;
-	size_t	pipes_nb;
-
-	i = 0;
-	pipes_nb = 0;
-	while (in_put[i])
-	{
-		if (in_put[i] == '|')
-			++pipes_nb;
-		++i;
-	}
-	return (pipes_nb);
-}
-
-void waiting_all_sons(size_t nb_sons)
-{
-	size_t	i;
-
-	i = 0;
-	while (i < nb_sons)
-	{
-		waitpid(-1, NULL, 0);
-		++i;
-	}
-}
-
 void set_num_pipe(t_parse *p, int *num_read, int *num_write, int num_proc)
 {
 	if (num_proc != 0)
@@ -68,4 +40,29 @@ int	link_stdout(t_parse *p, int num_write)
 		close(p->pipes_fd[num_write]);
 	}
 	return (1);
+}
+
+void	close_useless_pipes(t_parse *p, int num_read, int num_write)
+{
+	int i;
+
+	i = 0;
+	while (i < (p->count - 1) * 2)
+	{
+		if (i != num_read && i != num_write)
+			close(p->pipes_fd[i]);
+		++i;
+	}
+}
+
+void close_all_pipes(t_parse *p)
+{
+	int i;
+
+	i = 0;
+	while (i < (p->count - 1) * 2)
+	{
+		close(p->pipes_fd[i]);
+		++i;
+	}
 }
