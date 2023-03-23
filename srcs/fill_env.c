@@ -33,7 +33,7 @@ char *big_join(char *first ,char  *second,char * last)
 	return(new);	
 }
 
-char *get_key(t_cmd *cmd ,t_dico *envp,int i,int end)
+char *get_key(t_cmd *cmd ,t_envp *envp,int i,int end)
 {
 	char *key;
 	int index;
@@ -52,12 +52,12 @@ char *get_key(t_cmd *cmd ,t_dico *envp,int i,int end)
 		index++;
 	}
 	key[index] = '\0';
-	tmp = getvalue(envp,key);
+	tmp = get_value(envp,key);
 	free(key);
 	return(tmp);
 }
 
-int change_dollard(t_cmd *cmd,int i, t_dico *envp)
+int change_dollard(t_cmd *cmd,int i, t_envp *envp)
 {
 	int end;
 	char *value;
@@ -75,14 +75,18 @@ int change_dollard(t_cmd *cmd,int i, t_dico *envp)
 	}
 	while(cmd->s[end] && !is_special(cmd->s[end],"<>\" $"))
 		end++;
-	value = get_key(cmd,envp,i + 1,end);
+	value = get_key(cmd, envp,i + 1,end);
 	if(!value)
 		return(0);
 	cmd->s = big_join(cmd->s,value,cmd->s +end );
 	return(1);
 }
 
+<<<<<<< HEAD
 int replace_dollards_current(t_cmd *current,int i,t_dico *envp)
+=======
+int replace_dollards(t_parse *p,t_envp *envp)
+>>>>>>> origin/alex
 {
 	while(current->s[++i])
 	{

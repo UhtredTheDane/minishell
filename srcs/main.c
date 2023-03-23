@@ -19,13 +19,13 @@ int	main(int argc, char **argv, char **envp)
 	char	*prompt;
 	char	*in_put;
 	t_parse *p;
-	t_dico *envp_dico;
+	t_envp *envp_dico;
 
 	if (argc < 1 || argc > 1)
 		return (1);
 	argv = (char **)argv;
 	prompt = ">$";
-	envp_dico = create_dico(envp);
+	envp_dico = create_shell_envp(envp);
 	if (!envp_dico)
 		return (1);
 	if (!init_all_signal())
