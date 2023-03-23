@@ -20,7 +20,7 @@ int redirect_stdout(t_parse *p, t_cmd *cmd, int num_write)
 
 	if (cmd->filename_out)
 	{
-		flags = O_WRONLY | O_CREAT;
+		flags = O_WRONLY | O_CREAT | O_TRUNC;
 		if (cmd->append)
 		{
 		
