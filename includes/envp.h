@@ -26,7 +26,7 @@ int	ft_envp_size(t_envp *envp);
 
 char *create_key(char *str, size_t key_len);
 int create_entries(char *str, char **key, char **value);
-char *create_value(char *str, size_t value_len);
+char *create_value(char *str, size_t key_len, size_t value_len);
 
 
 
