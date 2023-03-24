@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 18:48:43 by lloisel           #+#    #+#             */
-/*   Updated: 2023/03/23 19:18:42 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/03/24 14:34:34 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ char *big_join(char *first ,char  *second,char * last)
 	ft_strlcat(new,first,size+1);
 	ft_strlcat(new,second,size+1);
 	ft_strlcat(new,last,size+1);
+	free(second);
 	return(new);	
 }
 

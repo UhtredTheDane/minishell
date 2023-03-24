@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 17:09:09 by agengemb          #+#    #+#             */
-/*   Updated: 2023/03/24 01:29:04 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/03/24 15:12:15 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	main(int argc, char **argv, char **envp)
 	if (argc < 1 || argc > 1)
 		return (1);
 	argv = (char **)argv;
-	prompt = ">$";
+	prompt = "Minishell :";
 	envp_dico = create_shell_envp(envp);
 	if (!envp_dico)
 		return (1);
@@ -36,7 +36,7 @@ int	main(int argc, char **argv, char **envp)
 		if (in_put)
 		{
 			p = parsing(in_put, envp_dico);
-			display_parse(p);
+			//display_parse(p);
 			if (!p)
 			{
 				printf("parsing return is NULL\n");
@@ -49,16 +49,28 @@ int	main(int argc, char **argv, char **envp)
 				return(0);
 
 			}	
+			if(!edit_parsing(p))
+			{
+				printf("parsing has been cancel for some reasons");
+				return(0);
+			}
+			if(!split_cmd(p))
+			{
+				printf("split failed for some reason");
+				return(0);
+			}
+			display_parse(p);
 			if (!execute(p))
 				printf("Execution foiree\n");
 
-			free(in_put);
+			free(in_put);	
+			free_parse(p);
 		}
-		else
-			exit(0);
+		else	
+			builtin_exit(0);
 	}
-	rl_clear_history();
-	return (0);
+	rl_clear_history();	
+	return(0);
 }
 /*
    int main(int argc,char**argv,char **envp)
