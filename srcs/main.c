@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 17:09:09 by agengemb          #+#    #+#             */
-/*   Updated: 2023/03/24 15:31:27 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/03/24 21:45:47 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ int	main(int argc, char **argv, char **envp)
 			builtin_exit(0);
 	}
 	rl_clear_history();	
-	delete_dico(&p->envp);
 	return(0);
 }
 /*
