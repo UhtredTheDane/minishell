@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 17:09:09 by agengemb          #+#    #+#             */
-/*   Updated: 2023/03/24 15:12:15 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/03/24 15:31:27 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,23 +48,11 @@ int	main(int argc, char **argv, char **envp)
 				printf("we can't replace some variable");
 				return(0);
 
-			}	
-			if(!edit_parsing(p))
-			{
-				printf("parsing has been cancel for some reasons");
-				return(0);
-			}
-			if(!split_cmd(p))
-			{
-				printf("split failed for some reason");
-				return(0);
-			}
-			display_parse(p);
+			}		
 			if (!execute(p))
 				printf("Execution foiree\n");
 
 			free(in_put);	
-			free_parse(p);
 		}
 		else	
 			builtin_exit(0);

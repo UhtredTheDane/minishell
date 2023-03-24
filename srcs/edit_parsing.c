@@ -172,16 +172,16 @@ int edit_current(t_cmd *current)
 	i = 0;
 	while(current->s[i])
 	{
-		if(current->s[i] == '\'')		
+		if(current->s[i] && current->s[i] == '\'')		
 			i = skip_to_X(current->s, i + 1, "\'") + 1;			
-		if(current->s[i] == '\"')
+		if(current->s[i] && current->s[i] == '\"')
 			i = skip_to_X(current->s, i + 1, "\"") + 1;			
-		if(current->s[i] == '<')
+		if(current->s[i] && current->s[i] == '<')
 		{
 			if(!fill_stdin(current,i))
 				return(0);
 		}
-		else if(current->s[i] == '>')
+		else if(current->s[i] && current->s[i] == '>')
 		{
 			if(!fill_stdout(current,i))
 				return(0);		
