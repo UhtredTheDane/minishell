@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 17:59:28 by agengemb          #+#    #+#             */
-/*   Updated: 2023/03/23 18:14:12 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/03/24 01:50:30 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ int builtin_cd(t_envp *envp, const char *path)
         return (0);
     }
     pwd = get_value(envp, "PWD");
+    if (!pwd)
+	    return (0);
     pwd_size = ft_strlen(pwd);
     old_pwd = malloc(sizeof(char) * (pwd_size + 1));
     if (!old_pwd)
@@ -42,6 +44,7 @@ int builtin_cd(t_envp *envp, const char *path)
     ft_strlcpy(old_pwd, pwd, pwd_size + 1);
     new_pwd = builtin_pwd();
     set_value(envp, "OLDPWD", old_pwd);
+    printf("coucou");
     set_value(envp, "PWD", new_pwd);
     return (1);
 }
