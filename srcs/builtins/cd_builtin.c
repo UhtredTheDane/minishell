@@ -41,7 +41,6 @@ int builtin_cd(t_envp *envp, const char *path)
         return (0);
     ft_strlcpy(old_pwd, pwd, pwd_size + 1);
     new_pwd = builtin_pwd();
-    //seulement si existe
     set_value(envp, "OLDPWD", old_pwd);
     set_value(envp, "PWD", new_pwd);
     return (1);

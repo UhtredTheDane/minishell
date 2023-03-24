@@ -37,6 +37,23 @@ int update_shlvl(t_envp *shell_envp)
     return (1);
 }
 
+int add_pwd(t_envp *shell_envp)
+{
+    char *pwd;
+    char *old_pwd;
+
+    pwd = builtin_pwd();
+    if (!pwd)
+        return (0);
+    ft_envp_add(&shell_envp, ft_envp_new("PWD", pwd));
+    old_pwd = malloc(sizeof(char));
+    if (!old_pwd)
+        return (0);
+    old_pwd[0] = '\0';
+    ft_envp_add(&shell_envp, ft_envp_new("OLDPWD", old_pwd));
+    return (1);
+}
+
 int create_entries(char *str, char **key, char **value)
 {
     size_t key_len;
@@ -61,6 +78,8 @@ t_envp  *create_shell_envp(char **envp)
     size_t  i;
     
     i = 0;
+    if (!envp[i] && !add_pwd(shell_envp))
+        return (NULL);
     shell_envp = NULL;
     while (envp[i])
     {
@@ -86,17 +105,17 @@ t_envp	*ft_envp_new(char *key, char *value)
 	return (res);
 }
 
-void	ft_envp_add(t_envp **lst, t_envp *new)
+void	ft_envp_add(t_envp **envp, t_envp *new)
 {
 	t_envp	*elem;
 
-	if (lst && new)
+	if (envp && new)
 	{
-		if (!*lst)
-			*lst = new;
+		if (!*envp)
+			*envp = new;
 		else
 		{
-			elem = *lst;
+			elem = *envp;
 			while (elem->next)
 				elem = elem->next;
 			elem->next = new;

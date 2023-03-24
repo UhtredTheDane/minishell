@@ -82,7 +82,7 @@ int change_dollard(t_cmd *cmd,int i, t_envp *envp)
 	return(1);
 }
 
-int replace_dollards_current(t_cmd *current,int i,t_envp *envp)
+int replace_dollards_current(t_cmd *current, int i,t_envp *envp)
 {
 	while(current->s[++i])
 	{
