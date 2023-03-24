@@ -49,27 +49,31 @@ int char_in_str(char c, char *str)
 	return (0);
 }
 
-/* Predicat: str contient un nombre pair de " */
-char trim_double_quote(char *str)
+char trim_double_quote(char *basic_str)
 {
 	char	*tempo_str;
+	char	*new_str;
+	int	quote_pos;
 
-	tempo_str = NULL;
-	while (char_in_str('"', str))
+	new_str = ft_strtrim(str, "\"");
+	if (!new_str)
+			return (basic_str);
+	free(basic_str);
+	while (char_in_str('"', new_str))
 	{
-		tempo_str = ft_strtrim(str, "\"");
-		if (!tempo_str)
-			return (str);
-		free(str);
-		str = tempo_str;
+		quote_pos = skip_to_X(new_str, 0, "\"");
+		new_str[quote_pos] = '\0';
+		tempo_str = ft_strjoin(new_str, new_str + quote_pos + 1)
+		free(new_str);
+		new_str = tempo_str;
 	}
-	retrun (str);
+	retrun (new_str);
 }
 
 void prepare_cmd(t_cmd *cmd)
 {
 	size_t	i;
-
+	
 	i = 0;
 	while (cmd->cmd[i])
 	{
