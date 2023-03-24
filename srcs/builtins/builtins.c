@@ -38,7 +38,7 @@ int execute_builtin(t_parse *p, t_cmd *cmd)
         return (1);
     else if (is_env(p, cmd))
         return (1);
-    else if (is_exit(cmd))
+    else if (is_exit(p, cmd))
         return (1);
     return (0);
 }

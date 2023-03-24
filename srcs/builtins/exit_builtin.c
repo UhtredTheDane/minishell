@@ -12,7 +12,7 @@
 
 #include "../../includes/builtins.h"
 
-int is_exit(t_cmd *cmd)
+int is_exit(t_parse *p, t_cmd *cmd)
 {
     int return_value;
 
@@ -21,14 +21,15 @@ int is_exit(t_cmd *cmd)
         return_value = 0;
 	if (cmd->cmd[1])
 		return_value = ft_atoi(cmd->cmd[1]);
-        builtin_exit(return_value);
+        builtin_exit(p, return_value);
         return (1);
     }
     return (0);
 }
 
-void    builtin_exit(int return_value)
+void    builtin_exit(t_parse *p, int return_value)
 {
     printf("exit\n");
+    delete_dico(p->envp);
     exit(return_value);
 }
