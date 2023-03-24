@@ -21,20 +21,21 @@ int is_echo(t_cmd *cmd)
     if (ft_strncmp(cmd->cmd[0], "echo", 4) == 0)
     {
         n_option = 0;
-	message = "";
-        i = 1;
+        if (cmd->cmd[1][0] == '-')
+        {
+            if (cmd->cmd[1][1] == 'n' || cmd->cmd[1][1] == 'N')
+                n_option = 1;
+            i = 2;
+        }
+        else
+            i = 1;
         while (cmd->cmd[i])
         {
-            if (cmd->cmd[i][0] == '-')
-            {
-                if (cmd->cmd[i][1] == 'n' || cmd->cmd[i][1] == 'N')
-                    n_option = 1;
-            }
-            else
+            
                 message = cmd->cmd[i];
+                builtin_echo(message, n_option);
             ++i;
         }
-        builtin_echo(message, n_option);
         return (1);
     }
     return (0);
