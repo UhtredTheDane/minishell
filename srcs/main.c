@@ -58,6 +58,7 @@ int	main(int argc, char **argv, char **envp)
 			builtin_exit(0);
 	}
 	rl_clear_history();	
+	delete_dico(&p->envp);
 	return(0);
 }
 /*

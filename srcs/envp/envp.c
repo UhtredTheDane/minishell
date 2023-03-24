@@ -12,6 +12,25 @@
 
 #include "../../includes/envp.h"
 
+void delete_dico(t_envp **envp)
+{
+    t_envp *elem;
+    t_envp *tempo;
+
+    if (envp)
+    {
+        elem = *envp;
+        while (elem)
+        {
+            tempo = elem;
+            elem = elem>next;
+            free(tempo->key);
+            free(tempo->v);
+            free(tempo);
+        }
+        *envp = NULL;
+    }
+}
 int update_shlvl(t_envp *shell_envp)
 {
     char *lvl;  
