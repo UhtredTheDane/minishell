@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 18:24:39 by agengemb          #+#    #+#             */
-/*   Updated: 2023/03/23 18:24:41 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/03/24 01:29:12 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int update_shlvl(t_envp *shell_envp)
     return (1);
 }
 
-int add_pwd(t_envp *shell_envp)
+int add_pwd(t_envp **shell_envp)
 {
     char *pwd;
     char *old_pwd;
@@ -45,12 +45,12 @@ int add_pwd(t_envp *shell_envp)
     pwd = builtin_pwd();
     if (!pwd)
         return (0);
-    ft_envp_add(&shell_envp, ft_envp_new("PWD", pwd));
+    ft_envp_add(shell_envp, ft_envp_new("PWD", pwd));
     old_pwd = malloc(sizeof(char));
     if (!old_pwd)
         return (0);
     old_pwd[0] = '\0';
-    ft_envp_add(&shell_envp, ft_envp_new("OLDPWD", old_pwd));
+    ft_envp_add(shell_envp, ft_envp_new("OLDPWD", old_pwd));
     return (1);
 }
 
@@ -78,9 +78,9 @@ t_envp  *create_shell_envp(char **envp)
     size_t  i;
     
     i = 0;
-    if (!envp[i] && !add_pwd(shell_envp))
-        return (NULL);
     shell_envp = NULL;
+    if (!envp[i] && !add_pwd(&shell_envp))
+        return (NULL);
     while (envp[i])
     {
         if (!create_entries(envp[i], &key, &value))
