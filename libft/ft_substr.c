@@ -22,22 +22,22 @@
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	char	*sub_string;
-	size_t	len_s;
+	char	*res;
+	char	*src;
+	size_t	reslen;
 
 	if (!s)
 		return (NULL);
-	len_s = ft_strlen(s);
-	if (start > len_s)
-		len = 0;
-	else if (len >= len_s)
-		len = len_s - start;
-	sub_string = malloc(sizeof(char) * (len + 1));
-	if (!sub_string)
-		return (NULL);
-	if (len > 0)
-		ft_strlcpy(sub_string, s + start, len + 1);
+	if (ft_strlen(s) < (size_t)start)
+		return (ft_strdup(""));
+	src = (char *)s + start;
+	if (ft_strlen(src) < len)
+		reslen = ft_strlen(src) + 1;
 	else
-		*sub_string = '\0';
-	return (sub_string);
+		reslen = len + 1;
+	res = malloc(reslen * sizeof(char));
+	if (!res)
+		return (NULL);
+	ft_strlcpy(res, src, reslen);
+	return (res);
 }
