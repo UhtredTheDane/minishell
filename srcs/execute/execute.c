@@ -49,13 +49,13 @@ int char_in_str(char c, char *str)
 	return (0);
 }
 
-char trim_double_quote(char *basic_str)
+char *trim_double_quote(char *basic_str)
 {
 	char	*tempo_str;
 	char	*new_str;
 	int	quote_pos;
 
-	new_str = ft_strtrim(str, "\"");
+	new_str = ft_strtrim(basic_str, "\"");
 	if (!new_str)
 			return (basic_str);
 	free(basic_str);
@@ -63,11 +63,11 @@ char trim_double_quote(char *basic_str)
 	{
 		quote_pos = skip_to_X(new_str, 0, "\"");
 		new_str[quote_pos] = '\0';
-		tempo_str = ft_strjoin(new_str, new_str + quote_pos + 1)
+		tempo_str = ft_strjoin(new_str, new_str + quote_pos + 1);
 		free(new_str);
 		new_str = tempo_str;
 	}
-	retrun (new_str);
+	return (new_str);
 }
 
 void prepare_cmd(t_cmd *cmd)
