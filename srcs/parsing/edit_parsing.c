@@ -8,10 +8,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/pipex.h"
-#include "../includes/parsing.h"
-#include "../libft/libft.h"
-#include "../includes/envp.h"
+#include "../../includes/pipex.h"
+#include "../../includes/parsing.h"
+#include "../../libft/libft.h"
+#include "../../includes/envp.h"
 #include <stdio.h>
 
 int skip_space(char *s,int i)
@@ -119,7 +119,7 @@ int split_cmd(t_parse *p)
 	current = p->first;	
 	while(current)
 	{
-		current->cmd = create_tab(current->s,size_of_tab(current->s));
+		current->cmd = create_tab(current->s[0],size_of_tab(current->s[0]));
 		current = current->next;
 	}
 	return(1);
@@ -127,7 +127,7 @@ int split_cmd(t_parse *p)
 
 void display_cmd(t_cmd *cmd)
 {
-	printf("  String : %s\n",cmd->s);
+	printf("  String : %s\n",cmd->s[0]);
 	printf("  In : %d\n  Out : %d\n",cmd->in,cmd->out);
 	printf("  Filename in : %s \n",cmd->filename_in);
 	printf("  Filename out : %s \n",cmd->filename_out);
@@ -170,21 +170,21 @@ int edit_current(t_cmd *current)
 	int i;
 
 	i = 0;
-	while(current->s[i])
+	while(current->s[0][i])
 	{
-		if(current->s[i] && current->s[i] == '\'')		
-			i = skip_to_X(current->s, i + 1, "\'") + 1;			
-		if(current->s[i] && current->s[i] == '\"')
-			i = skip_to_X(current->s, i + 1, "\"") + 1;			
-		if(current->s[i] && current->s[i] == '<')
+		if(current->s[0][i] && current->s[0][i] == '\'')
+			i = skip_to_X(current->s[0], i + 1, "\'") + 1;
+		if(current->s[0][i] && current->s[0][i] == '\"')
+			i = skip_to_X(current->s[0], i + 1, "\"") + 1;
+		if(current->s[0][i] && current->s[0][i] == '<')
 		{
 			if(!fill_stdin(current,i))
 				return(0);
 		}
-		else if(current->s[i] && current->s[i] == '>')
+		else if(current->s[0][i] && current->s[0][i] == '>')
 		{
 			if(!fill_stdout(current,i))
-				return(0);		
+				return(0);
 		}
 		else
 			i++;

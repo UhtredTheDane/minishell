@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 13:17:21 by lloisel           #+#    #+#             */
-/*   Updated: 2023/03/23 20:02:19 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/03/24 20:23:19 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "../includes/parsing.h"
+#include "../../includes/parsing.h"
 #include <unistd.h>
-#include "../libft/libft.h"
+#include "../../libft/libft.h"
 # include <readline/readline.h>
 # include <readline/history.h>
 
@@ -33,7 +33,6 @@ void add_cmd_bis(t_parse *p,t_cmd *cmd)
 		p->last->next = cmd;
 		p->last = cmd;
 	}
-	//	printf("%s\n",p->last->s);
 }
 
 t_cmd *init_cmd(void)
@@ -60,23 +59,25 @@ int add_cmd(t_parse *p ,int start,int end)
 	int size;
 	int i;
 
-	cmd = malloc(sizeof(t_cmd));
+	cmd = init_cmd();
 	if(!cmd)
 		return(0);
-	bzero(cmd,sizeof (t_cmd));
 	size  = end-start;
 	if(size <= 0 && p->s[start] != '\0')
 		return(0);
-	cmd->s = malloc(sizeof(char)*size + 1);
+	cmd->s = malloc(sizeof(char *));
 	if(!cmd->s)
+		return (0);
+	cmd->s[0] = malloc(sizeof(char)*size + 1);
+	if(!cmd->s[0])
 		return(0);
 	i = 0;
 	while(i < size)
 	{	
-		cmd->s[i]=p->s[start + i];
+		cmd->s[0][i]=p->s[start + i];
 		++i;
 	}
-	cmd->s[i] = '\0';
+	cmd->s[0][i] = '\0';
 	add_cmd_bis(p,cmd);
 	p->count = p->count + 1;
 	return(1);
@@ -136,6 +137,7 @@ int pipe_at_end(t_parse *p)
 	free(tmp);
 	return(1);	
 }
+
 int parse_bis(t_parse *p,int *i,int *start_w)
 {
 	if(p->s[*i] == '|')

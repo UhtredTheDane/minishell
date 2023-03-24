@@ -6,32 +6,32 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 16:47:53 by lloisel           #+#    #+#             */
-/*   Updated: 2023/03/23 19:18:46 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/03/24 20:23:02 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/parsing.h"	
-#include "../includes/main.h"	
+#include "../../includes/parsing.h"	
+#include "../../includes/main.h"	
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>		
-#include "../libft/libft.h"
+#include "../../libft/libft.h"
 
 
 char *get_name(t_cmd *cmd,int i,int op)
 {
 	int start_w;
 		
-	i = skip_space(cmd->s, i);
-	if(is_special(cmd->s[i],"<> "))
+	i = skip_space(cmd->s[0], i);
+	if(is_special(cmd->s[0][i],"<> "))
 		return(NULL);
 	start_w = i;
-	while(cmd->s[i] && !is_special(cmd->s[i],"<> "))
+	while(cmd->s[0][i] && !is_special(cmd->s[0][i],"<> "))
 	{
-		if(cmd->s[i] == '\'')
-			i = skip_to_X(cmd->s + i, i + 1,"\'");
-		else if(cmd->s[i] == '\"')
-			i = skip_to_X(cmd->s + i, i + 1,"\"");
+		if(cmd->s[0][i] == '\'')
+			i = skip_to_X(cmd->s[0] + i, i + 1,"\'");
+		else if(cmd->s[0][i] == '\"')
+			i = skip_to_X(cmd->s[0] + i, i + 1,"\"");
 		i++;
 	}
 	return(trimming(op,cmd, start_w, i));
@@ -95,7 +95,7 @@ int fill_stdin(t_cmd *cmd,int i)
 
 	op = i;	
 	i++;
-	if(cmd->s[i] && cmd->s[i] == '<')
+	if(cmd->s[0][i] && cmd->s[0][i] == '<')
 	{	
 		if(!here_doc(cmd,i + 1,op))
 			return(0);

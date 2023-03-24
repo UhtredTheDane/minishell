@@ -14,7 +14,7 @@
 # include "envp.h"
 
 typedef struct s_cmd {
-	char *s;
+	char **s;
 	char **cmd;
 	struct s_cmd *next;
 	void (*f)();
