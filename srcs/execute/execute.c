@@ -35,9 +35,52 @@ int redirect_stdout(t_parse *p, t_cmd *cmd, int num_write)
 			return(0);
 	return (1);
 }
+int char_in_str(char c, char *str)
+{
+	size_t	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == c)
+			return (1);
+		++i;
+	}
+	return (0);
+}
+
+/* Predicat: str contient un nombre pair de " */
+char trim_double_quote(char *str)
+{
+	char	*tempo_str;
+
+	tempo_str = NULL;
+	while (char_in_str('"', str))
+	{
+		tempo_str = ft_strtrim(str, "\"");
+		if (!tempo_str)
+			return (str);
+		free(str);
+		str = tempo_str;
+	}
+	retrun (str);
+}
+
+void prepare_cmd(t_cmd *cmd)
+{
+	size_t	i;
+
+	i = 0;
+	while (cmd->cmd[i])
+	{
+		cmd->cmd[i] = trim_double_quote(cmd->cmd[i]);
+		++i;
+	}
+}
 
 int execute_cmd(t_parse *p, t_cmd *cmd, int old_stdin, int old_stdout)
 {
+	prepare_cmd(cmd);
 	if (execute_builtin(p, cmd))
 	{
 		dup2(old_stdin, 0);
