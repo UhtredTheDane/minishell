@@ -46,11 +46,14 @@ int execute_cmd(t_parse *p, t_cmd *cmd, int old_stdin, int old_stdout)
 	}
 	else
 	{
-		cmd->cmd[0] = search_cmd(p, cmd);
-		if (!cmd->cmd[0])
+		if (access(cmd->cmd[0], F_OK) == -1)
 		{
-			//free
-			return(0);
+			cmd->cmd[0] = search_cmd(p, cmd);
+			if (!cmd->cmd[0])
+			{
+				//free
+				return(0);
+			}
 		}
 		execve(cmd->cmd[0], cmd->cmd, create_envp_tab(p->envp));//attetion bien free
 	}
