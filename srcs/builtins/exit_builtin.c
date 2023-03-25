@@ -44,7 +44,7 @@ int    builtin_exit(t_envp *envp, t_cmd *cmd)
         if (!is_all_digit(cmd->cmd[1]))
         {
             printf("bash : exit: %s: numeric argument required\n", cmd->cmd[1]);
-            return_value = 1;
+            return_value = 2;
         }
         else
         {
