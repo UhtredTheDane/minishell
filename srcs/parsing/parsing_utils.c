@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 12:53:06 by lloisel           #+#    #+#             */
-/*   Updated: 2023/03/25 12:58:01 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/03/25 23:58:14 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 
 void display_cmd(t_cmd *cmd)
 {
-	printf("  String : %s\n",cmd->s[0]);
+/*	printf("  String : %s\n",cmd->s[0]);
 	printf("  In : %d\n  Out : %d\n",cmd->in,cmd->out);
 	printf("  Filename in : %s \n",cmd->filename_in);
 	printf("  Filename out : %s \n",cmd->filename_out);
@@ -35,12 +35,12 @@ void display_cmd(t_cmd *cmd)
 			++i;
 		}
 	}
-	printf("-------------------\n");
+	printf("-------------------\n");*/
 }
 
 void display_parse(t_parse *p)
 {
-	t_cmd *current;
+	/*t_cmd *current;
 	int i = 1;
 
 	current=p->first;
@@ -54,7 +54,7 @@ void display_parse(t_parse *p)
 		current = current->next;
 		++i; 
 	}
-	printf("\n");
+	printf("\n");*/
 }
 
 int skip_space(char *s,int i)

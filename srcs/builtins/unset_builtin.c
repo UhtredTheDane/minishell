@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 18:03:30 by agengemb          #+#    #+#             */
-/*   Updated: 2023/03/23 18:15:29 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/03/25 23:47:34 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,18 +47,18 @@ int    builtin_unset(t_parse *p, t_cmd *cmd)
     char *tempo_value;
     
     return_code = 0;
-    while dollar_in_str((p->s + i))
+    while (dollar_in_str(p->s + i))
     {
         dollar_pos = skip_to_X(p->s, i, "$");
         dollar_pos += 1;
         i = dollar_pos;
-        while (ft_isalnum(s[i]))
+        while (ft_isalnum(p->s[i]))
             ++i;
         size_name = i - dollar_pos;
         name_var = malloc(sizeof(char) * (size_name + 1));
         if (name_var)
         {
-            ft_strlcpy(name_var, p->s + dollar_pos, size_name + 1)
+            ft_strlcpy(name_var, p->s + dollar_pos, size_name + 1);
             value_var = getenv(name_var);
             if (value_var)
             {
@@ -72,6 +72,7 @@ int    builtin_unset(t_parse *p, t_cmd *cmd)
     {
         key = cmd->cmd[i];
         delete_key(&p->envp, key);
+	++i;
     }
     return (return_code);
     }

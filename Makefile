@@ -6,7 +6,7 @@
 #    By: agengemb <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/21 16:23:39 by agengemb          #+#    #+#              #
-#    Updated: 2023/03/23 22:40:30 by agengemb         ###   ########.fr        #
+#    Updated: 2023/03/25 23:43:42 by agengemb         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ $(NAME): $(OBJ) $(OBJFOLDER) $(LIBFT)
 	$(CC) $^ -o $@ -lreadline
 
 %.o: %.c
-	$(CC) -o $@ -c $< $(CFLAGS) -D BUFFER_SIZE=42
+	$(CC) -o $@ -c $< -D BUFFER_SIZE=42
 	
 $(LIBFT):
 	make -C libft
