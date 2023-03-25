@@ -29,9 +29,11 @@ void    builtin_echo(char **messages, int n_option);
 void builtin_unset(t_envp **envp, char *key);
 
 int is_builtin(t_cmd *cmd);
+
+int is_cd(t_cmd *cmd);
 int builtin_cd(t_envp *envp, t_cmd *cmd);
 int update_env(t_envp *envp);
-int env_with_pwd(t_envp *envp, size_t pwd_size, char **new_pwd, char **old_pwd);
+int env_with_pwd(t_envp *envp, char *pwd, char **new_pwd, char **old_pwd);
 char  *env_with_no_pwd();
 int check_path(const char *path);
 char *init_path(t_cmd *cmd);

@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 17:59:28 by agengemb          #+#    #+#             */
-/*   Updated: 2023/03/25 01:26:26 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/03/25 19:02:28 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,6 @@ int is_cd(t_cmd *cmd)
         return (1);
     return (0);
 }
- 
-return (builtin_cd(p->envp, cmd->cmd[1]));
-
 
 char *init_path(t_cmd *cmd)
 {
@@ -47,10 +44,10 @@ int check_path(const char *path)
 
     if (lstat(path, &buf) == -1)
         return (0);
-    if (!S_ISDIR(buf->st_mode))
+    if (!S_ISDIR(buf.st_mode))
     {
          printf("minishell: cd: not a directory: %s\n", path);
-        return (0)
+        return (0);
     }
     return (1);
 }
@@ -66,10 +63,11 @@ char  *env_with_no_pwd()
     return (old_pwd);
 }
 
-int env_with_pwd(t_envp *envp, size_t pwd_size, char **new_pwd, char **old_pwd)
+int env_with_pwd(t_envp *envp, char *pwd, char **new_pwd, char **old_pwd)
 {
-    char *old_pwd;
+	size_t pwd_size;
 
+	pwd_size = ft_strlen(pwd);
     *old_pwd = malloc(sizeof(char) * (pwd_size + 1));
     if (!(*old_pwd))
         return (0);
@@ -78,7 +76,7 @@ int env_with_pwd(t_envp *envp, size_t pwd_size, char **new_pwd, char **old_pwd)
 	if (*new_pwd)
     	set_value(envp, "PWD", *new_pwd);
     else
-        return (0)
+        return (0);
     return (1);
 }
 
@@ -97,7 +95,7 @@ int update_env(t_envp *envp)
     }
     else
     {
-        if(!env_with_pwd(envp, ft_strlen(pwd), &new_pwd, &old_pwd))
+        if(!env_with_pwd(envp, pwd, &new_pwd, &old_pwd))
         {
             if (old_pwd)
                 free(old_pwd);

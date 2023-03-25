@@ -126,7 +126,7 @@ int manager(t_parse *p, t_cmd *cmd, int num_proc)
 		return (2);
 	if (!redirect_stdout(p, cmd, num_write))
 		return (3);
-	return (execute_cmd(p, cmd, old_stdin, old_stdout))
+	return (execute_cmd(p, cmd, old_stdin, old_stdout));
 
 	/*if (num_write)
 			close(p->pipes_fd[num_write]);

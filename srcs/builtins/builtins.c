@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 01:25:34 by agengemb          #+#    #+#             */
-/*   Updated: 2023/03/25 01:25:36 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/03/25 19:05:08 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,7 @@ int is_builtin(t_cmd *cmd)
 
 int execute_builtin(t_parse *p, t_cmd *cmd)
 {
-    int return_code;
 
-    return_code = 0;
     if (is_cd(cmd))
     {
         return (builtin_cd(p->envp, cmd));
