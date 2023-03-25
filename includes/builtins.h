@@ -13,7 +13,7 @@ typedef struct s_envp t_envp;
 
 int is_echo(t_cmd *cmd);
 int is_pwd(t_cmd *cmd);
-int is_cd(t_parse *p, t_cmd *cmd);
+int is_cd(t_cmd *cmd);
 int is_unset(t_parse *p, t_cmd *cmd);
 int is_export(t_parse *p, t_cmd *cmd);
 int is_env(t_parse *p, t_cmd *cmd);

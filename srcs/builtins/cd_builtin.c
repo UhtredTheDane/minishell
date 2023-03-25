@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 17:59:28 by agengemb          #+#    #+#             */
-/*   Updated: 2023/03/25 01:26:26 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/03/25 18:33:24 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,7 @@ int is_cd(t_cmd *cmd)
         return (1);
     return (0);
 }
-
-return (builtin_cd(p->envp, cmd->cmd[1]));
+//return (builtin_cd(p->envp, cmd->cmd[1]));
 int builtin_cd(t_envp *envp, const char *path)
 {
     char    *old_pwd;
