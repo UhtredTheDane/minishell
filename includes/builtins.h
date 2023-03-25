@@ -48,7 +48,7 @@ void builtin_unset(t_envp **envp, char *key);
 
 int is_pwd(t_cmd *cmd);
 char *builtin_pwd();
-
+void    print_pwd();
 
 
 

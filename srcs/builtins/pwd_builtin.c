@@ -34,3 +34,15 @@ char *builtin_pwd()
     }
     return (buffer);
 }
+
+void    print_pwd()
+{
+    char *pwd;
+
+    pwd = builtin_pwd();
+    if (pwd)
+    {
+        printf("%s\n", pwd);
+        free(pwd);
+    }
+}

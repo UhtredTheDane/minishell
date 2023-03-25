@@ -51,10 +51,7 @@ int execute_builtin(t_parse *p, t_cmd *cmd)
         return (builtin_exit(p->envp, cmd));
     else if (is_pwd(cmd))
     {
-        char *test = NULL;
-
-        printf("%s\n", test);
-        printf("%s\n", builtin_pwd());
+        print_pwd();
         return (0);
     }
 
