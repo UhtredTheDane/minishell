@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 18:48:43 by lloisel           #+#    #+#             */
-/*   Updated: 2023/03/24 20:22:41 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/03/25 14:55:48 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,18 +74,20 @@ int change_dollard(t_cmd *cmd,int i, t_envp *envp)
 		printf("$? has been detected , how im i suposed to handle it ?\n");
 		return(0);
 	}
-	while(cmd->s[0][end] && !is_special(cmd->s[0][end],"<>\" $"))
+	while(cmd->s[0][end] && !is_special(cmd->s[0][end],"<>\" $\'"))
 		end++;
+	printf("end of the dollard word %s\n",cmd->s[0]+end);
 	value = get_key(cmd, envp,i + 1,end);
 	if(!value)
-		return(0);
-	cmd->s[0] = big_join(cmd->s[0],value,cmd->s[0] +end );
+		cmd->s[0] = big_join(cmd->s[0],"",cmd->s[0] +end );
+	else 
+		cmd->s[0] = big_join(cmd->s[0],value,cmd->s[0] +end );
 	return(1);
 }
 
 int replace_dollards_current(t_cmd *current, int i,t_envp *envp)
 {
-	while(current->s[0][++i])
+	while(current->s[0][i])
 	{
 		if(current->s[0][i] == '$')
 		{
@@ -93,7 +95,7 @@ int replace_dollards_current(t_cmd *current, int i,t_envp *envp)
 				return(0);
 		}
 		if(current->s[0][i] == '\'')
-			i = skip_to_X(current->s[0], i + 1,"\'");
+			i = skip_to_X(current->s[0], i + 1,"\'") + 1;
 		if(current->s[0][i] == '\"')
 		{
 			while(current->s[0][++i] && current->s[0][i] != '\"')
@@ -102,9 +104,12 @@ int replace_dollards_current(t_cmd *current, int i,t_envp *envp)
 				{
 					if(!change_dollard(current,i,envp))
 						return(0);
+					--i;
 				}
-			}
+			}	
 		}
+		if(current->s[0][i] && current->s[0][i] != '$')
+			i++;
 	}
 	return (1);
 }
@@ -117,7 +122,7 @@ int replace_dollards(t_parse *p,t_envp *envp)
 	current = p->first;
 	while(current)
 	{
-		i = -1;
+		i = 0;
 		if(!replace_dollards_current(current,i,envp))
 			return (0);
 		current = current->next;

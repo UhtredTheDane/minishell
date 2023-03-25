@@ -36,6 +36,12 @@ typedef struct s_parse {
 	struct s_cmd *last;	
 } t_parse;
 
+char *get_name(t_cmd *cmd,int i,int op);
+char *here_doc(t_cmd *cmd,int i,int op);
+int double_quote_no_close(char *s,int *i);
+int single_quote_no_close(char *s,int *i);
+int add_cmd(t_parse *p ,int start,int end);
+t_parse *init_parse(t_envp *envp_dico);
 int replace_dollards(t_parse *p,t_envp *envp);
 int fill_env(t_cmd *cmd,t_envp *envp, int i);
 int is_special(char c,char *charset);

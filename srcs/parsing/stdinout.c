@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 16:07:38 by lloisel           #+#    #+#             */
-/*   Updated: 2023/03/24 20:23:33 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/03/25 15:04:10 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int fill_stdout(t_cmd *cmd,int i)
 		cmd->append = 1;
 		i++;
 	}
-	i = skip_space(cmd->s[0],i);	
+	i = skip_space(cmd->s[0],i);
 	start_w = i;
 	while(cmd->s[0][i] && !is_special(cmd->s[0][i],"<> "))
 	{
@@ -83,5 +83,33 @@ int fill_stdout(t_cmd *cmd,int i)
 	if(is_special(cmd->s[0][i],"<> ") && start_w == i)
 		return(0);
 	cmd->filename_out = trimming(op,cmd,start_w,i);
+	return(1);
+}
+
+int simple_stdin(t_cmd * cmd , int i,int op)
+{
+		
+	cmd->filename_in = get_name(cmd,i,op);
+	if(!cmd->filename_in)
+		return(0);
+	return(1);
+}
+
+int fill_stdin(t_cmd *cmd,int i)
+{
+	int op;	
+
+	op = i;	
+	i++;
+	if(cmd->s[0][i] && cmd->s[0][i] == '<')
+	{	
+		if(!here_doc(cmd,i + 1,op))
+			return(0);
+	}
+	else
+	{
+		if(!simple_stdin(cmd,i,op))
+			return (0);
+	}	
 	return(1);
 }

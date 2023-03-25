@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 16:47:53 by lloisel           #+#    #+#             */
-/*   Updated: 2023/03/24 20:23:02 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/03/25 13:36:51 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,32 +78,4 @@ char *here_doc(t_cmd *cmd,int i,int op)
 	if(!word)
 		return(NULL);
 	return (get_heredoc(word));
-}
-
-int simple_stdin(t_cmd * cmd , int i,int op)
-{
-		
-	cmd->filename_in = get_name(cmd,i,op);
-	if(!cmd->filename_in)
-		return(0);
-	return(1);
-}
-
-int fill_stdin(t_cmd *cmd,int i)
-{
-	int op;	
-
-	op = i;	
-	i++;
-	if(cmd->s[0][i] && cmd->s[0][i] == '<')
-	{	
-		if(!here_doc(cmd,i + 1,op))
-			return(0);
-	}
-	else
-	{
-		if(!simple_stdin(cmd,i,op))
-			return (0);
-	}	
-	return(1);
 }
