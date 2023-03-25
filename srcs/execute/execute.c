@@ -1,5 +1,7 @@
 #include "../../includes/execute.h"
 
+extern int cmd_return;
+
 int redirect_stdin(t_parse *p, t_cmd *cmd, int num_read)
 { 
 	if (cmd->filename_in)
@@ -20,12 +22,11 @@ int redirect_stdout(t_parse *p, t_cmd *cmd, int num_write)
 
 	if (cmd->filename_out)
 	{
-		flags = O_WRONLY | O_CREAT | O_TRUNC;
+		flags = O_WRONLY | O_CREAT;
 		if (cmd->append)
-		{
-		
 			flags = flags | O_APPEND;
-		}
+		else
+			flags = flags | O_TRUNC;
 		cmd->out = open(cmd->filename_out, flags, S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH);
 		dup2(cmd->out, 1);
 		close(cmd->out);
@@ -84,12 +85,18 @@ void prepare_cmd(t_cmd *cmd)
 
 int execute_cmd(t_parse *p, t_cmd *cmd, int old_stdin, int old_stdout)
 {
+	int exec_return;
+
 	prepare_cmd(cmd);
-	if (execute_builtin(p, cmd))
+	if (is_builtin(cmd))
 	{
+		exec_return = execute_builtin(p, cmd);
 		dup2(old_stdin, 0);
 		dup2(old_stdout, 1);
-		return(1);
+		if (exec_return)
+			return(1);
+		else
+			return (0);
 	}
 	else
 	{
@@ -99,7 +106,7 @@ int execute_cmd(t_parse *p, t_cmd *cmd, int old_stdin, int old_stdout)
 			if (!cmd->cmd[0])
 			{
 				//free
-				return(0);
+				return (0);
 			}
 		}
 		execve(cmd->cmd[0], cmd->cmd, create_envp_tab(p->envp));//attetion bien free
@@ -123,7 +130,7 @@ int manager(t_parse *p, t_cmd *cmd, int num_proc)
 	if (!redirect_stdout(p, cmd, num_write))
 		return (3);
 	if (!execute_cmd(p, cmd, old_stdin, old_stdout))
-		return (4);
+		return (127);
 	/*if (num_write)
 			close(p->pipes_fd[num_write]);
 		if (num_read)
@@ -145,7 +152,7 @@ int	execute(t_parse *p)
 		return(0);
 	}	
 	if (!p->pipes_fd && is_builtin(p->first))
-		manager(p, p->first, 0);
+		cmd_return = manager(p, p->first, 0);
 	else if(!run_pipe(p))
 	{
 		printf("Impossible de lancer les pip\n");

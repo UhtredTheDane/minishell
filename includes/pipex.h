@@ -24,7 +24,7 @@ char	*make_cmd(t_parse *p, char *name_cmd);
 char *search_cmd(t_parse *p, t_cmd *cmd);
 int	run_pipe(t_parse *p);
 size_t	count_pipes(char *in_put);
-void waiting_all_sons(size_t nb_sons);
+void waiting_all_sons(size_t nb_sons, pid_t pid);
 void set_num_pipe(t_parse *p, int *num_read, int *num_write, int num_proc);
 int	link_stdin(t_parse *p, int num_read);
 int	link_stdout(t_parse *p, int num_write);

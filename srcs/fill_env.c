@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 18:48:43 by lloisel           #+#    #+#             */
-/*   Updated: 2023/03/24 14:34:34 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/03/25 01:29:32 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 #include <stdio.h>
 #include <stdlib.h>		
 #include "../libft/libft.h"
+
+extern int cmd_return;
 
 char *big_join(char *first ,char  *second,char * last)
 {
@@ -62,7 +64,7 @@ int change_dollard(t_cmd *cmd,int i, t_envp *envp)
 {
 	int end;
 	char *value;
-
+	
 	end = i;
 	end++;
 	if(is_special(cmd->s[end],"<> \""))
@@ -71,8 +73,9 @@ int change_dollard(t_cmd *cmd,int i, t_envp *envp)
 		cmd->s[i] = '\0';
 	if(cmd->s[end] && cmd->s[end] == '?')
 	{
-		printf("$? has been detected , how im i suposed to handle it ?\n");
-		return(0);
+		value = ft_itoa(cmd_return);
+		cmd->s = big_join(cmd->s, value, "");
+		return(1);
 	}
 	while(cmd->s[end] && !is_special(cmd->s[end],"<>\" $"))
 		end++;

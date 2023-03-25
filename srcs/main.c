@@ -6,13 +6,15 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 17:09:09 by agengemb          #+#    #+#             */
-/*   Updated: 2023/03/24 22:10:46 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/03/25 00:32:41 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/parsing.h"
 #include "../includes/main.h"
 #include "../includes/envp.h"
+
+int cmd_return = 0;
 
 int	main(int argc, char **argv, char **envp)
 {
