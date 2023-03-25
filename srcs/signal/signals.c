@@ -1,4 +1,4 @@
-#include "../includes/signals.h"
+#include "../../includes/signals.h"
 
 void signals_handler(int signal)
 {

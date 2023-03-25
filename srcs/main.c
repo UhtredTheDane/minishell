@@ -50,10 +50,9 @@ int	main(int argc, char **argv, char **envp)
 				printf("we can't replace some variable");
 				return(0);
 
-			}		
+			}	
 			if (!execute(p))
 				printf("Execution foiree\n");
-
 			free(in_put);	
 		}
 		else	

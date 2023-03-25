@@ -1,15 +1,15 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cleanup.c                                          :+:      :+:    :+:   */
+/*   cleanning_parsing.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 15:12:01 by lloisel           #+#    #+#             */
-/*   Updated: 2023/03/13 15:32:44 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/03/24 20:22:21 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "../includes/pipex.h"
+#include "../../includes/pipex.h"
 
 void	clean_2d_tab(char **tab_2d)
 {
@@ -28,7 +28,11 @@ void	clean_2d_tab(char **tab_2d)
 int free_cmd(t_cmd *cmd)
 {
 	if(cmd->s)
+	{
+		if(cmd->s[0])
+			free(cmd->s[0]);
 		free(cmd->s);
+	}
 	if(cmd->cmd)
 		clean_2d_tab(cmd->cmd);
 	if(cmd->filename_in)

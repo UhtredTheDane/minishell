@@ -6,15 +6,15 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 16:07:38 by lloisel           #+#    #+#             */
-/*   Updated: 2023/03/23 20:02:52 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/03/25 15:04:10 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/parsing.h"	
+#include "../../includes/parsing.h"	
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>		
-#include "../libft/libft.h"
+#include "../../libft/libft.h"
 
 int is_special(char c,char *charset)
 {
@@ -43,18 +43,18 @@ char *trimming(int op,t_cmd *cmd,int start,int end)
 		return(NULL);
 	name = malloc(sizeof(char)* (size)+1);
 	while(++i < size)
-		name[i] = cmd->s[start + i];
+		name[i] = cmd->s[0][start + i];
 	name[i] ='\0';
-	cmd->s[op] = '\0';
-	tmp = cmd->s;
-	size  = (ft_strlen(tmp) + ft_strlen(tmp + end)) + 1; 
-	cmd->s = malloc(size);
-	cmd->s[0] = '\0';
-	if(!cmd->s)
+	cmd->s[0][op] = '\0';
+	size  = (ft_strlen(cmd->s[0]) + ft_strlen(cmd->s[0] + end)) + 1; 
+	tmp = malloc(size);
+	if(!tmp)
 		return(NULL);	
-	ft_strlcpy(cmd->s ,tmp, size);
-	ft_strlcat(cmd->s,tmp + end, size);
-	free(tmp);
+	tmp[0] = '\0';
+	ft_strlcpy(tmp ,cmd->s[0], size);
+	ft_strlcat(tmp,cmd->s[0] + end, size);
+	free(cmd->s[0]);
+	cmd->s[0] = tmp;
 	return(name);
 }
 
@@ -65,23 +65,51 @@ int fill_stdout(t_cmd *cmd,int i)
 
 	op = i;
 	i++;
-	if(cmd->s[i] && cmd->s[i] == '>')
+	if(cmd->s[0][i] && cmd->s[0][i] == '>')
 	{
 		cmd->append = 1;
 		i++;
 	}
-	i = skip_space(cmd->s,i);	
+	i = skip_space(cmd->s[0],i);
 	start_w = i;
-	while(cmd->s[i] && !is_special(cmd->s[i],"<> "))
+	while(cmd->s[0][i] && !is_special(cmd->s[0][i],"<> "))
 	{
-		if(cmd->s[i] == '\'')
-			i = skip_to_X(cmd->s,i,"\'");
-		else if(cmd->s[i] == '\"')
-			i = skip_to_X(cmd->s,i,"\"");
+		if(cmd->s[0][i] == '\'')
+			i = skip_to_X(cmd->s[0],i,"\'");
+		else if(cmd->s[0][i] == '\"')
+			i = skip_to_X(cmd->s[0],i,"\"");
 		i++;
 	}
-	if(is_special(cmd->s[i],"<> ") && start_w == i)
+	if(is_special(cmd->s[0][i],"<> ") && start_w == i)
 		return(0);
 	cmd->filename_out = trimming(op,cmd,start_w,i);
+	return(1);
+}
+
+int simple_stdin(t_cmd * cmd , int i,int op)
+{
+		
+	cmd->filename_in = get_name(cmd,i,op);
+	if(!cmd->filename_in)
+		return(0);
+	return(1);
+}
+
+int fill_stdin(t_cmd *cmd,int i)
+{
+	int op;	
+
+	op = i;	
+	i++;
+	if(cmd->s[0][i] && cmd->s[0][i] == '<')
+	{	
+		if(!here_doc(cmd,i + 1,op))
+			return(0);
+	}
+	else
+	{
+		if(!simple_stdin(cmd,i,op))
+			return (0);
+	}	
 	return(1);
 }
