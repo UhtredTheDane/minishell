@@ -38,11 +38,17 @@ int is_builtin(t_cmd *cmd)
 
 int execute_builtin(t_parse *p, t_cmd *cmd)
 {
-    if (is_echo(cmd))
+    int return_code;
+
+    return_code = 0;
+    if (is_cd(cmd))
+    {
+        return (builtin_cd(p->envp, cmd));
+    }
+    /*
+    else if (is_echo(cmd))
         return (1);
     else if (is_pwd(cmd))
-        return (1);
-    else if (is_cd(p, cmd))
         return (1);
     else if (is_unset(p, cmd))
         return (1);
@@ -51,6 +57,6 @@ int execute_builtin(t_parse *p, t_cmd *cmd)
     else if (is_env(p, cmd))
         return (1);
     else if (is_exit(p, cmd))
-        return (1);
+        return (1);*/
     return (0);
 }

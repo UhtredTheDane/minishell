@@ -93,10 +93,7 @@ int execute_cmd(t_parse *p, t_cmd *cmd, int old_stdin, int old_stdout)
 		exec_return = execute_builtin(p, cmd);
 		dup2(old_stdin, 0);
 		dup2(old_stdout, 1);
-		if (exec_return)
-			return(1);
-		else
-			return (0);
+		return (exec_return);
 	}
 	else
 	{
@@ -106,12 +103,12 @@ int execute_cmd(t_parse *p, t_cmd *cmd, int old_stdin, int old_stdout)
 			if (!cmd->cmd[0])
 			{
 				//free
-				return (0);
+				return (127);
 			}
 		}
 		execve(cmd->cmd[0], cmd->cmd, create_envp_tab(p->envp));//attetion bien free
 	}
-	return (0);
+	return (127);
 }
 
 int manager(t_parse *p, t_cmd *cmd, int num_proc)
@@ -129,8 +126,8 @@ int manager(t_parse *p, t_cmd *cmd, int num_proc)
 		return (2);
 	if (!redirect_stdout(p, cmd, num_write))
 		return (3);
-	if (!execute_cmd(p, cmd, old_stdin, old_stdout))
-		return (127);
+	return (execute_cmd(p, cmd, old_stdin, old_stdout))
+
 	/*if (num_write)
 			close(p->pipes_fd[num_write]);
 		if (num_read)
