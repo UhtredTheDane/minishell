@@ -53,21 +53,13 @@ int execute_builtin(t_parse *p, t_cmd *cmd)
     {
         print_pwd();
         return (0);
-    }/*
-    else if (is_unset(cmd))
-    {
-        builtin_unset(&p->envp, cmd);
-        return (1);
     }
-    
+    else if (is_unset(cmd))
+        return (builtin_unset(p, cmd));
+    /*
     else if (is_export(p, cmd))
         return (1);
 */
-
-
-
-
-
 
     return (0);
 }

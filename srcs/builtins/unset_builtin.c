@@ -34,8 +34,8 @@ int dollar_in_str(char *str)
 	return (0);
 } 
 
-/*
-void    builtin_unset(t_parse *p, t_cmd *cmd)
+
+int    builtin_unset(t_parse *p, t_cmd *cmd)
 {
     char *key;
     char *name_var;
@@ -44,8 +44,9 @@ void    builtin_unset(t_parse *p, t_cmd *cmd)
     int i = 0;
     int size_name;
     int return_code;
+    char *tempo_value;
     
-    
+    return_code = 0;
     while dollar_in_str((p->s + i))
     {
         dollar_pos = skip_to_X(p->s, i, "$");
@@ -61,20 +62,17 @@ void    builtin_unset(t_parse *p, t_cmd *cmd)
             value_var = getenv(name_var);
             if (value_var)
             {
+                tempo_value = get_value(p->envp, value_var);
+                printf("bash: unset: '%s': not a valid identifier\n", tempo_value);
                 return_code = 1;
-            }
-            else
-                printf("ne rien faire");
-
         }
     }
-
     i = 0;
     while (cmd->cmd[i])
     {
         key = cmd->cmd[i];
-        delete_key(envp, key);
+        delete_key(&p->envp, key);
     }
-
-
+    return (return_code);
+    }
 }
