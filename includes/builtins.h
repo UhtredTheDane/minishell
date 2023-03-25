@@ -11,7 +11,6 @@ typedef struct s_cmd t_cmd;
 typedef struct s_parse t_parse;
 typedef struct s_envp t_envp;
 
-int is_unset(t_parse *p, t_cmd *cmd);
 int is_export(t_parse *p, t_cmd *cmd);
 
 

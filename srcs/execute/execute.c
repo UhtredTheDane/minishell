@@ -36,6 +36,7 @@ int redirect_stdout(t_parse *p, t_cmd *cmd, int num_write)
 			return(0);
 	return (1);
 }
+
 int char_in_str(char c, char *str)
 {
 	size_t	i;
