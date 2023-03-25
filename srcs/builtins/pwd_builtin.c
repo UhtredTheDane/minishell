@@ -12,6 +12,13 @@
 
 #include "../../includes/builtins.h"
 
+int is_pwd(t_cmd *cmd)
+{
+    if (ft_strncmp(cmd->cmd[0], "pwd", 3) == 0)
+        return (1);
+    return (0);
+}
+
 char *builtin_pwd()
 {
     char    *buffer;
@@ -26,14 +33,4 @@ char *builtin_pwd()
         return (NULL);
     }
     return (buffer);
-}
-
-int is_pwd(t_cmd *cmd)
-{
-    if (ft_strncmp(cmd->cmd[0], "pwd", 3) == 0)
-    {
-        printf("%s\n", builtin_pwd());
-        return (1);
-    }
-    return (0);
 }

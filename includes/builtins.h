@@ -11,7 +11,6 @@ typedef struct s_cmd t_cmd;
 typedef struct s_parse t_parse;
 typedef struct s_envp t_envp;
 
-int is_pwd(t_cmd *cmd);
 int is_unset(t_parse *p, t_cmd *cmd);
 int is_export(t_parse *p, t_cmd *cmd);
 
@@ -46,7 +45,12 @@ int check_option(char *cmd_1);
 
 void builtin_unset(t_envp **envp, char *key);
 
-int is_builtin(t_cmd *cmd);
+
+int is_pwd(t_cmd *cmd);
+char *builtin_pwd();
+
+
+
 
 int is_cd(t_cmd *cmd);
 int builtin_cd(t_envp *envp, t_cmd *cmd);
@@ -59,7 +63,8 @@ char *init_path(t_cmd *cmd);
 
 
 
-char *builtin_pwd();
+
+
 
 int is_builtin(t_cmd *cmd);
 int execute_builtin(t_parse *p, t_cmd *cmd);

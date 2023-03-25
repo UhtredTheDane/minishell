@@ -49,12 +49,17 @@ int execute_builtin(t_parse *p, t_cmd *cmd)
         return (builtin_env(p->envp, cmd));
     else if (is_exit(cmd))
         return (builtin_exit(p->envp, cmd));
+    else if (is_pwd(cmd))
+    {
+        char *test = NULL;
 
+        printf("%s\n", test);
+        printf("%s\n", builtin_pwd());
+        return (0);
+    }
 
 
     /*
-    else if (is_pwd(cmd))
-        return (1);
     else if (is_unset(p, cmd))
         return (1);
     else if (is_export(p, cmd))
