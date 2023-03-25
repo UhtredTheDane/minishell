@@ -47,12 +47,14 @@ int    builtin_exit(t_envp *envp, t_cmd *cmd)
             return_value = 1;
         }
         else
+        {
+            if (cmd->cmd[2])
+            {
+                printf("bash : exit: too many arguments\n");
+                return (1);
+            }
             return_value = ft_atoi(cmd->cmd[1]);
-    }
-    if (cmd->cmd[2])
-    {
-        printf("bash : exit: too many arguments\n");
-        return (1);
+        }
     }
     delete_dico(&envp);
     exit(return_value);
