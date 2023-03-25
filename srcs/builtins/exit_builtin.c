@@ -39,11 +39,6 @@ int    builtin_exit(t_envp *envp, t_cmd *cmd)
 
     printf("exit\n");
     return_value = 0;
-    if (cmd->cmd[2])
-    {
-        printf("bash : exit: too many arguments\n");
-        return (1)
-    }
     if (cmd->cmd[1])
     {
         if (!is_all_digit(cmd->cmd[1]))
@@ -53,6 +48,11 @@ int    builtin_exit(t_envp *envp, t_cmd *cmd)
         }
         else
             return_value = ft_atoi(cmd->cmd[1]);
+    }
+    if (cmd->cmd[2])
+    {
+        printf("bash : exit: too many arguments\n");
+        return (1);
     }
     delete_dico(&envp);
     exit(return_value);
