@@ -47,6 +47,11 @@ int execute_builtin(t_parse *p, t_cmd *cmd)
         return (builtin_echo(cmd));
     else if (is_env(cmd))
         return (builtin_env(p->envp, cmd));
+    else if (is_exit(cmd))
+        return (builtin_exit(p->envp, cmd));
+
+
+
     /*
     else if (is_pwd(cmd))
         return (1);
@@ -54,7 +59,12 @@ int execute_builtin(t_parse *p, t_cmd *cmd)
         return (1);
     else if (is_export(p, cmd))
         return (1);
-    else if (is_exit(p, cmd))
-        return (1);*/
+*/
+
+
+
+
+
+
     return (0);
 }

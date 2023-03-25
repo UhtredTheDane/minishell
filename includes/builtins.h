@@ -14,7 +14,6 @@ typedef struct s_envp t_envp;
 int is_pwd(t_cmd *cmd);
 int is_unset(t_parse *p, t_cmd *cmd);
 int is_export(t_parse *p, t_cmd *cmd);
-int is_exit(t_parse *p, t_cmd *cmd);
 
 
 int is_env(t_cmd *cmd);
@@ -23,8 +22,13 @@ int    builtin_env(t_envp *envp, t_cmd *cmd);
 
 
 
+int is_exit(t_cmd *cmd);
+int    builtin_exit(t_envp *envp, t_cmd *cmd);
+int is_all_digit(char *str);
 
-void    builtin_exit(t_envp *envp, int return_value);
+
+
+
 
 int    builtin_export(t_envp *envp, char *key, char *value);
 
