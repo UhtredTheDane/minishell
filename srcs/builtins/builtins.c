@@ -43,9 +43,9 @@ int execute_builtin(t_parse *p, t_cmd *cmd)
     {
         return (builtin_cd(p->envp, cmd));
     }
-    /*
     else if (is_echo(cmd))
-        return (1);
+        return (builtin_echo(cmd));
+    /*
     else if (is_pwd(cmd))
         return (1);
     else if (is_unset(p, cmd))

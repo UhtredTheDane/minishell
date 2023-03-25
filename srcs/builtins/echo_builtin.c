@@ -17,31 +17,37 @@ int is_echo(t_cmd *cmd)
     int n_option;
 
     if (ft_strncmp(cmd->cmd[0], "echo", 4) == 0)
-    {
-        n_option = 0;
-	if (cmd->cmd[1][0] == '-')
-        {
-            if (cmd->cmd[1][1] == 'n' || cmd->cmd[1][1] == 'N')
-                n_option = 1;
-        }
-        builtin_echo(cmd->cmd, n_option);
         return (1);
+    return (0);
+}
+
+int check_option(char *cmd_1)
+{
+	if (!cmd_1)
+        return (1);
+    if (cmd_1[0] == '-' && ft_strlen(cmd_1) == 2)
+    {
+        if (cmd_1[1] == 'n' || cmd_1[1] == 'N')
+                return (1);
     }
     return (0);
 }
 
-void    builtin_echo(char **messages, int n_option)
+int   builtin_echo(t_cmd *cmd)
 {
     int i;
+    int n_option;
 
+    n_option = check_option(cmd->cmd[1]);
     i = n_option + 1;
-    while (messages[i])
-{
-	printf("%s", messages[i]);
-	if (messages[i + 1] != NULL)
-		printf(" ");
-	++i;
-}
+    while (cmd->cmd[i])
+    {
+	    printf("%s", cmd->cmd[i]);
+	    if (cmd->cmd[i] != NULL)
+		    printf(" ");
+	    ++i;
+    }
 	if (!n_option)
         printf("\n");
+    return (0);
 }

@@ -11,7 +11,6 @@ typedef struct s_cmd t_cmd;
 typedef struct s_parse t_parse;
 typedef struct s_envp t_envp;
 
-int is_echo(t_cmd *cmd);
 int is_pwd(t_cmd *cmd);
 int is_unset(t_parse *p, t_cmd *cmd);
 int is_export(t_parse *p, t_cmd *cmd);
@@ -24,7 +23,14 @@ void    builtin_exit(t_envp *envp, int return_value);
 
 int    builtin_export(t_envp *envp, char *key, char *value);
 
-void    builtin_echo(char **messages, int n_option);
+int is_echo(t_cmd *cmd);
+int   builtin_echo(t_cmd *cmd);
+int check_option(char *cmd_1);
+
+
+
+
+
 
 void builtin_unset(t_envp **envp, char *key);
 
