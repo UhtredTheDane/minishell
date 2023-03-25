@@ -45,14 +45,14 @@ int execute_builtin(t_parse *p, t_cmd *cmd)
     }
     else if (is_echo(cmd))
         return (builtin_echo(cmd));
+    else if (is_env(p, cmd))
+        return (builtin_env(, cmd));
     /*
     else if (is_pwd(cmd))
         return (1);
     else if (is_unset(p, cmd))
         return (1);
     else if (is_export(p, cmd))
-        return (1);
-    else if (is_env(p, cmd))
         return (1);
     else if (is_exit(p, cmd))
         return (1);*/

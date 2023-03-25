@@ -12,30 +12,31 @@
 
 #include "../../includes/builtins.h"
 
-int is_env(t_parse *p, t_cmd *cmd)
+int is_env(t_cmd *cmd)
 {
-    char **envp;
-
     if (ft_strncmp(cmd->cmd[0], "env", 3) == 0)
-    {
-        envp = create_envp_tab(p->envp);
-        if (!envp)
-            return (0);
-        builtin_env(envp);
-        //free envp
         return (1);
-    }
     return (0);
 }
 
-void    builtin_env(char **envp)
+int    builtin_env(t_envp *envp, t_cmd *cmd)
 {
+    char **char_envp;
     int i;
 
-    i = 0;
-    while (envp[i])
+    if (cmd->cmd[1])
     {
-        printf("%s\n", envp[i]);
+        printf("env: '%s': No such file or directory\n", cmd->cmd[1]);
+        return (127);
+    }
+    char_envp = create_envp_tab(envp);
+    if (!char_envp)
+        return (1);
+    i = 0;
+    while (char_envp[i])
+    {
+        printf("%s\n", char_envp[i]);
         ++i;
     }
+    return (0);
 }
