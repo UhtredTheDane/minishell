@@ -35,45 +35,65 @@ int dollar_in_str(char *str)
 } 
 
 
-int    builtin_unset(t_parse *p, t_cmd *cmd)
+int check_basic_var(t_parse *p, int dollar_pos)
 {
-    char *key;
     char *name_var;
-    char *value_var;
-    int dollar_pos;
-    int i = 0;
-    int size_name;
     int return_code;
+    int size_name;
+    char *value_var;
     char *tempo_value;
-    
+
+    size_name = i - dollar_pos;
+    return_code = 0;
+    name_var = malloc(sizeof(char) * (size_name + 1));
+    if (name_var)
+    {
+        ft_strlcpy(name_var, p->s + dollar_pos, size_name + 1);
+        value_var = getenv(name_var);
+        if (value_var)
+        {
+            tempo_value = get_value(p->envp, value_var);
+            if (tempo_value)
+                printf("bash: unset: '%s': not a valid identifier\n", tempo_value);
+            return_code = 1;
+        }
+        free(name_var);
+    }
+    return (return_code);
+}
+
+int check_dollar(t_parse *p)
+{
+    int i;
+    int return_code;
+    int dollar_pos;
+
+    i = 0;
     return_code = 0;
     while (dollar_in_str(p->s + i))
     {
-        dollar_pos = skip_to_X(p->s, i, "$");
-        dollar_pos += 1;
+        dollar_pos = skip_to_X(p->s, i, "$") + 1;
         i = dollar_pos;
         while (ft_isalnum(p->s[i]))
             ++i;
-        size_name = i - dollar_pos;
-        name_var = malloc(sizeof(char) * (size_name + 1));
-        if (name_var)
-        {
-            ft_strlcpy(name_var, p->s + dollar_pos, size_name + 1);
-            value_var = getenv(name_var);
-            if (value_var)
-            {
-                tempo_value = get_value(p->envp, value_var);
-                printf("bash: unset: '%s': not a valid identifier\n", tempo_value);
-                return_code = 1;
-        }
+        return_code = check_basic_var(p, dollar_pos);
     }
+    return (return_code);
+}
+
+int    builtin_unset(t_parse *p, t_cmd *cmd)
+{
+    char *key;
+    int i;
+    int return_code;
+    
+    return_code = check_dollar(p);
     i = 0;
     while (cmd->cmd[i])
     {
         key = cmd->cmd[i];
         delete_key(&p->envp, key);
-	++i;
+	    ++i;
     }
     return (return_code);
-    }
 }
