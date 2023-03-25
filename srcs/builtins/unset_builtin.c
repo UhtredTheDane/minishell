@@ -12,20 +12,28 @@
 
 #include "../../includes/builtins.h"
 
-int is_unset(t_parse *p, t_cmd *cmd)
+int is_unset(t_cmd *cmd)
 { 
-    char *key;
 
     if (ft_strncmp(cmd->cmd[0], "unset", 5) == 0)
-    {
-        key = cmd->cmd[1];
-        builtin_unset(&p->envp, key);
         return (1);
-    }
     return (0);
 }
 
-void    builtin_unset(t_envp **envp, char *key)
+void    builtin_unset(t_envp **envp, t_cmd *cmd)
 {
+    char *key;
+    char *test;
+
+
+    test = getenv("SHLVL");
+    if (test)
+        printf("c'est une basic !");
+    else
+        printfc("ce n'est pas une basic !");
+        
+    key = cmd->cmd[1];
     delete_key(envp, key);
+
+
 }

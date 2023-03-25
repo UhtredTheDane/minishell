@@ -42,8 +42,8 @@ int check_option(char *cmd_1);
 
 
 
-
-void builtin_unset(t_envp **envp, char *key);
+int is_unset(t_cmd *cmd);
+void    builtin_unset(t_envp **envp, t_cmd *cmd);
 
 
 int is_pwd(t_cmd *cmd);
