@@ -6,12 +6,31 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 18:24:39 by agengemb          #+#    #+#             */
-/*   Updated: 2023/03/24 01:29:12 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/03/24 21:44:44 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/envp.h"
 
+void delete_dico(t_envp **envp)
+{
+    t_envp *elem;
+    t_envp *tempo;
+
+    if (envp)
+    {
+        elem = *envp;
+        while (elem)
+        {
+            tempo = elem;
+            elem = elem->next;
+            free(tempo->key);
+            free(tempo->value);
+            free(tempo);
+        }
+        *envp = NULL;
+    }
+}
 int update_shlvl(t_envp *shell_envp)
 {
     char *lvl;  

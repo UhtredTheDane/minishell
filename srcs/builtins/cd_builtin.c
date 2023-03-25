@@ -6,22 +6,20 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 17:59:28 by agengemb          #+#    #+#             */
-/*   Updated: 2023/03/24 01:50:30 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/03/25 01:26:26 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/builtins.h"
 
-int is_cd(t_parse *p, t_cmd *cmd)
+int is_cd(t_cmd *cmd)
 {
     if (ft_strncmp(cmd->cmd[0], "cd", 2) == 0)
-    {
-        builtin_cd(p->envp, cmd->cmd[1]);
         return (1);
-    }
     return (0);
 }
 
+return (builtin_cd(p->envp, cmd->cmd[1]));
 int builtin_cd(t_envp *envp, const char *path)
 {
     char    *old_pwd;
@@ -31,7 +29,7 @@ int builtin_cd(t_envp *envp, const char *path)
 
     if (chdir(path) == -1)
     {
-        perror("Erreur cd\n");
+        perror("cd");
         return (0);
     }
     pwd = get_value(envp, "PWD");

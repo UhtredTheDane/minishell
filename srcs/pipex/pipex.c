@@ -1,5 +1,7 @@
 #include "../../includes/pipex.h"
 
+extern int cmd_return;
+
 char	*format_string(char *name_cmd)
 {
 	char	*temp;
@@ -41,14 +43,19 @@ char *search_cmd(t_parse *p, t_cmd *cmd)
 	return (cmd_name);
 }
 
-void waiting_all_sons(size_t nb_sons)
+void waiting_all_sons(size_t nb_sons, pid_t last)
 {
 	size_t	i;
+	int status;
+	pid_t pid;
 
+	status = 0;
 	i = 0;
 	while (i < nb_sons)
 	{
-		waitpid(-1, NULL, 0);
+		pid = waitpid(-1, &status, 0);
+		if (WIFEXITED(status) && pid == last)
+			cmd_return = WEXITSTATUS(status);
 		++i;
 	}
 }
@@ -56,9 +63,11 @@ void waiting_all_sons(size_t nb_sons)
 int	run_pipe(t_parse *p)
 {
 	int	i;
+	int return_code;
 	pid_t pid;
 	t_cmd *current;
 
+	return_code = 0;
 	current = p->first;
 	i = 0;
 	while (current)
@@ -67,17 +76,17 @@ int	run_pipe(t_parse *p)
 		if (pid < 0)
 		{
 			perror("Probleme fork");
-			return(0);
+			return (0);
 		}
 		else if (pid == 0)
 		{
-			manager(p, current, i);
-			exit(4);
+			return_code = manager(p, current, i);
+			exit(return_code);
 		}
 		current = current->next;
 		++i;
 	}
 	close_all_pipes(p);
-	waiting_all_sons(p->count);
+	waiting_all_sons(p->count, pid);
 	return (1);
 }

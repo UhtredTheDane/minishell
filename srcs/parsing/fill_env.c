@@ -17,6 +17,8 @@
 #include <stdlib.h>		
 #include "../../libft/libft.h"
 
+extern int cmd_return;
+
 char *big_join(char *first ,char  *second,char * last)
 {
 	int size;
@@ -33,7 +35,7 @@ char *big_join(char *first ,char  *second,char * last)
 	free(first);
 	return(new);	
 }
-
+ 
 char *get_key(t_cmd *cmd ,t_envp *envp,int i,int end)
 {
 	char *key;
@@ -62,7 +64,7 @@ int change_dollard(t_cmd *cmd,int i, t_envp *envp)
 {
 	int end;
 	char *value;
-
+	
 	end = i;
 	end++;
 	if(is_special(cmd->s[0][end],"<> \""))
@@ -71,8 +73,9 @@ int change_dollard(t_cmd *cmd,int i, t_envp *envp)
 		cmd->s[0][i] = '\0';
 	if(cmd->s[0][end] && cmd->s[0][end] == '?')
 	{
-		printf("$? has been detected , how im i suposed to handle it ?\n");
-		return(0);
+		value = ft_itoa(cmd_return);
+		cmd->s[0] = big_join(cmd->s[0], value, "");
+		return(1);
 	}
 	while(cmd->s[0][end] && !is_special(cmd->s[0][end],"<>\" $\'"))
 		end++;

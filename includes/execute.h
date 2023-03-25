@@ -2,6 +2,7 @@
 # define EXECUTE_H
 
 # include "parsing.h"
+# include "main.h"
 
 typedef struct s_parse t_parse;
 typedef struct s_cmd t_cmd;

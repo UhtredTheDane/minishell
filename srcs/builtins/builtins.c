@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtins.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/25 01:25:34 by agengemb          #+#    #+#             */
+/*   Updated: 2023/03/25 01:25:36 by agengemb         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/builtins.h"
 
 #define PATH_MAX 4000
@@ -38,7 +50,7 @@ int execute_builtin(t_parse *p, t_cmd *cmd)
         return (1);
     else if (is_env(p, cmd))
         return (1);
-    else if (is_exit(cmd))
+    else if (is_exit(p, cmd))
         return (1);
     return (0);
 }
