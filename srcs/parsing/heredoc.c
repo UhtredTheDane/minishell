@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 16:47:53 by lloisel           #+#    #+#             */
-/*   Updated: 2023/03/25 13:36:51 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/03/26 16:46:04 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ char *get_heredoc(char *word)
 	input = readline("Heredoc>");
 	tmp = "";
 	value = "";
-	while(strncmp(input,word,max(input,word)))
+	while(input && strncmp(input,word,max(input,word)))
 	{
 		size = ft_strlen(input)+ft_strlen(value) + 2; 
 		value = malloc(size);
@@ -67,6 +67,11 @@ char *get_heredoc(char *word)
 		ft_strlcat(value,input,size);
 		ft_strlcat(value,"\n",size);
 		input = readline("Heredoc>");
+	}
+	if(!input)
+	{
+		printf("Heredoc expect %s not end of file",word);
+		return(NULL);
 	}
 	return (value);	
 }

@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 18:48:43 by lloisel           #+#    #+#             */
-/*   Updated: 2023/03/25 14:55:48 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/03/26 15:43:23 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,17 +60,20 @@ char *get_key(t_cmd *cmd ,t_envp *envp,int i,int end)
 	return(tmp);
 }
 
-int change_dollard(t_cmd *cmd,int i, t_envp *envp)
+int change_dollard(t_cmd *cmd,int *i, t_envp *envp)
 {
 	int end;
 	char *value;
 	
-	end = i;
+	end = *i;
 	end++;
-	if(is_special(cmd->s[0][end],"<> \""))
-		return(1);
+	if(!cmd->s[0][end] || is_special(cmd->s[0][end],"<> \""))
+	{
+			*i = *i + 1;
+			return(1);
+	}
 	else
-		cmd->s[0][i] = '\0';
+		cmd->s[0][*i] = '\0';
 	if(cmd->s[0][end] && cmd->s[0][end] == '?')
 	{
 		value = ft_itoa(cmd_return);
@@ -79,8 +82,7 @@ int change_dollard(t_cmd *cmd,int i, t_envp *envp)
 	}
 	while(cmd->s[0][end] && !is_special(cmd->s[0][end],"<>\" $\'"))
 		end++;
-	printf("end of the dollard word %s\n",cmd->s[0]+end);
-	value = get_key(cmd, envp,i + 1,end);
+	value = get_key(cmd, envp,*i + 1,end);
 	if(!value)
 		cmd->s[0] = big_join(cmd->s[0],"",cmd->s[0] +end );
 	else 
@@ -94,7 +96,7 @@ int replace_dollards_current(t_cmd *current, int i,t_envp *envp)
 	{
 		if(current->s[0][i] == '$')
 		{
-			if(!change_dollard(current,i,envp))
+			if(!change_dollard(current,&i,envp))
 				return(0);
 		}
 		if(current->s[0][i] == '\'')
@@ -105,7 +107,7 @@ int replace_dollards_current(t_cmd *current, int i,t_envp *envp)
 			{
 				if(current->s[0][i] == '$')
 				{
-					if(!change_dollard(current,i,envp))
+					if(!change_dollard(current,&i,envp))
 						return(0);
 					--i;
 				}

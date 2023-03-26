@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 13:17:21 by lloisel           #+#    #+#             */
-/*   Updated: 2023/03/26 14:28:07 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/03/26 17:09:41 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,11 @@ int pipe_at_end(t_parse *p)
 	int size;
 
 	input = readline("pipe>");
+	if(!input)
+	{
+		printf("Syntax error : Unexpected end of file \n");
+		return(0);
+	}
 	tmp = p->s;
 	size  = ft_strlen(input) + ft_strlen(p->s) + 1;
 	p->s = malloc(sizeof(char)*size);

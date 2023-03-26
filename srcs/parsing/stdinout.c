@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 16:07:38 by lloisel           #+#    #+#             */
-/*   Updated: 2023/03/26 14:59:15 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/03/26 15:25:58 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,8 @@ int fill_stdout(t_cmd *cmd,int i)
 	else 
 		cmd->append = 0;
 	i = skip_space(cmd->s[0],i);
-	if(is_special(cmd->s[0][i],"<>\0 "))
+	printf("%s\n",cmd->s[0] + i);
+	if(!cmd->s[0][i] || is_special(cmd->s[0][i],"<> |"))
 		return(0);
 	start_w = i;
 	while(cmd->s[0][i] && !is_special(cmd->s[0][i],"<> "))
