@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 18:02:36 by agengemb          #+#    #+#             */
-/*   Updated: 2023/03/24 22:09:51 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/03/26 17:44:17 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ int is_all_digit(char *str)
     size_t i;
 
     i = 0;
+    if (str[0] == '-' || str[0] == '+')
+	    i = 1;
     while (str[i])
     {
         if (!ft_isdigit(str[i]))

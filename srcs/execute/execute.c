@@ -99,16 +99,19 @@ void prepare_cmd(t_cmd *cmd)
 				current_pos = double_pos;
 				first = "\"";
 			}
-			cmd->cmd[i][current_pos] = '\0';
-			tempo_str = ft_strjoin(cmd->cmd[i], cmd->cmd[i] + current_pos + 1);
-			free(cmd->cmd[i]);
-			cmd->cmd[i] = tempo_str;
+			if ((size_t) current_pos != ft_strlen(cmd->cmd[i]))
+			{
+				cmd->cmd[i][current_pos] = '\0';
+				tempo_str = ft_strjoin(cmd->cmd[i], cmd->cmd[i] + current_pos + 1);
+				free(cmd->cmd[i]);
+				cmd->cmd[i] = tempo_str;
 
-			current_pos = skip_to_X(cmd->cmd[i], current_pos, first);
-			cmd->cmd[i][current_pos] = '\0';
-			tempo_str = ft_strjoin(cmd->cmd[i], cmd->cmd[i] + current_pos + 1);
-			free(cmd->cmd[i]);
-			cmd->cmd[i] = tempo_str;
+				current_pos = skip_to_X(cmd->cmd[i], current_pos, first);
+				cmd->cmd[i][current_pos] = '\0';
+				tempo_str = ft_strjoin(cmd->cmd[i], cmd->cmd[i] + current_pos + 1);
+				free(cmd->cmd[i]);
+				cmd->cmd[i] = tempo_str;
+			}
 		}
 		++i;
 	}
