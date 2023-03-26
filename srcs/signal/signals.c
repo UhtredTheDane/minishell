@@ -2,18 +2,9 @@
 
 int clean_exit(t_parse *p)
 {
-	char **cmds;
 
-	cmds = malloc(sizeof(char *) * 2);
-	if (!cmds)
-	{
-		free(p);
-		return (1);
-	}
-	cmds[0] = ft_strjoin("", "exit");
-	cmds[1] = NULL;
-	p->first->cmd = cmds;
-	return (builtin_exit(p->envp, p->first)); 
+	printf("exit");
+	return (0); 
 }
 
 void signals_handler(int signal)

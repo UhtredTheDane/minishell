@@ -54,7 +54,7 @@ int	main(int argc, char **argv, char **envp)
 				printf("Execution foiree\n");
 			free(in_put);	
 		}
-		else	
+		else
 			return (clean_exit(p));
 	}
 	rl_clear_history();	
