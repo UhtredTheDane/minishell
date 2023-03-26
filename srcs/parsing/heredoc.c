@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 16:47:53 by lloisel           #+#    #+#             */
-/*   Updated: 2023/03/26 16:46:04 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/03/26 19:17:32 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ char *get_heredoc(char *word)
 	char *tmp;
 	int size;
 
-	int flags; = O_WRONLY | O_CREAT | O_TRUNC;
+	int flags = O_WRONLY | O_CREAT | O_TRUNC;
 	int fd_heredoc; 
 	
 	flags = O_WRONLY | O_CREAT | O_TRUNC;

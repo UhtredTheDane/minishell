@@ -88,5 +88,7 @@ int	run_pipe(t_parse *p)
 	}
 	close_all_pipes(p);
 	waiting_all_sons(p->count, pid);
+	if (p->first->heredoc)
+		unlink("heredoc");
 	return (1);
 }

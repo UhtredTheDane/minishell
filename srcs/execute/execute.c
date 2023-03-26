@@ -6,11 +6,11 @@ int redirect_stdin(t_parse *p, t_cmd *cmd, int num_read)
 { 
 	int fd_heredoc;
 
-	if (p->heredoc)
+	if (cmd->heredoc)
 	{
-		here_doc = open("heredoc", O_RDONLY);
-		dup2(here_doc, 0);
-		close(here_doc);
+		fd_heredoc = open("heredoc", O_RDONLY);
+		dup2(fd_heredoc, 0);
+		close(fd_heredoc);
 	}
 	else if (cmd->filename_in)
 	{
@@ -138,6 +138,8 @@ int execute_cmd(t_parse *p, t_cmd *cmd, int old_stdin, int old_stdout)
 		exec_return = execute_builtin(p, cmd);
 		dup2(old_stdin, 0);
 		dup2(old_stdout, 1);
+		if (cmd->heredoc)
+			unlink("heredoc");
 		return (exec_return);
 	}
 	else
@@ -188,13 +190,13 @@ int	execute(t_parse *p)
 		printf("parsing has been cancel for some reasons");
 		return(0);
 	}	
-	display_parse(p);	
+	//display_parse(p);	
 	if(!split_cmd(p))
 	{
 		printf("split failed for some reason");
 		return(0);
 	}	
-	display_parse(p);	
+	//display_parse(p);	
 	if (!p->pipes_fd && is_builtin(p->first))
 		cmd_return = manager(p, p->first, 0);
 	else if(!run_pipe(p))
