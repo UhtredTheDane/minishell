@@ -6,7 +6,11 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 12:53:06 by lloisel           #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/03/26 00:47:54 by agengemb         ###   ########.fr       */
+=======
+/*   Updated: 2023/03/25 17:40:44 by lloisel          ###   ########.fr       */
+>>>>>>> origin/luca_final
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +28,8 @@ void display_cmd(t_cmd *cmd)
 	printf("  Filename in : %s \n",cmd->filename_in);
 	printf("  Filename out : %s \n",cmd->filename_out);
 	printf("  Append : %d\n",cmd->append);
+	printf("  Heredoc value  : %s\n",cmd->value_hd);
+	printf("  Heredocboolean : %d\n",cmd->heredoc);
 	int i;
 	i=0;
 	if(cmd->cmd)

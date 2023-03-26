@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 13:00:43 by lloisel           #+#    #+#             */
-/*   Updated: 2023/03/25 13:34:12 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/03/25 17:58:27 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,9 @@ t_cmd *init_cmd(void)
 	cmd->filename_in = NULL;
 	cmd->in = -1;
 	cmd->out = -1;
-	cmd->append = 0;
+	cmd->append = 1;
+	cmd->heredoc = 0;
+	cmd->value_hd = NULL;
 	return (cmd);
 }
 

@@ -6,15 +6,17 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 17:09:09 by agengemb          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/03/26 00:51:05 by agengemb         ###   ########.fr       */
+=======
+/*   Updated: 2023/03/25 18:34:56 by lloisel          ###   ########.fr       */
+>>>>>>> origin/luca_final
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/parsing.h"
 #include "../includes/main.h"
 #include "../includes/envp.h"
-
-int cmd_return = 0;
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -55,7 +57,7 @@ int	main(int argc, char **argv, char **envp)
 			free(in_put);	
 		}
 		else	
-			builtin_exit(envp_dico, 0);
+			builtin_exit(0);
 	}
 	rl_clear_history();	
 	return(0);

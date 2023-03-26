@@ -6,7 +6,11 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 17:59:28 by agengemb          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/03/25 19:02:28 by agengemb         ###   ########.fr       */
+=======
+/*   Updated: 2023/03/25 18:33:24 by lloisel          ###   ########.fr       */
+>>>>>>> origin/luca_final
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +22,13 @@ int is_cd(t_cmd *cmd)
         return (1);
     return (0);
 }
+<<<<<<< HEAD
 
 char *init_path(t_cmd *cmd)
+=======
+//return (builtin_cd(p->envp, cmd->cmd[1]));
+int builtin_cd(t_envp *envp, const char *path)
+>>>>>>> origin/luca_final
 {
     char *default_folder;
 

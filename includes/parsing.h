@@ -23,6 +23,8 @@ typedef struct s_cmd {
 	char *filename_in;
 	char *filename_out;
 	int append;
+	int heredoc;
+	char *value_hd;
 } t_cmd;
 
 typedef struct s_envp t_envp;
@@ -32,7 +34,7 @@ typedef struct s_parse {
 	int count;
 	t_envp *envp;
 	int *pipes_fd;
-	struct s_cmd *first;	
+	struct s_cmd *first;
 	struct s_cmd *last;	
 } t_parse;
 

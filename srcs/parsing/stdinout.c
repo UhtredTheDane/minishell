@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 16:07:38 by lloisel           #+#    #+#             */
-/*   Updated: 2023/03/25 15:04:10 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/03/25 18:14:01 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,11 +66,12 @@ int fill_stdout(t_cmd *cmd,int i)
 	op = i;
 	i++;
 	if(cmd->s[0][i] && cmd->s[0][i] == '>')
-	{
-		cmd->append = 1;
 		i++;
-	}
+	else 
+		cmd->append = 0;
 	i = skip_space(cmd->s[0],i);
+
+	printf("before while ?\n");
 	start_w = i;
 	while(cmd->s[0][i] && !is_special(cmd->s[0][i],"<> "))
 	{
@@ -79,6 +80,7 @@ int fill_stdout(t_cmd *cmd,int i)
 		else if(cmd->s[0][i] == '\"')
 			i = skip_to_X(cmd->s[0],i,"\"");
 		i++;
+		printf("iamstuck here ?\n");
 	}
 	if(is_special(cmd->s[0][i],"<> ") && start_w == i)
 		return(0);
@@ -98,18 +100,29 @@ int simple_stdin(t_cmd * cmd , int i,int op)
 int fill_stdin(t_cmd *cmd,int i)
 {
 	int op;	
-
+	char *tmp;
+	
 	op = i;	
 	i++;
 	if(cmd->s[0][i] && cmd->s[0][i] == '<')
-	{	
-		if(!here_doc(cmd,i + 1,op))
+	{
+		tmp = here_doc(cmd,i + 1,op);
+		if(!tmp)
 			return(0);
+		cmd->heredoc = 1;
+		if(!cmd->value_hd)
+			cmd->value_hd = tmp;
+		else
+		{
+			free(cmd->value_hd);
+			cmd->value_hd = tmp;
+		}
 	}
 	else
 	{
 		if(!simple_stdin(cmd,i,op))
 			return (0);
+		cmd->heredoc = 0;
 	}	
 	return(1);
 }
