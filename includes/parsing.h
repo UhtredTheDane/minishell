@@ -24,6 +24,7 @@ typedef struct s_cmd {
 	char *filename_out;
 	int append;
 	int heredoc;
+	int *pipe_heredoc;
 	char *value_hd;
 } t_cmd;
 

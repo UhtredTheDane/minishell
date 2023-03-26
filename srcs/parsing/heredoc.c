@@ -44,23 +44,22 @@ int max(char *input,char *word)
 	return (ft_strlen(word));
 }
 
-char *get_heredoc(char *word)
+char *get_heredoc(t_cmd* cmd, char *word)
 {
 	char *value;
 	char *input;
 	char *tmp;
 	int size;
 
-	int flags = O_WRONLY | O_CREAT | O_TRUNC;
-	int fd_heredoc; 
-	
-	flags = O_WRONLY | O_CREAT | O_TRUNC;
-	fd_heredoc = open("heredoc", flags, S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH);
-	if (fd_heredoc == -1)
+	cmd->pipe_heredoc = malloc(sizeof(int) * 2);
+	if (!cmd->pipe_heredoc)
+			return (NULL);
+	if (pipe(cmd->pipe_heredoc) == -1)
+	{
+		free(cmd->pipe_heredoc);
 		return (NULL);
-
-
-
+	}
+	
 	input = readline("Heredoc>");
 	tmp = "";
 	value = "";
@@ -70,8 +69,8 @@ char *get_heredoc(char *word)
 		value = malloc(size);
 		if(!value)
 		{
-			close(fd_heredoc);
-			unlink("heredoc");
+			close(cmd->pipe_heredoc[0]);
+			close(cmd->pipe_heredoc[1]);
 			return(NULL);	
 		}
 		value[0] = '\0';
@@ -83,18 +82,18 @@ char *get_heredoc(char *word)
 		ft_strlcat(value,"\n",size);
 		
 
-		write(fd_heredoc, value, size);
+		write(cmd->pipe_heredoc[1], value, size);
 		
 		input = readline("Heredoc>");
 	}
 	if(!input)
 	{
 		printf("Heredoc expect %s not end of file",word);
-		close(fd_heredoc);
-		unlink("heredoc");
+		close(cmd->pipe_heredoc[0]);
+		close(cmd->pipe_heredoc[1]);
 		return(NULL);
 	}
-	close(fd_heredoc);
+	close(cmd->pipe_heredoc[1]);
 	return (value);	
 }
 
@@ -105,5 +104,5 @@ char *here_doc(t_cmd *cmd,int i,int op)
 	word = get_name(cmd,i,op);
 	if(!word)
 		return(NULL);
-	return (get_heredoc(word));
+	return (get_heredoc(cmd, word));
 }

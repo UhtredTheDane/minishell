@@ -8,9 +8,8 @@ int redirect_stdin(t_parse *p, t_cmd *cmd, int num_read)
 
 	if (cmd->heredoc)
 	{
-		fd_heredoc = open("heredoc", O_RDONLY);
-		dup2(fd_heredoc, 0);
-		close(fd_heredoc);
+		dup2(cmd->pipe_heredoc[0], 0);
+		close(cmd->pipe_heredoc[0]);
 	}
 	else if (cmd->filename_in)
 	{
