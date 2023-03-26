@@ -11,13 +11,9 @@ typedef struct s_cmd t_cmd;
 typedef struct s_parse t_parse;
 typedef struct s_envp t_envp;
 
-int is_export(t_parse *p, t_cmd *cmd);
-
 
 int is_env(t_cmd *cmd);
 int    builtin_env(t_envp *envp, t_cmd *cmd);
-
-
 
 
 int is_exit(t_cmd *cmd);
@@ -26,9 +22,8 @@ int is_all_digit(char *str);
 
 
 
-
-
-int    builtin_export(t_envp *envp, char *key, char *value);
+int is_export(t_cmd *cmd);
+int    builtin_export(t_envp *envp, t_cmd *cmd);
 
 
 

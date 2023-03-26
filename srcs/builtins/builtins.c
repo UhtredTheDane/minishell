@@ -38,7 +38,6 @@ int is_builtin(t_cmd *cmd)
 
 int execute_builtin(t_parse *p, t_cmd *cmd)
 {
-
     if (is_cd(cmd))
     {
         return (builtin_cd(p->envp, cmd));
@@ -56,10 +55,7 @@ int execute_builtin(t_parse *p, t_cmd *cmd)
     }
     else if (is_unset(cmd))
         return (builtin_unset(p, cmd));
-    /*
-    else if (is_export(p, cmd))
-        return (1);
-*/
-
+    else if (is_export(cmd))
+        return (builtin_export(p->envp, cmd));
     return (0);
 }
