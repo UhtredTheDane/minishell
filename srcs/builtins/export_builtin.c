@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 18:03:15 by agengemb          #+#    #+#             */
-/*   Updated: 2023/03/26 03:14:40 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/03/26 03:55:19 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,17 +53,20 @@ int	add_var(t_envp *envp, char *cmd, int egal_pos)
 	char *key;
     char *value;
 	
-	cmd[egal_pos] = '\0';
-	key = ft_strjoin("", cmd);
-    value = ft_strjoin("", cmd + egal_pos + 1);
-	new = ft_envp_new(key, value);
-    if (!new)
+	if (cmd[egal_pos] != '\0')
 	{
-		free(key);
-		free(value);
-		return (0);
+    		cmd[egal_pos] = '\0';
+		key = ft_strjoin("", cmd);
+    		value = ft_strjoin("", cmd + egal_pos + 1);
+		new = ft_envp_new(key, value);
+   	 	if (!new)
+		{
+			free(key);
+			free(value);
+			return (0);
+		}
+    		ft_envp_add(&envp, new);
 	}
-    ft_envp_add(&envp, new);
 	return (1);
 }
 
@@ -77,7 +80,7 @@ int    builtin_export(t_envp *envp, t_cmd *cmd)
 	i = 1;
 	while (cmd->cmd[i])
 	{
-        egal_pos = skip_to_X(cmd->cmd[i], 0, "=");
+        	egal_pos = skip_to_X(cmd->cmd[i], 0, "=");
 		if (!check_identifier(cmd->cmd[i], egal_pos))
 			return_code = 1;
 		else
