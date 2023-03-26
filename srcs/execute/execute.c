@@ -4,7 +4,15 @@ extern int cmd_return;
 
 int redirect_stdin(t_parse *p, t_cmd *cmd, int num_read)
 { 
-	if (cmd->filename_in)
+	int fd_heredoc;
+
+	if (p->heredoc)
+	{
+		here_doc = open("heredoc", O_RDONLY);
+		dup2(here_doc, 0);
+		close(here_doc);
+	}
+	else if (cmd->filename_in)
 	{
 		cmd->in = open(cmd->filename_in, O_RDONLY);
 		dup2(cmd->in, 0);

@@ -157,3 +157,4 @@ int fill_stdin(t_cmd *cmd,int i)
 	}	
 	return(1);
 }
+ 

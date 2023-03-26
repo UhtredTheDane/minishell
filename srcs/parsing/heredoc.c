@@ -36,6 +36,7 @@ char *get_name(t_cmd *cmd,int i,int op)
 	}
 	return(trimming(op,cmd, start_w, i));
 }
+
 int max(char *input,char *word)
 {
 	if(ft_strlen(input) > ft_strlen((word)))
@@ -50,31 +51,53 @@ char *get_heredoc(char *word)
 	char *tmp;
 	int size;
 
+	int flags; = O_WRONLY | O_CREAT | O_TRUNC;
+	int fd_heredoc; 
+	
+	flags = O_WRONLY | O_CREAT | O_TRUNC;
+	fd_heredoc = open("heredoc", flags, S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH);
+	if (fd_heredoc == -1)
+		return (NULL);
+
+
+
 	input = readline("Heredoc>");
 	tmp = "";
 	value = "";
-	while(input && strncmp(input,word,max(input,word)))
+	while(input && strncmp(input, word, max(input, word)))
 	{
-		size = ft_strlen(input)+ft_strlen(value) + 2; 
+		size = ft_strlen(input) + ft_strlen(value) + 2; 
 		value = malloc(size);
 		if(!value)
+		{
+			close(fd_heredoc);
+			unlink("heredoc");
 			return(NULL);	
+		}
 		value[0] = '\0';
-		ft_strlcat(value,tmp,size);
+		ft_strlcat(value, tmp, size);
 		if(tmp && *tmp)
 			free(tmp);
 		tmp = value;
-		ft_strlcat(value,input,size);
+		ft_strlcat(value, input, size);
 		ft_strlcat(value,"\n",size);
+		
+
+		write(fd_heredoc, value, size);
+		
 		input = readline("Heredoc>");
 	}
 	if(!input)
 	{
 		printf("Heredoc expect %s not end of file",word);
+		close(fd_heredoc);
+		unlink("heredoc");
 		return(NULL);
 	}
+	close(fd_heredoc);
 	return (value);	
 }
+
 char *here_doc(t_cmd *cmd,int i,int op)
 {
 	char *word;
