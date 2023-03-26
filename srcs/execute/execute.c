@@ -197,24 +197,6 @@ int	execute(t_parse *p)
 		printf("split failed for some reason");
 		return(0);
 	}
-	if (p->first->heredoc)
-	{
-		if (ft_strncmp(p->first->cmd[0], "grep", 4) == 0)
-		{
-			while(p->first->cmd[j])
-				++j;
-			p->first->cmd[j] = malloc(sizeof(char) * 3);
-			if (!p->first->cmd[j])
-			{
-				free_parse(p);
-				return (0);
-			}
-			p->first->cmd[j][0] = '-';
-			p->first->cmd[j][1] = 'a';
-			p->first->cmd[j][2] = '\0';
-		}
-			printf("coucou\n");
-	}
 	//display_parse(p);	
 	if (!p->pipes_fd && is_builtin(p->first))
 		cmd_return = manager(p, p->first, 0);
