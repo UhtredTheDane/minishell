@@ -156,7 +156,6 @@ int	execute(t_parse *p)
 		printf("Impossible de lancer les pip\n");
 		return(0);
 	}
-	display_parse(p);	
 	free_parse(p);
 	return (1);
 }

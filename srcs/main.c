@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 17:09:09 by agengemb          #+#    #+#             */
-/*   Updated: 2023/03/25 00:32:41 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/03/26 00:51:05 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ int	main(int argc, char **argv, char **envp)
 		if (in_put)
 		{
 			p = parsing(in_put, envp_dico);
-			//display_parse(p);
 			if (!p)
 			{
 				printf("parsing return is NULL\n");

@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 18:03:30 by agengemb          #+#    #+#             */
-/*   Updated: 2023/03/25 23:47:34 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/03/26 01:01:09 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,16 +35,14 @@ int dollar_in_str(char *str)
 } 
 
 
-int check_basic_var(t_parse *p, int dollar_pos)
+void check_basic_var(t_parse *p, int dollar_pos, int i, int *return_code)
 {
     char *name_var;
-    int return_code;
     int size_name;
     char *value_var;
     char *tempo_value;
 
     size_name = i - dollar_pos;
-    return_code = 0;
     name_var = malloc(sizeof(char) * (size_name + 1));
     if (name_var)
     {
@@ -52,14 +50,13 @@ int check_basic_var(t_parse *p, int dollar_pos)
         value_var = getenv(name_var);
         if (value_var)
         {
-            tempo_value = get_value(p->envp, value_var);
+            tempo_value = get_value(p->envp, name_var);
             if (tempo_value)
                 printf("bash: unset: '%s': not a valid identifier\n", tempo_value);
-            return_code = 1;
+            *return_code = 1;
         }
         free(name_var);
     }
-    return (return_code);
 }
 
 int check_dollar(t_parse *p)
@@ -76,7 +73,7 @@ int check_dollar(t_parse *p)
         i = dollar_pos;
         while (ft_isalnum(p->s[i]))
             ++i;
-        return_code = check_basic_var(p, dollar_pos);
+        check_basic_var(p, dollar_pos, i, &return_code);
     }
     return (return_code);
 }
@@ -93,7 +90,7 @@ int    builtin_unset(t_parse *p, t_cmd *cmd)
     {
         key = cmd->cmd[i];
         delete_key(&p->envp, key);
-	    ++i;
+	++i;
     }
     return (return_code);
 }
