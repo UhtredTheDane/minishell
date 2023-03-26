@@ -47,6 +47,7 @@ int check_identifier(char *cmd, int egal_pos)
 	}
 	return (1);
 }
+
 int	add_var(t_envp *envp, char *cmd, int egal_pos)
 {
 	t_envp *new;
@@ -55,17 +56,25 @@ int	add_var(t_envp *envp, char *cmd, int egal_pos)
 	
 	if (cmd[egal_pos] != '\0')
 	{
-    		cmd[egal_pos] = '\0';
-		key = ft_strjoin("", cmd);
-    		value = ft_strjoin("", cmd + egal_pos + 1);
-		new = ft_envp_new(key, value);
-   	 	if (!new)
+    	cmd[egal_pos] = '\0';
+		if (get_value(envp, cmd) != NULL)
 		{
-			free(key);
-			free(value);
-			return (0);
+			value = ft_strjoin("", cmd + egal_pos + 1);
+			set_value(envp, cmd, value);
 		}
+		else
+		{
+			key = ft_strjoin("", cmd);
+    		value = ft_strjoin("", cmd + egal_pos + 1);
+			new = ft_envp_new(key, value);
+   	 		if (!new)
+			{
+				free(key);
+				free(value);
+				return (0);
+			}
     		ft_envp_add(&envp, new);
+		}
 	}
 	return (1);
 }
