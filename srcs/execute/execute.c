@@ -51,13 +51,13 @@ int char_in_str(char c, char *str)
 	return (0);
 }
 
-char *trim_double_quote(char *basic_str)
+char *trim_double_quote(char *basic_str, char *charset)
 {
 	char	*tempo_str;
 	char	*new_str;
 	int	quote_pos;
 
-	new_str = ft_strtrim(basic_str, "\"");
+	new_str = ft_strtrim(basic_str, char);
 	if (!new_str)
 			return (basic_str);
 	free(basic_str);
@@ -75,14 +75,47 @@ char *trim_double_quote(char *basic_str)
 void prepare_cmd(t_cmd *cmd)
 {
 	size_t	i;
-	
+	int quote_pos;
+	int double_pos;
+	char *first;
+	int current_pos;
+	char *tempo_str;
+
 	i = 0;
 	while (cmd->cmd[i])
 	{
-		cmd->cmd[i] = trim_double_quote(cmd->cmd[i]);
+		current_pos = 0;
+		while(cmd->cmd[i] + current_pos)
+		{
+			quote_pos = skip_to_X(cmd->cmd[i], 0, "'");
+			double_pos = skip_to_X(cmd->cmd[i], 0, "\"");
+			if (quote_pos <= double_pos)
+			{
+				current_pos = quote_pos;
+				first =  "'";
+			}
+			else
+			{
+				current_pos = double_pos;
+				first = "\"";
+			}
+			cmd->cmd[i][current_pos] = '\0';
+			tempo_str = ft_strjoin(cmd->cmd[i], cmd->cmd[i] + current_pos + 1);
+			free(cmd->cmd[i]);
+			cmd->cmd[i] = tempo_str;
+
+			current_pos = skip_to_X(cmd->cmd[i], current_pos + 1, first);
+			cmd->cmd[i][current_pos] = '\0';
+			tempo_str = ft_strjoin(cmd->cmd[i], cmd->cmd[i] + current_pos + 1);
+			free(cmd->cmd[i]);
+			cmd->cmd[i] = tempo_srt;
+		}
 		++i;
 	}
 }
+
+
+
 
 int execute_cmd(t_parse *p, t_cmd *cmd, int old_stdin, int old_stdout)
 {
