@@ -183,12 +183,31 @@ int manager(t_parse *p, t_cmd *cmd, int num_proc)
 
 int	execute(t_parse *p)
 {
+	int j;
+	
+	j = 0;
 	if(!edit_parsing(p))
 	{
 		printf("parsing has been cancel for some reasons");
 		return(0);
 	}	
-	if (p->first->
+	if (p->first->heredoc)
+	{
+		if (ft_strncmp(p->first->cmd[0], "grep", 4) == 0)
+		{
+			while(cmd->cmd[j])
+				++j;
+			cmd->cmd[j] = malloc(sizeof(char) * 3);
+			if (!cmd->cmd[j])
+			{
+				free_parse(p);
+				return (NULL);
+			}
+			cmd->cmd[j][0] = '-';
+			cmd->cmd[j][1] = 'a';
+			cmd->cmd[j][2] = '\0';
+		}
+	}
 	//display_parse(p);	
 	if(!split_cmd(p))
 	{
