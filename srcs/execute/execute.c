@@ -50,7 +50,7 @@ int char_in_str(char c, char *str)
 	}
 	return (0);
 }
-
+/*
 char *trim_double_quote(char *basic_str, char *charset)
 {
 	char	*tempo_str;
@@ -70,7 +70,7 @@ char *trim_double_quote(char *basic_str, char *charset)
 		new_str = tempo_str;
 	}
 	return (new_str);
-}
+}*/
 
 void prepare_cmd(t_cmd *cmd)
 {
@@ -85,10 +85,10 @@ void prepare_cmd(t_cmd *cmd)
 	while (cmd->cmd[i])
 	{
 		current_pos = 0;
-		while(cmd->cmd[i] + current_pos)
+		while(cmd->cmd[i][current_pos])
 		{
-			quote_pos = skip_to_X(cmd->cmd[i], 0, "'");
-			double_pos = skip_to_X(cmd->cmd[i], 0, "\"");
+			quote_pos = skip_to_X(cmd->cmd[i], current_pos, "'");
+			double_pos = skip_to_X(cmd->cmd[i], current_pos, "\"");
 			if (quote_pos <= double_pos)
 			{
 				current_pos = quote_pos;
@@ -104,11 +104,11 @@ void prepare_cmd(t_cmd *cmd)
 			free(cmd->cmd[i]);
 			cmd->cmd[i] = tempo_str;
 
-			current_pos = skip_to_X(cmd->cmd[i], current_pos + 1, first);
+			current_pos = skip_to_X(cmd->cmd[i], current_pos, first);
 			cmd->cmd[i][current_pos] = '\0';
 			tempo_str = ft_strjoin(cmd->cmd[i], cmd->cmd[i] + current_pos + 1);
 			free(cmd->cmd[i]);
-			cmd->cmd[i] = tempo_srt;
+			cmd->cmd[i] = tempo_str;
 		}
 		++i;
 	}
