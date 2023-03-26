@@ -4,7 +4,6 @@ extern int cmd_return;
 
 int redirect_stdin(t_parse *p, t_cmd *cmd, int num_read)
 { 
-	int fd_heredoc;
 
 	if (cmd->heredoc)
 	{
@@ -189,6 +188,7 @@ int	execute(t_parse *p)
 		printf("parsing has been cancel for some reasons");
 		return(0);
 	}	
+	if (p->first->
 	//display_parse(p);	
 	if(!split_cmd(p))
 	{
