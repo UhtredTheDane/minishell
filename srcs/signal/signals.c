@@ -1,9 +1,9 @@
 #include "../../includes/signals.h"
 
-int clean_exit(t_parse *p)
+int clean_exit()
 {
 
-	printf("exit");
+	printf("exit\n");
 	return (0); 
 }
 

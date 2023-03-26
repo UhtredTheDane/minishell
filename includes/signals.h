@@ -12,7 +12,7 @@
 
 typedef struct s_parse t_parse;
 
-int clean_exit(t_parse *p);
+int clean_exit();
 void signals_handler(int signal);
 int update_sigint(void);
 
