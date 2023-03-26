@@ -8,7 +8,11 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <unistd.h>
+# include "parsing.h"
 
+typedef struct s_parse t_parse;
+
+int clean_exit(t_parse *p);
 void signals_handler(int signal);
 int update_sigint(void);
 
