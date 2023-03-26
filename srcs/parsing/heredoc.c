@@ -100,26 +100,9 @@ char *get_heredoc(t_cmd* cmd, char *word)
 char *here_doc(t_cmd *cmd,int i,int op)
 {
 	char *word;
-	int j;
-	
-	j = 0;
+
 	word = get_name(cmd,i,op);
 	if(!word)
 		return(NULL);
-	printf("cmd %s\n", cmd->cmd[0]);
-	if (ft_strncmp(cmd->cmd[0], "grep", 4) == 0)
-	{
-		while(cmd->cmd[j])
-			++j;
-		cmd->cmd[j] = malloc(sizeof(char) * 3);
-		if (!cmd->cmd[j])
-		{
-			free(word);
-			return (NULL);
-		}
-		cmd->cmd[j][0] = '-';
-		cmd->cmd[j][1] = 'a';
-		cmd->cmd[j][2] = '\0';
-	}
 	return (get_heredoc(cmd, word));
 }
