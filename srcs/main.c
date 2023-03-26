@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 17:09:09 by agengemb          #+#    #+#             */
-/*   Updated: 2023/03/26 05:04:14 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/03/26 05:17:39 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,9 @@ int	main(int argc, char **argv, char **envp)
 				printf("we can't replace some variable");
 				return(0);
 
-			}	
+			}
 			if (!execute(p))
-				printf("Execution foiree\n");
+				printf("Execution foiree\n");	
 			free(in_put);	
 		}
 		else

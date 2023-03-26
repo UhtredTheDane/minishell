@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 18:03:15 by agengemb          #+#    #+#             */
-/*   Updated: 2023/03/26 03:55:19 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/03/26 05:24:43 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int is_entrie_valid(char *str, int egal_pos)
 
 int check_identifier(char *cmd, int egal_pos)
 {
-	if (!is_entrie_valid(cmd, egal_pos))
+	if (egal_pos == 0 || !is_entrie_valid(cmd, egal_pos))
 	{
 		printf("bash: export: '%s': not a valid identifier\n", cmd);
 		return (0);
