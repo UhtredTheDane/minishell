@@ -21,7 +21,7 @@ int edit_current(t_cmd *current)
 	i = 0;
 	while(current->s[0][i])
 	{
-		//printf("current edit parsing :%s\n",current->s[0] + i);
+		printf("current edit parsing :%s\n",current->s[0] + i);
 		if(current->s[0][i] && current->s[0][i] == '\'')
 			i = skip_to_X(current->s[0], i + 1, "\'") + 1;
 		if(current->s[0][i] && current->s[0][i] == '\"')

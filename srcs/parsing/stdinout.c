@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 16:07:38 by lloisel           #+#    #+#             */
-/*   Updated: 2023/03/25 18:14:01 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/03/26 14:59:15 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,34 @@ int is_special(char c,char *charset)
 	}
 	return (0);
 }
+int handle_file(t_cmd *cmd)
+{
+	int fd;
 
+	fd = open(cmd->filename_out,O_DIRECTORY);
+	if (fd >= 0)
+	{
+		close(fd);
+		printf("minishell: %s: Is a directory",cmd->filename_out);
+		return (0);
+	}
+	if(cmd->append)
+	{
+		fd = open(cmd->filename_out,O_WRONLY | O_CREAT | O_APPEND,0644);
+		if(fd < 0 )
+			return(0);
+		close(fd);
+	}
+	else
+	{
+		unlink(cmd->filename_out);
+		fd = open(cmd->filename_out,O_WRONLY | O_CREAT ,0644);
+		if(fd < 0 )
+			return(0);
+		close(fd);
+	}
+	return(1);
+}
 char *trimming(int op,t_cmd *cmd,int start,int end)
 {
 	char	*name;
@@ -64,14 +91,17 @@ int fill_stdout(t_cmd *cmd,int i)
 	int op;	
 
 	op = i;
-	i++;
+	++i;
 	if(cmd->s[0][i] && cmd->s[0][i] == '>')
+	{
+		cmd->append = 1;
 		i++;
+	}
 	else 
 		cmd->append = 0;
 	i = skip_space(cmd->s[0],i);
-
-	printf("before while ?\n");
+	if(is_special(cmd->s[0][i],"<>\0 "))
+		return(0);
 	start_w = i;
 	while(cmd->s[0][i] && !is_special(cmd->s[0][i],"<> "))
 	{
@@ -80,11 +110,11 @@ int fill_stdout(t_cmd *cmd,int i)
 		else if(cmd->s[0][i] == '\"')
 			i = skip_to_X(cmd->s[0],i,"\"");
 		i++;
-		printf("iamstuck here ?\n");
 	}
 	if(is_special(cmd->s[0][i],"<> ") && start_w == i)
 		return(0);
 	cmd->filename_out = trimming(op,cmd,start_w,i);
+	handle_file(cmd);
 	return(1);
 }
 

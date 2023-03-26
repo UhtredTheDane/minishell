@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 13:17:21 by lloisel           #+#    #+#             */
-/*   Updated: 2023/03/25 13:39:34 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/03/26 14:28:07 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,14 @@ int parse_bis(t_parse *p,int *i,int *start_w)
 		if(!add_cmd(p,*start_w,*i))
 			return(0);
 		*start_w = *i + 1;
-		*i = skip_space(p->s,*i + 1);
+		*i = skip_space(p->s,*i + 1);	
+		if(p->s[*i] == '|')
+			return(0);
 		if(p->s[*i] == '\0')
 		{
 			if(!pipe_at_end(p))
 				return(0);
-		}	
+		}
 	}
 	if(p->s[*i] == '\'')
 	{
