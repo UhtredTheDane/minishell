@@ -191,6 +191,12 @@ int	execute(t_parse *p)
 		printf("parsing has been cancel for some reasons");
 		return(0);
 	}	
+	//display_parse(p);	
+	if(!split_cmd(p))
+	{
+		printf("split failed for some reason");
+		return(0);
+	}
 	if (p->first->heredoc)
 	{
 		if (ft_strncmp(p->first->cmd[0], "grep", 4) == 0)
@@ -208,12 +214,6 @@ int	execute(t_parse *p)
 			cmd->cmd[j][2] = '\0';
 		}
 	}
-	//display_parse(p);	
-	if(!split_cmd(p))
-	{
-		printf("split failed for some reason");
-		return(0);
-	}	
 	//display_parse(p);	
 	if (!p->pipes_fd && is_builtin(p->first))
 		cmd_return = manager(p, p->first, 0);
