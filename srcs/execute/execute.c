@@ -201,18 +201,19 @@ int	execute(t_parse *p)
 	{
 		if (ft_strncmp(p->first->cmd[0], "grep", 4) == 0)
 		{
-			while(cmd->cmd[j])
+			while(p->first->cmd[j])
 				++j;
-			cmd->cmd[j] = malloc(sizeof(char) * 3);
-			if (!cmd->cmd[j])
+			p->first->cmd[j] = malloc(sizeof(char) * 3);
+			if (!p->first->cmd[j])
 			{
 				free_parse(p);
-				return (NULL);
+				return (0);
 			}
-			cmd->cmd[j][0] = '-';
-			cmd->cmd[j][1] = 'a';
-			cmd->cmd[j][2] = '\0';
+			p->first->cmd[j][0] = '-';
+			p->first->cmd[j][1] = 'a';
+			p->first->cmd[j][2] = '\0';
 		}
+			printf("coucou\n");
 	}
 	//display_parse(p);	
 	if (!p->pipes_fd && is_builtin(p->first))
