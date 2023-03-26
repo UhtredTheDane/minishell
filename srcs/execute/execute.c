@@ -88,6 +88,23 @@ void prepare_cmd(t_cmd *cmd)
 	char *tempo_str;
 
 	i = 0;
+	if (cmd->heredoc)
+	{
+		if (ft_strncmp(cmd->cmd[0], "grep", 4) == 0)
+		{
+			while(cmd->cmd[i])
+				++i;
+			cmd->cmd[i] = malloc(sizeof(char) * 3);
+			if (cmd->cmd[i])
+			{
+				cmd->cmd[i][0] = '-';
+				cmd->cmd[i][1] = 'a';
+				cmd->cmd[i][2] = '\0';
+			}
+		
+		}
+	}
+	i = 0;
 	while (cmd->cmd[i])
 	{
 		current_pos = 0;
