@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 17:48:19 by lloisel           #+#    #+#             */
-/*   Updated: 2023/03/27 22:06:29 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/03/27 23:09:56 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,27 +22,31 @@ int clean_exit(t_parse *p,t_envp *envp)
 	printf("exit\n");
 	return (0); 
 }
-/*
+
 void interactive_signals_handler(int signal)
 {
      if(signal == 2)
     {
         write(0, "\n", 1);
-        exit(0);
+/*	char **tab = malloc(sizeof(char*) * 2);
+	tab[0] = ft_strdup("exit");
+	tab[1] = NULL;
+	execve();*/
+	exit(0);
         /*rl_on_new_line();
        	rl_replace_line("", 1);
         rl_redisplay();*/
     }
-}*/
+}
 
 void signals_handler(int signal)
 {
     if(signal == 2)
     {
-        /*write(0, "\n", 1);
+        write(0, "\n", 1);
         rl_on_new_line();
        	rl_replace_line("", 1);
-        rl_redisplay();*/
+        rl_redisplay();
     }
 }   
 
@@ -57,7 +61,7 @@ int update_sigint_interactive(void)
 	struct sigaction action;
 	
 	ft_bzero(&action, sizeof(action));
-	action.sa_handler = &interactive_signals_handler;
+	action.sa_handler = SIG_DFL;
 	if (sigaction(SIGINT, &action, NULL) == -1)
     {
         perror("Erreur sigaction\n");
