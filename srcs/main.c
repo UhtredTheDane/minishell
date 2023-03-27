@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 17:09:09 by agengemb          #+#    #+#             */
-/*   Updated: 2023/03/27 22:02:03 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/03/28 00:49:35 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,25 +39,30 @@ int	main(int argc, char **argv, char **envp)
 		in_put = readline(prompt);
 		if (in_put)
 		{
+			if(p)
+				free_parse(p);
 			p = parsing(in_put, envp_dico);
 			if (!p)
 			{
-				printf("parsing return is NULL\n");
+				printf("parsing error\n");
 				return (1);
 			}
-			add_history(p->s);	
-//			display_parse(p);	
-			if(!replace_dollards(p,envp_dico))
+			else
 			{
-				printf("we can't replace some variable");
-				return(0);
+				add_history(p->s);	
+				//			display_parse(p);	
+				if(!replace_dollards(p,envp_dico))
+				{
+					printf("we can't replace some variable");
+					return(0);
+				}
+				else
+				{
+					if (!execute(p))
+						printf("Execution foiree\n");	
+				}
 			}
-		
-			//display_parse(p);	
-			if (!execute(p))
-				printf("Execution foiree\n");	
 			free(in_put);	
-			//free_parse(p);
 		}
 		else
 			return (clean_exit(p,envp_dico));

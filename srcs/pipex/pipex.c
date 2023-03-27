@@ -23,13 +23,14 @@ char	*make_cmd(t_parse *p, char *name_cmd)
 	envp = create_envp_tab(p->envp);
 	cmd = format_string(name_cmd);
 	if (!cmd)
-		return (NULL);
+		return (clean_2d_tab(envp),NULL);
 	i = 0;
 	while (envp[i] && ft_strncmp(envp[i], "PATH=", 5) != 0)
 		++i;
 	tempo_cmd = find_path(envp, cmd, i);
+	clean_2d_tab(envp);
 	if (!tempo_cmd)
-		return (NULL);
+		return (free(cmd),NULL);
 	return (tempo_cmd);
 }
 

@@ -56,6 +56,8 @@ void free_parse(t_parse *p)
 			free(current);
 			current = tmp;
 		}
+		if(p->pipes_fd)
+			free(p->pipes_fd);
 		free(p);
 	}
 }
