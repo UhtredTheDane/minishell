@@ -16,7 +16,7 @@
 #include <stdio.h>
 #include <stdlib.h>		
 #include "../../libft/libft.h"
-
+#include "../../includes/signals.c"
 
 char *get_name(t_cmd *cmd,int i,int op)
 {
@@ -59,7 +59,7 @@ char *get_heredoc(t_cmd* cmd, char *word)
 		free(cmd->pipe_heredoc);
 		return (NULL);
 	}
-	
+	update_sigint_interractive();
 	input = readline("Heredoc>");
 	tmp = "";
 	value = "";
