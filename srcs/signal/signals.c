@@ -45,17 +45,36 @@ int  update_sigint_interractive(void)
 	return (1);
 }
 
-int update_sigint(void)
+int update_sigint_interactive(t_parse *p)
 {
 	struct sigaction action;
-
-	ft_bzero(&action, sizeof(action));
-	action.sa_handler = &signals_handler;
-	if (sigaction(SIGINT, &action, NULL) == -1)
+	
+	
+	if (sigaction(SIGINT, p->old_action, NULL) == -1)
     {
         perror("Erreur sigaction\n");
         return (0);
     }
+    return (1);
+}
+
+int update_sigint(t_parse *p)
+{
+	struct sigaction action;
+	struct sigaction *old_action;
+	
+	old_action = malloc(sizeof(struct sigaction));
+	if (!old_action)
+		return (0);
+	ft_bzero(&action, sizeof(action));
+	ft_bzero(old_action, sizeof(old_action));
+	action.sa_handler = &signals_handler;
+	if (sigaction(SIGINT, &action, old_action) == -1)
+    {
+        perror("Erreur sigaction\n");
+        return (0);
+    }
+	p->old_action = old_action;
     return (1);
 }
 
