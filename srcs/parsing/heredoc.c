@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 16:47:53 by lloisel           #+#    #+#             */
-/*   Updated: 2023/03/27 21:40:15 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/03/28 00:03:31 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ int get_heredoc(t_parse *p, t_cmd* cmd, char *word)
 {
 	pid_t pid;
 	int status; 
+	int return_code;
 
 	p = (t_parse *) p;
 	cmd->pipe_heredoc = malloc(sizeof(int) * 2);
@@ -109,13 +110,12 @@ int get_heredoc(t_parse *p, t_cmd* cmd, char *word)
 	}
 	if (!update_sigint_interactive(0))
 		return (0);
-	waitpid(-1, &status, 0);
+	pid = waitpid(-1, &status, 0);
 	if (!update_sigint_no_interactive()) 
 		return (1);
 	close(cmd->pipe_heredoc[1]);
-	if (WIFEXITED(status))
-		if (!WEXITSTATUS(status))
-			return (0);
+	if (!WIFEXITED(status))
+		return (0);
 	return (1);	
 }
 
