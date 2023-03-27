@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 17:59:28 by agengemb          #+#    #+#             */
-/*   Updated: 2023/03/25 19:02:28 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/03/27 05:12:38 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,25 +26,25 @@ char *init_path(t_envp *envp, t_cmd *cmd)
 
     default_folder = NULL;
     home_replace = NULL;
-    if (!cmd->cmd[2])
-    {
-        if (!cmd->cmd[1] || (cmd->cmd[1][0] = '~'))
-        {
-            default_folder = get_value(envp, "HOME");
-            if (!default_folder)
-                return (cmd->cmd[1])
-            if (cmd->cmd[1] && cmd->cmd[1][0] = '~' && ft_strlen(cmd->cmd[1]) != 1)
-            {
-                home_replace = ft_strjoin(default_folder, cmd->cmd[1][1]);
-                if(!home_replace)
-                    return (cmd->cmd[1]);
-                return (home_replace);
-            }
-            return (default_folder);
-        }
-        else
-            return (cmd->cmd[1]);
-    }
+	if (!cmd->cmd[2])
+    	{
+	    	if (!cmd->cmd[1] || (cmd->cmd[1][0] == '~'))
+        	{
+            		default_folder = get_value(envp, "HOME");
+            		if (!default_folder)
+                		return (cmd->cmd[1]);
+            		if (cmd->cmd[1] && cmd->cmd[1][0] == '~' && ft_strlen(cmd->cmd[1]) != 1)
+            		{
+                		home_replace = ft_strjoin(default_folder, cmd->cmd[1] + 1);
+                		if(!home_replace)
+                    			return (cmd->cmd[1]);
+                		return (home_replace);
+            		}
+            		return (default_folder);
+		}
+		else
+			return (cmd->cmd[1]);
+	}
     printf("minishell: cd: too many arguments\n");
     return (NULL);
 }
@@ -53,14 +53,17 @@ int check_path(const char *path)
 {
     struct stat buf;
 
-    if (lstat(path, &buf) == -1)
-        return (0);
-    if (!S_ISDIR(buf.st_mode))
-    {
-         printf("minishell: cd: not a directory: %s\n", path);
-        return (0);
-    }
-    return (1);
+    	if (lstat(path, &buf) == -1)
+	{
+        	printf("minishell: cd: %s No such file or directory\n", path);
+		return (0);
+	}
+    	if (!S_ISDIR(buf.st_mode))
+    	{
+        	 printf("minishell: cd: %s Not a directory\n", path);
+        	return (0);
+    	}
+    	return (1);
 }
 
 char  *env_with_no_pwd()
