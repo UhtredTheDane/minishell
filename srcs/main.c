@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 17:09:09 by agengemb          #+#    #+#             */
-/*   Updated: 2023/03/27 18:10:37 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/03/27 22:02:03 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	main(int argc, char **argv, char **envp)
 	p = NULL;
 	if (!envp_dico)
 		return (1);
-	if (!init_all_signal()) 
+	if (!init_all_signal_no_interactive()) 
 		return (1);
 	while (1)
 	{

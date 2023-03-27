@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 17:48:19 by lloisel           #+#    #+#             */
-/*   Updated: 2023/03/27 18:06:27 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/03/27 22:06:29 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@ void signals_handler(int signal)
 {
     if(signal == 2)
     {
-        write(0, "\n", 1);
+        /*write(0, "\n", 1);
         rl_on_new_line();
        	rl_replace_line("", 1);
-        rl_redisplay();
+        rl_redisplay();*/
     }
 }   
 

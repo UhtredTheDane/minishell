@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 13:00:43 by lloisel           #+#    #+#             */
-/*   Updated: 2023/03/27 21:32:58 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/03/27 22:01:18 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int add_cmd(t_parse *p ,int start,int end)
 	return(1);
 }
 
-t_parse *init_parse(t_envp *envp_dico, struct sigaction *old_action)
+t_parse *init_parse(t_envp *envp_dico)
 {
 	t_parse *p;
 
