@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 17:48:19 by lloisel           #+#    #+#             */
-/*   Updated: 2023/03/27 23:49:27 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/03/28 00:31:56 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@ void interactive_signals_handler(int signal)
 {
      if(signal == 2)
     {
-        printf("\n");
-	   write(0, "\n", 1);
        	rl_replace_line("", 1);
 	exit(0);
         /*rl_on_new_line();
