@@ -48,7 +48,6 @@ char *get_heredoc(t_parse *p, t_cmd* cmd, char *word)
 {
 	char *value;
 	char *input;
-	char *tmp;
 	int size;
 
 	cmd->pipe_heredoc = malloc(sizeof(int) * 2);
@@ -61,7 +60,6 @@ char *get_heredoc(t_parse *p, t_cmd* cmd, char *word)
 	}
 	update_sigint_interactive(p);
 	input = readline("Heredoc>");
-	tmp = "";
 	value = "";
 	while(input && strncmp(input, word, max(input, word)))
 	{
@@ -74,14 +72,8 @@ char *get_heredoc(t_parse *p, t_cmd* cmd, char *word)
 			return(NULL);	
 		}
 		value[0] = '\0';
-		ft_strlcat(value, tmp, size);
-		if(tmp && *tmp)
-			free(tmp);
-		tmp = value;
 		ft_strlcat(value, input, size);
 		ft_strlcat(value,"\n",size);
-		
-
 		write(cmd->pipe_heredoc[1], value, size);
 		
 		input = readline("Heredoc>");

@@ -56,6 +56,7 @@ int char_in_str(char c, char *str)
 	}
 	return (0);
 }
+
 /*
 char *trim_double_quote(char *basic_str, char *charset)
 {
@@ -78,6 +79,41 @@ char *trim_double_quote(char *basic_str, char *charset)
 	return (new_str);
 }*/
 
+char **update_for_grep(char **cmd)
+{
+	char **new_cmd;
+	int i;
+	int j;
+
+	i = 0;
+	while (cmd[i])
+		i++;
+	new_cmd = malloc(sizeof(char*) * (i + 2))
+	if (!new_cmd)
+		return (cmd);
+
+	i = 0;
+	j = 0;
+	while(cmd[i])
+	{
+		if (j == 1)
+			new_cmd[j] = ft_strdup("-a");
+			//tester pour free
+		else
+		{
+			new_cmd[j] = ft_strdup(cmd[i]);
+			//tester poour free en cas d erreur
+			++i;
+		}
+		++j;
+	}
+	new_cmd[j] = NULL;
+	//free(cmd);
+	return (new_cmd);
+	
+	
+}
+
 void prepare_cmd(t_cmd *cmd)
 {
 	size_t	i;
@@ -87,22 +123,10 @@ void prepare_cmd(t_cmd *cmd)
 	int current_pos;
 	char *tempo_str;
 
-	i = 0;
 	if (cmd->heredoc)
 	{
 		if (ft_strncmp(cmd->cmd[0], "grep", 4) == 0)
-		{
-			while(cmd->cmd[i])
-				++i;
-			cmd->cmd[i] = malloc(sizeof(char) * 3);
-			if (cmd->cmd[i])
-			{
-				cmd->cmd[i][0] = '-';
-				cmd->cmd[i][1] = 'a';
-				cmd->cmd[i][2] = '\0';
-			}
-		
-		}
+			cmd->cmd = update_for_grep(cmd->cmd);
 	}
 	i = 0;
 	while (cmd->cmd[i])
