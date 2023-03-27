@@ -19,6 +19,32 @@ void signals_handler(int signal)
     }
 }   
 
+void	signal_print_newline(int signal)
+{
+	(void)signal;
+	rl_on_new_line();
+}
+
+int  update_sigint_interractive(void)
+{
+	struct sigaction action;
+
+	ft_bzero(&action, sizeof(action));
+
+	action.sa_handler = &signal_print_newline;
+	if (sigaction(SIGINT, &action, NULL) == -1)
+	{
+		perror("Erreur sigaction\n");
+        return (0);
+	}
+	if (sigaction(SIGQUIT, &action, NULL) == -1)
+	{
+		perror("Erreur sigaction\n");
+        return (0);
+	}
+	return (1);
+}
+
 int update_sigint(void)
 {
 	struct sigaction action;
