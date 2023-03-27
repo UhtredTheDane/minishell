@@ -122,7 +122,7 @@ int builtin_cd(t_envp *envp, t_cmd *cmd)
 {
     char *path;
 
-    path = init_path(cmd);
+    path = init_path(envp, cmd);
     if (!path)
         return (1);
     if (!check_path(path))

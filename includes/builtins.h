@@ -52,7 +52,7 @@ int update_env(t_envp *envp);
 int env_with_pwd(t_envp *envp, char *pwd, char **new_pwd, char **old_pwd);
 char  *env_with_no_pwd();
 int check_path(const char *path);
-char *init_path(t_cmd *cmd);
+char *init_path(t_envp *envp, t_cmd *cmd);
 
 
 
