@@ -22,6 +22,7 @@ int clean_exit(t_parse *p,t_envp *envp)
 	printf("exit\n");
 	return (0); 
 }
+/*
 void interactive_signals_handler(int signal)
 {
      if(signal == 2)
@@ -32,7 +33,7 @@ void interactive_signals_handler(int signal)
        	rl_replace_line("", 1);
         rl_redisplay();*/
     }
-}
+}*/
 
 void signals_handler(int signal)
 {

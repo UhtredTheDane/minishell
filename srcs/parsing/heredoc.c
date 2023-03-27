@@ -24,8 +24,6 @@ char *get_name(t_cmd *cmd,int i,int op)
 {
 	int start_w;
 		
-	/*if (!update_sigint_interactive())
-		return (0);*/
 	i = skip_space(cmd->s[0], i);
 	if(is_special(cmd->s[0][i],"<> "))
 		return(NULL);
@@ -55,8 +53,8 @@ int run_heredoc(t_cmd *cmd, char *word)
 	int size;
 
 	close(cmd->pipe_heredoc[0]);
-	/*if (!update_sigint_interactive())
-		return (0);*/
+	if (!update_sigint_interactive())
+		return (0);
 	input = readline("Heredoc>");
 	value = "";
 	while(input && strncmp(input, word, max(input, word)))
@@ -80,8 +78,6 @@ int run_heredoc(t_cmd *cmd, char *word)
 		close(cmd->pipe_heredoc[1]);
 		return(0);
 	}
-	/*if (!init_all_signal_no_interactive()) 
-		return (1);*/
 	close(cmd->pipe_heredoc[1]);
 	return (1);
 }
@@ -92,6 +88,9 @@ int get_heredoc(t_parse *p, t_cmd* cmd, char *word)
 	int status; 
 	int return_code;
 
+/*
+	if (!update_sigint_interactive())
+		return (0);*/
 	p = (t_parse *) p;
 	cmd->pipe_heredoc = malloc(sizeof(int) * 2);
 	if (!cmd->pipe_heredoc)
@@ -115,6 +114,8 @@ int get_heredoc(t_parse *p, t_cmd* cmd, char *word)
 	waitpid(-1, &status, 0);
 	if (WIFEXITED(status))
 		cmd_return = WEXITSTATUS(status);
+	/*if (!init_all_signal_no_interactive()) 
+		return (1);*/
 	close(cmd->pipe_heredoc[1]);
 	return (1);	
 }
