@@ -77,6 +77,7 @@ int add_cmd(t_parse *p ,int start,int end)
 		cmd->s[0][i]=p->s[start + i];
 		++i;
 	}
+	p->pipes_fd = NULL;
 	cmd->s[0][i] = '\0';
 	add_cmd_bis(p,cmd);
 	p->count = p->count + 1;
