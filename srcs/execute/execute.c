@@ -230,13 +230,13 @@ int	execute(t_parse *p)
 		printf("parsing has been cancel for some reasons");
 		return(0);
 	}	
-	display_parse(p);	
+	//display_parse(p);	
 	if(!split_cmd(p))
 	{
 		printf("split failed for some reason");
 		return(0);
 	}
-	display_parse(p);	
+	//display_parse(p);	
 	if (!p->pipes_fd && is_builtin(p->first))
 		cmd_return = manager(p, p->first, 0);
 	else if(!run_pipe(p))

@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 16:47:53 by lloisel           #+#    #+#             */
-/*   Updated: 2023/03/27 03:25:29 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/03/27 21:40:15 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 #include <stdlib.h>		
 #include "../../libft/libft.h"
 #include "../../includes/signals.h"
+
+extern int cmd_return;
 
 char *get_name(t_cmd *cmd,int i,int op)
 {
@@ -51,7 +53,7 @@ int run_heredoc(t_cmd *cmd, char *word)
 	int size;
 
 	close(cmd->pipe_heredoc[0]);
-	update_sigint_interactive();
+	//update_sigint_interactive();
 	input = readline("Heredoc>");
 	value = "";
 	while(input && strncmp(input, word, max(input, word)))
@@ -105,19 +107,19 @@ int get_heredoc(t_parse *p, t_cmd* cmd, char *word)
 		return_code = run_heredoc(cmd, word);
 		exit(return_code);
 	}
-	pid = waitpid(-1, &status, 0);
+	waitpid(-1, &status, 0);
 	if (WIFEXITED(status))
 		cmd_return = WEXITSTATUS(status);
 	close(cmd->pipe_heredoc[1]);
 	return (1);	
 }
 
-int *here_doc(t_parse *p, t_cmd *cmd, int i, int op)
+int here_doc(t_parse *p, t_cmd *cmd, int i, int op)
 {
 	char *word;
 
 	word = get_name(cmd,i,op);
 	if(!word)
-		return(NULL);
+		return(0);
 	return (get_heredoc(p, cmd, word));
 }

@@ -13,6 +13,11 @@
 
 # include "envp.h"
 # include "signals.h"
+# include <unistd.h>
+# include <sys/types.h>
+# include <sys/wait.h>
+# include <stdlib.h>
+
 typedef struct s_cmd {
 	char **s;
 	char **cmd;
@@ -40,7 +45,7 @@ typedef struct s_parse {
 } t_parse;
 
 char *get_name(t_cmd *cmd,int i,int op);
-char *here_doc(t_parse *p, t_cmd *cmd,int i,int op);
+int here_doc(t_parse *p, t_cmd *cmd,int i,int op);
 int double_quote_no_close(char *s,int *i);
 int single_quote_no_close(char *s,int *i);
 int add_cmd(t_parse *p ,int start,int end);
