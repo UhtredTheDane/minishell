@@ -40,27 +40,27 @@ void	signal_print_newline(int signal)
 	rl_on_new_line();
 }
 
-int update_sigint_interactive(t_parse *p)
-{
-
-	p = (t_parse *) p;	
-	if (sigaction(SIGINT, p->old_action, NULL) == -1)
-    {
-        perror("Erreur sigaction\n");
-        return (0);
-    }
-    
-    return (1);
-}
-
-int update_sigint(struct sigaction *old_action)
+int update_sigint_interactive(void)
 {
 	struct sigaction action;
 	
 	ft_bzero(&action, sizeof(action));
-	ft_bzero(old_action, sizeof(old_action));
+	action.sa_handler = SIG_DFL;
+	if (sigaction(SIGINT, &action, NULL) == -1)
+    {
+        perror("Erreur sigaction\n");
+        return (0);
+    }
+    return (1);
+}
+
+int update_sigint_no_interactive(void)
+{
+	struct sigaction action;
+	
+	ft_bzero(&action, sizeof(action));
 	action.sa_handler = &signals_handler;
-	if (sigaction(SIGINT, &action, old_action) == -1)
+	if (sigaction(SIGINT, &action, NULL) == -1)
     {
         perror("Erreur sigaction\n");
         return (0);
@@ -82,9 +82,9 @@ int update_sigquit(void)
     return (1);
 }
 
-int init_all_signal(struct sigaction *old_action)
+int init_all_signal_no_interactive()
 {
-    if (!update_sigint(old_action))
+    if (!update_sigint_no_interactive())
         return (0);
     if (!update_sigquit())
         return (0);

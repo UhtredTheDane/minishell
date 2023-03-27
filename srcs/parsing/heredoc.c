@@ -53,7 +53,8 @@ int run_heredoc(t_cmd *cmd, char *word)
 	int size;
 
 	close(cmd->pipe_heredoc[0]);
-	//update_sigint_interactive();
+	if (!update_sigint_interactive())
+		return (0);
 	input = readline("Heredoc>");
 	value = "";
 	while(input && strncmp(input, word, max(input, word)))
@@ -78,6 +79,7 @@ int run_heredoc(t_cmd *cmd, char *word)
 		return(0);
 	}
 	close(cmd->pipe_heredoc[1]);
+	init_all_signal_no_interactive();
 	return (1);
 }
 

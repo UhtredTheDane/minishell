@@ -23,7 +23,6 @@ int	main(int argc, char **argv, char **envp)
 	char	*in_put;
 	t_parse *p;
 	t_envp *envp_dico;
-	struct sigaction old_action;
 
 	if (argc < 1 || argc > 1)
 		return (1);
@@ -33,7 +32,7 @@ int	main(int argc, char **argv, char **envp)
 	p = NULL;
 	if (!envp_dico)
 		return (1);
-	if (!init_all_signal(&old_action)) 
+	if (!init_all_signal()) 
 		return (1);
 	while (1)
 	{
