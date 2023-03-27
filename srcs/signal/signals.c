@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 17:48:19 by lloisel           #+#    #+#             */
-/*   Updated: 2023/03/27 23:09:56 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/03/27 23:33:38 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,6 @@ void interactive_signals_handler(int signal)
     }
 }
 
-void father_interactive_signals_handler(int signal)
-{
-     if(signal == 2)
-    {
-    }
-}
 
 void signals_handler(int signal)
 {
@@ -67,10 +61,10 @@ int update_sigint_interactive(int type)
 {
 	struct sigaction action;
 	
-    i f(type == 0)
+    if(type == 0)
     {
         ft_bzero(&action, sizeof(action));
-	    action.sa_handler = &father_interactive_signals_handlerL;
+	    action.sa_handler = SIG_IGN;
 	    if (sigaction(SIGINT, &action, NULL) == -1)
         {
             perror("Erreur sigaction\n");

@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 17:45:05 by lloisel           #+#    #+#             */
-/*   Updated: 2023/03/27 22:03:40 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/03/27 23:29:17 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ typedef struct s_parse t_parse;
 
 int clean_exit(t_parse *p,t_envp *envp);
 void signals_handler(int signal);
-int update_sigint_interactive(void);
+int update_sigint_interactive(int type);
 int update_sigint_no_interactive(void);
 int update_sigint_interactive();
 
