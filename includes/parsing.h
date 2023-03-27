@@ -12,7 +12,7 @@
 # define PARSING_H
 
 # include "envp.h"
-
+# include "signals.h"
 typedef struct s_cmd {
 	char **s;
 	char **cmd;
@@ -35,7 +35,7 @@ typedef struct s_parse {
 	int count;
 	t_envp *envp;
 	int *pipes_fd;
-
+	struct sigaction *old_action;
 	struct s_cmd *first;
 	struct s_cmd *last;	
 } t_parse;
@@ -52,7 +52,7 @@ int is_special(char c,char *charset);
 int split_cmd(t_parse *p);
 int	execute(t_parse *p);
 int add_cmd(t_parse *p ,int start,int end);
-t_parse *parsing(char *input, t_envp *envp_dico);
+t_parse *parsing(char *input, t_envp *envp_dico, struct sigaction *old_action);
 int fill_stdin(t_parse *p, t_cmd *cmd,int i);
 int fill_stdout(t_cmd *cmd,int i);
 void display_parse(t_parse *p);

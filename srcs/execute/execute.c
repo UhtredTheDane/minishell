@@ -200,9 +200,6 @@ int manager(t_parse *p, t_cmd *cmd, int num_proc)
 
 int	execute(t_parse *p)
 {
-	int j;
-	
-	j = 0;
 	if(!edit_parsing(p))
 	{
 		printf("parsing has been cancel for some reasons");

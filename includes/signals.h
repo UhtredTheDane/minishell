@@ -14,7 +14,7 @@ typedef struct s_parse t_parse;
 
 int clean_exit();
 void signals_handler(int signal);
-int update_sigint(void);
-
+int update_sigint(struct sigaction *old_action);
+int update_sigint_interactive(t_parse *p);
 int init_all_signal();
 #endif

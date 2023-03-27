@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 16:47:53 by lloisel           #+#    #+#             */
-/*   Updated: 2023/03/26 22:53:31 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/03/27 02:54:58 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <stdio.h>
 #include <stdlib.h>		
 #include "../../libft/libft.h"
-#include "../../includes/signals.c"
+#include "../../includes/signals.h"
 
 char *get_name(t_cmd *cmd,int i,int op)
 {

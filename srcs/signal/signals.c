@@ -27,7 +27,6 @@ void	signal_print_newline(int signal)
 
 int update_sigint_interactive(t_parse *p)
 {
-	struct sigaction action;
 	
 	if (sigaction(SIGINT, p->old_action, NULL) == -1)
     {
@@ -65,10 +64,6 @@ int update_sigquit(void)
     }
     return (1);
 }
-
-old_action = malloc(sizeof(struct sigaction));
-	if (!old_action)
-		return (0);
 
 int init_all_signal(struct sigaction *old_action)
 {
