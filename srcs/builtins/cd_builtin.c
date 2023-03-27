@@ -19,21 +19,32 @@ int is_cd(t_cmd *cmd)
     return (0);
 }
 
-char *init_path(t_cmd *cmd)
+char *init_path(t_envp *envp, t_cmd *cmd)
 {
     char *default_folder;
+    char  *home_replace;
 
-    if (!cmd->cmd[1])
+    default_folder = NULL;
+    home_replace = NULL;
+    if (!cmd->cmd[2])
     {
-        default_folder = malloc(sizeof(char) * 2);
-        if (!default_folder)
-            return (NULL);
-        default_folder[0] = '~';
-        default_folder[1] = '\0';
-        return (default_folder);
+        if (!cmd->cmd[1] || (cmd->cmd[1][0] = '~'))
+        {
+            default_folder = get_value(envp, "HOME");
+            if (!default_folder)
+                return (cmd->cmd[1])
+            if (cmd->cmd[1] && cmd->cmd[1][0] = '~' && ft_strlen(cmd->cmd[1]) != 1)
+            {
+                home_replace = ft_strjoin(default_folder, cmd->cmd[1][1]);
+                if(!home_replace)
+                    return (cmd->cmd[1]);
+                return (home_replace);
+            }
+            return (default_folder);
+        }
+        else
+            return (cmd->cmd[1]);
     }
-    else if (!cmd->cmd[2])
-        return (cmd->cmd[1]);
     printf("minishell: cd: too many arguments\n");
     return (NULL);
 }
@@ -111,16 +122,11 @@ int builtin_cd(t_envp *envp, t_cmd *cmd)
 {
     char *path;
 
-    
     path = init_path(cmd);
     if (!path)
         return (1);
     if (!check_path(path))
-    {
-        if (path[0] == '~' && ft_strlen(path) == 1)
-            free(path);
         return (1);
-    }
     if (chdir(path) == -1)
     {
         perror("cd");
