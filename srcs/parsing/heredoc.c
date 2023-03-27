@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 16:47:53 by lloisel           #+#    #+#             */
-/*   Updated: 2023/03/28 00:03:31 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/03/28 00:52:56 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int run_heredoc(t_cmd *cmd, char *word)
 	}
 	if(!input)
 	{
-		printf("Heredoc expect %s not end of file",word);
+		printf("Heredoc expect %s not end of file\n",word);
 		close(cmd->pipe_heredoc[1]);
 		return(0);
 	}
