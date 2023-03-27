@@ -39,7 +39,7 @@ int	main(int argc, char **argv, char **envp)
 		in_put = readline(prompt);
 		if (in_put)
 		{
-			p = parsing(in_put, envp_dico, &old_action);
+			p = parsing(in_put, envp_dico);
 			if (!p)
 			{
 				printf("parsing return is NULL\n");
