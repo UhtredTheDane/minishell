@@ -25,24 +25,16 @@ void	signal_print_newline(int signal)
 	rl_on_new_line();
 }
 
-void other_test(int signal)
+int update_sigint_interactive(t_parse *p)
 {
-	if(signal == 2)
-    		break;
-}
 
-int update_sigint_interactive()
-{
-	struct sigaction action;
-	
-	ft_bzero(&action, sizeof(action));
-	action.sa_handler = &other_test(int signal);
-	if (sigaction(SIGINT, &action, NULL) == -1)
+	p = (t_parse *) p;	
+	if (sigaction(SIGINT, p->old_action, NULL) == -1)
     {
         perror("Erreur sigaction\n");
         return (0);
     }
-    }
+    
     return (1);
 }
 

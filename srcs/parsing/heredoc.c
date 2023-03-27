@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 16:47:53 by lloisel           #+#    #+#             */
-/*   Updated: 2023/03/27 02:54:58 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/03/27 03:25:29 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ char *get_heredoc(t_parse *p, t_cmd* cmd, char *word)
 	char *input;
 	int size;
 
+	p = (t_parse *) p;
 	cmd->pipe_heredoc = malloc(sizeof(int) * 2);
 	if (!cmd->pipe_heredoc)
 			return (NULL);
@@ -58,7 +59,7 @@ char *get_heredoc(t_parse *p, t_cmd* cmd, char *word)
 		free(cmd->pipe_heredoc);
 		return (NULL);
 	}
-	update_sigint_interactive();
+	update_sigint_interactive(p);
 	input = readline("Heredoc>");
 	value = "";
 	while(input && strncmp(input, word, max(input, word)))
