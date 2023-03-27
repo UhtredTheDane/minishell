@@ -36,7 +36,7 @@ char *get_name(t_cmd *cmd,int i,int op)
 	}
 	return(trimming(op,cmd, start_w, i));
 }
-
+ 
 int max(char *input,char *word)
 {
 	if(ft_strlen(input) > ft_strlen((word)))
@@ -44,22 +44,14 @@ int max(char *input,char *word)
 	return (ft_strlen(word));
 }
 
-char *get_heredoc(t_parse *p, t_cmd* cmd, char *word)
+int run_heredoc(t_cmd *cmd, char *word)
 {
 	char *value;
 	char *input;
 	int size;
 
-	p = (t_parse *) p;
-	cmd->pipe_heredoc = malloc(sizeof(int) * 2);
-	if (!cmd->pipe_heredoc)
-			return (NULL);
-	if (pipe(cmd->pipe_heredoc) == -1)
-	{
-		free(cmd->pipe_heredoc);
-		return (NULL);
-	}
-	update_sigint_interactive(p);
+	close(cmd->pipe_heredoc[0]);
+	update_sigint_interactive();
 	input = readline("Heredoc>");
 	value = "";
 	while(input && strncmp(input, word, max(input, word)))
@@ -68,29 +60,59 @@ char *get_heredoc(t_parse *p, t_cmd* cmd, char *word)
 		value = malloc(size);
 		if(!value)
 		{
-			close(cmd->pipe_heredoc[0]);
 			close(cmd->pipe_heredoc[1]);
-			return(NULL);	
+			return(0);	
 		}
 		value[0] = '\0';
 		ft_strlcat(value, input, size);
 		ft_strlcat(value,"\n",size);
 		write(cmd->pipe_heredoc[1], value, size);
-		
 		input = readline("Heredoc>");
 	}
 	if(!input)
 	{
 		printf("Heredoc expect %s not end of file",word);
-		close(cmd->pipe_heredoc[0]);
 		close(cmd->pipe_heredoc[1]);
-		return(NULL);
+		return(0);
 	}
 	close(cmd->pipe_heredoc[1]);
-	return (value);	
+	return (1);
 }
 
-char *here_doc(t_parse *p, t_cmd *cmd, int i, int op)
+int get_heredoc(t_parse *p, t_cmd* cmd, char *word)
+{
+	pid_t pid;
+	int status; 
+	int return_code;
+
+	p = (t_parse *) p;
+	cmd->pipe_heredoc = malloc(sizeof(int) * 2);
+	if (!cmd->pipe_heredoc)
+			return (0);
+	if (pipe(cmd->pipe_heredoc) == -1)
+	{
+		free(cmd->pipe_heredoc);
+		return (0);
+	}
+	pid = fork();
+	if (pid < 0)
+	{
+		perror("Probleme fork");
+		return (0);
+	}
+	else if (pid == 0)
+	{
+		return_code = run_heredoc(cmd, word);
+		exit(return_code);
+	}
+	pid = waitpid(-1, &status, 0);
+	if (WIFEXITED(status))
+		cmd_return = WEXITSTATUS(status);
+	close(cmd->pipe_heredoc[1]);
+	return (1);	
+}
+
+int *here_doc(t_parse *p, t_cmd *cmd, int i, int op)
 {
 	char *word;
 

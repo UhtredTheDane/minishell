@@ -25,7 +25,6 @@ typedef struct s_cmd {
 	int append;
 	int heredoc;
 	int *pipe_heredoc;
-	char *value_hd;
 } t_cmd;
 
 typedef struct s_envp t_envp;
