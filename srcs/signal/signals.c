@@ -39,6 +39,13 @@ void interactive_signals_handler(int signal)
     }
 }
 
+void father_interactive_signals_handler(int signal)
+{
+     if(signal == 2)
+    {
+    }
+}
+
 void signals_handler(int signal)
 {
     if(signal == 2)
@@ -56,18 +63,32 @@ void	signal_print_newline(int signal)
 	rl_on_new_line();
 }
 
-int update_sigint_interactive(void)
+int update_sigint_interactive(int type)
 {
 	struct sigaction action;
 	
-	ft_bzero(&action, sizeof(action));
-	action.sa_handler = SIG_DFL;
-	if (sigaction(SIGINT, &action, NULL) == -1)
+    i f(type == 0)
     {
-        perror("Erreur sigaction\n");
-        return (0);
+        ft_bzero(&action, sizeof(action));
+	    action.sa_handler = &father_interactive_signals_handlerL;
+	    if (sigaction(SIGINT, &action, NULL) == -1)
+        {
+            perror("Erreur sigaction\n");
+            return (0);
+        }
+        return (1);
     }
-    return (1);
+    else
+    {
+	    ft_bzero(&action, sizeof(action));
+	    action.sa_handler = SIG_DFL;
+	    if (sigaction(SIGINT, &action, NULL) == -1)
+        {
+            perror("Erreur sigaction\n");
+            return (0);
+        }
+        return (1);
+    }
 }
 
 int update_sigint_no_interactive(void)
