@@ -128,7 +128,7 @@ int simple_stdin(t_cmd * cmd , int i,int op)
 	return(1);
 }
 
-int fill_stdin(t_cmd *cmd,int i)
+int fill_stdin(t_parse *p, t_cmd *cmd,int i)
 {
 	int op;	
 	char *tmp;
@@ -137,7 +137,7 @@ int fill_stdin(t_cmd *cmd,int i)
 	i++;
 	if(cmd->s[0][i] && cmd->s[0][i] == '<')
 	{
-		tmp = here_doc(cmd,i + 1,op);
+		tmp = here_doc(p, cmd,i + 1,op);
 		if(!tmp)
 			return(0);
 		cmd->heredoc = 1;

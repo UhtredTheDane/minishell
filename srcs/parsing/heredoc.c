@@ -44,7 +44,7 @@ int max(char *input,char *word)
 	return (ft_strlen(word));
 }
 
-char *get_heredoc(t_cmd* cmd, char *word)
+char *get_heredoc(t_parse *p, t_cmd* cmd, char *word)
 {
 	char *value;
 	char *input;
@@ -59,7 +59,7 @@ char *get_heredoc(t_cmd* cmd, char *word)
 		free(cmd->pipe_heredoc);
 		return (NULL);
 	}
-	update_sigint_interractive();
+	update_sigint_interactive(p);
 	input = readline("Heredoc>");
 	tmp = "";
 	value = "";
@@ -97,12 +97,12 @@ char *get_heredoc(t_cmd* cmd, char *word)
 	return (value);	
 }
 
-char *here_doc(t_cmd *cmd,int i,int op)
+char *here_doc(t_parse *p, t_cmd *cmd, int i, int op)
 {
 	char *word;
 
 	word = get_name(cmd,i,op);
 	if(!word)
 		return(NULL);
-	return (get_heredoc(cmd, word));
+	return (get_heredoc(p, cmd, word));
 }

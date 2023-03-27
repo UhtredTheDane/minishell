@@ -14,7 +14,7 @@
 #include "../../includes/envp.h"
 #include <stdio.h>
 
-int edit_current(t_cmd *current)
+int edit_current(t_parse *p, t_cmd *current)
 {
 	int i;
 
@@ -28,7 +28,7 @@ int edit_current(t_cmd *current)
 			i = skip_to_X(current->s[0], i + 1, "\"") + 1;
 		if(current->s[0][i] && current->s[0][i] == '<')
 		{
-			if(!fill_stdin(current,i))
+			if(!fill_stdin(p, current,i))
 				return(0);
 		}
 		else if(current->s[0][i] && current->s[0][i] == '>')
@@ -49,7 +49,7 @@ int edit_parsing(t_parse *p)
 	current = p->first;
 	while(current)
 	{
-		if(!edit_current(current))
+		if(!edit_current(p, current))
 			return (0);
 		current = current->next;
 	}

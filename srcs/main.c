@@ -22,6 +22,7 @@ int	main(int argc, char **argv, char **envp)
 	char	*in_put;
 	t_parse *p;
 	t_envp *envp_dico;
+	struct sigaction old_action;
 
 	if (argc < 1 || argc > 1)
 		return (1);
@@ -30,14 +31,14 @@ int	main(int argc, char **argv, char **envp)
 	envp_dico = create_shell_envp(envp);
 	if (!envp_dico)
 		return (1);
-	if (!init_all_signal())
+	if (!init_all_signal(&old_action)) 
 		return (1);
 	while (1)
 	{
 		in_put = readline(prompt);
 		if (in_put)
 		{
-			p = parsing(in_put, envp_dico);
+			p = parsing(in_put, envp_dico, &old_action);
 			if (!p)
 			{
 				printf("parsing return is NULL\n");

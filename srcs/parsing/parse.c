@@ -90,12 +90,12 @@ int parse(char *input,t_parse *p)
 	return(1);
 }
 
-t_parse *parsing(char *input, t_envp *envp_dico)
+t_parse *parsing(char *input, t_envp *envp_dico, struct sigaction *old_action)
 {
 	t_parse *p;
 	int	i;
 
-	p = init_parse(envp_dico);
+	p = init_parse(envp_dico, old_action);
 	if(!p)
 		return(0);
 	if(!parse(input,p))
@@ -103,7 +103,7 @@ t_parse *parsing(char *input, t_envp *envp_dico)
 	if (p->count < 2)
 		p->pipes_fd = NULL;
 	else
-	{
+	{ 
 		p->pipes_fd = malloc(sizeof(int) * (p->count - 1) * 2);
 		if (!p->pipes_fd)
 			return (NULL);

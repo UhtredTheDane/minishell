@@ -84,7 +84,7 @@ int add_cmd(t_parse *p ,int start,int end)
 	return(1);
 }
 
-t_parse *init_parse(t_envp *envp_dico)
+t_parse *init_parse(t_envp *envp_dico, struct sigaction *old_action)
 {
 	t_parse *p;
 
@@ -94,6 +94,7 @@ t_parse *init_parse(t_envp *envp_dico)
 	p->s = NULL;
 	p->envp = envp_dico;
 	p->count  = 0;
+	p->old_action = old_action;
 	p->first = NULL;
 	p->last = NULL;
 	return (p);

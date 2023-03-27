@@ -25,30 +25,9 @@ void	signal_print_newline(int signal)
 	rl_on_new_line();
 }
 
-int  update_sigint_interractive(void)
-{
-	struct sigaction action;
-
-	ft_bzero(&action, sizeof(action));
-
-	action.sa_handler = &signal_print_newline;
-	if (sigaction(SIGINT, &action, NULL) == -1)
-	{
-		perror("Erreur sigaction\n");
-        return (0);
-	}
-	if (sigaction(SIGQUIT, &action, NULL) == -1)
-	{
-		perror("Erreur sigaction\n");
-        return (0);
-	}
-	return (1);
-}
-
 int update_sigint_interactive(t_parse *p)
 {
 	struct sigaction action;
-	
 	
 	if (sigaction(SIGINT, p->old_action, NULL) == -1)
     {
@@ -58,14 +37,10 @@ int update_sigint_interactive(t_parse *p)
     return (1);
 }
 
-int update_sigint(t_parse *p)
+int update_sigint(struct sigaction *old_action)
 {
 	struct sigaction action;
-	struct sigaction *old_action;
 	
-	old_action = malloc(sizeof(struct sigaction));
-	if (!old_action)
-		return (0);
 	ft_bzero(&action, sizeof(action));
 	ft_bzero(old_action, sizeof(old_action));
 	action.sa_handler = &signals_handler;
@@ -74,7 +49,6 @@ int update_sigint(t_parse *p)
         perror("Erreur sigaction\n");
         return (0);
     }
-	p->old_action = old_action;
     return (1);
 }
 
@@ -92,9 +66,13 @@ int update_sigquit(void)
     return (1);
 }
 
-int init_all_signal()
+old_action = malloc(sizeof(struct sigaction));
+	if (!old_action)
+		return (0);
+
+int init_all_signal(struct sigaction *old_action)
 {
-    if (!update_sigint())
+    if (!update_sigint(old_action))
         return (0);
     if (!update_sigquit())
         return (0);
