@@ -205,6 +205,9 @@ int manager(t_parse *p, t_cmd *cmd, int num_proc)
 	int old_stdin;
 	int old_stdout;
 
+	if (p->pipes_fd)
+		if (!update_sigint_interactive(1))
+			return (0);
 	set_num_pipe(p, &num_read, &num_write, num_proc);
 	close_useless_pipes(p, num_read, num_write);
 	old_stdin = dup(0);
