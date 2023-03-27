@@ -60,13 +60,12 @@ char *get_key(t_cmd *cmd ,t_envp *envp,int i,int end)
 	return(tmp);
 }
 
-int change_dollard(t_cmd *cmd,int *i, t_envp *envp)
+int change_dollard_bis(t_cmd *cmd,int *i, t_envp *envp)
 {
 	int end;
 	char *value;
 	
-	end = *i;
-	end++;
+	end = *i + 1;
 	if(!cmd->s[0][end] || is_special(cmd->s[0][end],"<> \""))
 	{
 			*i = *i + 1;
@@ -76,8 +75,36 @@ int change_dollard(t_cmd *cmd,int *i, t_envp *envp)
 		cmd->s[0][*i] = '\0';
 	if(cmd->s[0][end] && cmd->s[0][end] == '?')
 	{
-		value = ft_itoa(cmd_return);
-		cmd->s[0] = big_join(cmd->s[0], value, "");
+		end++;
+		cmd->s[0] = big_join(cmd->s[0], ft_itoa(cmd_return), cmd->s[0] +end);
+		return(1);
+	}
+	while(cmd->s[0][end] && !is_special(cmd->s[0][end],"<>\" $\'"))
+		end++;
+	value = get_key(cmd, envp,*i + 1,end);
+	if(!value)
+		cmd->s[0] = big_join(cmd->s[0],"",cmd->s[0] +end );
+	else 
+		cmd->s[0] = big_join(cmd->s[0],value,cmd->s[0] +end );
+	return(1);
+}
+int change_dollard(t_cmd *cmd,int *i, t_envp *envp)
+{
+	int end;
+	char *value;
+	
+	end = *i + 1;
+	if(!cmd->s[0][end] || is_special(cmd->s[0][end],"<> "))
+	{
+			*i = *i + 1;
+			return(1);
+	}
+	else
+		cmd->s[0][*i] = '\0';
+	if(cmd->s[0][end] && cmd->s[0][end] == '?')
+	{
+		end++;
+		cmd->s[0] = big_join(cmd->s[0], ft_itoa(cmd_return),cmd->s[0] +end);
 		return(1);
 	}
 	while(cmd->s[0][end] && !is_special(cmd->s[0][end],"<>\" $\'"))
@@ -94,6 +121,7 @@ int replace_dollards_current(t_cmd *current, int i,t_envp *envp)
 {
 	while(current->s[0][i])
 	{
+		printf("replace dollards :%s\n",current->s[0] + i);
 		if(current->s[0][i] == '$')
 		{
 			if(!change_dollard(current,&i,envp))
@@ -107,7 +135,7 @@ int replace_dollards_current(t_cmd *current, int i,t_envp *envp)
 			{
 				if(current->s[0][i] == '$')
 				{
-					if(!change_dollard(current,&i,envp))
+					if(!change_dollard_bis(current,&i,envp))
 						return(0);
 					--i;
 				}
