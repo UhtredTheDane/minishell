@@ -88,7 +88,7 @@ char **update_for_grep(char **cmd)
 	i = 0;
 	while (cmd[i])
 		i++;
-	new_cmd = malloc(sizeof(char*) * (i + 2))
+	new_cmd = malloc(sizeof(char*) * (i + 2));
 	if (!new_cmd)
 		return (cmd);
 
