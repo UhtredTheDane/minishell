@@ -86,9 +86,11 @@ int	run_pipe(t_parse *p)
 		current = current->next;
 		++i;
 	}
+	if (!update_sigint_interactive(0))
+		return (0);
 	close_all_pipes(p);
 	waiting_all_sons(p->count, pid);
-	if (p->first->heredoc)
-		unlink("heredoc");
+	if (!update_sigint_no_interactive()) 
+		return (1);
 	return (1);
 }
