@@ -1,8 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   signals.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/27 17:48:19 by lloisel           #+#    #+#             */
+/*   Updated: 2023/03/27 18:06:27 by lloisel          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../../includes/envp.h"
 #include "../../includes/signals.h"
 
-int clean_exit()
+int clean_exit(t_parse *p,t_envp *envp)
 {
-
+	if(p)
+		free_parse(p);	
+	delete_dico(envp);
+	rl_clear_history();	
 	printf("exit\n");
 	return (0); 
 }
@@ -13,9 +29,8 @@ void signals_handler(int signal)
     {
         write(0, "\n", 1);
         rl_on_new_line();
-       rl_replace_line("", 1);
+       	rl_replace_line("", 1);
         rl_redisplay();
-
     }
 }   
 

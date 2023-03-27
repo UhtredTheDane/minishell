@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 15:12:01 by lloisel           #+#    #+#             */
-/*   Updated: 2023/03/24 20:22:21 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/03/27 18:17:10 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../includes/pipex.h"
@@ -25,7 +25,7 @@ void	clean_2d_tab(char **tab_2d)
 	free(tab_2d);
 }
 
-int free_cmd(t_cmd *cmd)
+void free_cmd(t_cmd *cmd)
 {
 	if(cmd->s)
 	{
@@ -39,22 +39,23 @@ int free_cmd(t_cmd *cmd)
 		free(cmd->filename_in);
 	if(cmd->filename_out)
 		free(cmd->filename_out);
-	return(1);
 }
 
-int free_parse(t_parse *p)
+void free_parse(t_parse *p)
 {
 	t_cmd *current;
 	t_cmd *tmp;
-	
-	current = p->first;	
-	while(current)
-	{
-		tmp = current;
-		free_cmd(current);
-		current = current->next;
-		free(tmp);
+
+	if(p)
+	{	
+		current = p->first;	
+		while(current)
+		{
+			tmp = current->next;
+			free_cmd(current);
+			free(current);
+			current = tmp;
+		}
+		free(p);
 	}
-	free(p);
-	return(1);
 }

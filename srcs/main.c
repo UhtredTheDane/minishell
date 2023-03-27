@@ -6,13 +6,14 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 17:09:09 by agengemb          #+#    #+#             */
-/*   Updated: 2023/03/27 16:06:49 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/03/27 18:10:37 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/parsing.h"
 #include "../includes/main.h"
 #include "../includes/envp.h"
+#include "../includes/signals.h"
+#include "../includes/parsing.h"
 
 int cmd_return = 0;
 
@@ -29,6 +30,7 @@ int	main(int argc, char **argv, char **envp)
 	argv = (char **)argv;
 	prompt = "Minishell :";
 	envp_dico = create_shell_envp(envp);
+	p = NULL;
 	if (!envp_dico)
 		return (1);
 	if (!init_all_signal(&old_action)) 
@@ -56,11 +58,12 @@ int	main(int argc, char **argv, char **envp)
 			if (!execute(p))
 				printf("Execution foiree\n");	
 			free(in_put);	
+			//free_parse(p);
 		}
 		else
-			return (clean_exit(p));
+			return (clean_exit(p,envp_dico));
 	}
-	delete_dico(&envp_dico);
+	delete_dico(envp_dico);
 	rl_clear_history();	
 	return(0);
 }

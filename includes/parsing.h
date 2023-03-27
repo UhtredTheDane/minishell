@@ -56,7 +56,7 @@ t_parse *parsing(char *input, t_envp *envp_dico, struct sigaction *old_action);
 int fill_stdin(t_parse *p, t_cmd *cmd,int i);
 int fill_stdout(t_cmd *cmd,int i);
 void display_parse(t_parse *p);
-int free_parse(t_parse *p);
+void free_parse(t_parse *p);
 int edit_parsing(t_parse *p);
 void display_cmd(t_cmd *cmd);
 

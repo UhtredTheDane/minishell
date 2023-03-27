@@ -189,6 +189,7 @@ int execute_cmd(t_parse *p, t_cmd *cmd, int old_stdin, int old_stdout)
 			if (!cmd->cmd[0])
 			{
 				//free
+				printf("%s: command not found\n",cmd->s[0]);
 				return (127);
 			}
 		}
@@ -229,13 +230,13 @@ int	execute(t_parse *p)
 		printf("parsing has been cancel for some reasons");
 		return(0);
 	}	
-	//display_parse(p);	
+	display_parse(p);	
 	if(!split_cmd(p))
 	{
 		printf("split failed for some reason");
 		return(0);
 	}
-	//display_parse(p);	
+	display_parse(p);	
 	if (!p->pipes_fd && is_builtin(p->first))
 		cmd_return = manager(p, p->first, 0);
 	else if(!run_pipe(p))
@@ -243,6 +244,5 @@ int	execute(t_parse *p)
 		printf("Impossible de lancer les pip\n");
 		return(0);
 	}
-	free_parse(p);
 	return (1);
 }
