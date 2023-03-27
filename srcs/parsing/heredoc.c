@@ -58,7 +58,7 @@ char *get_heredoc(t_parse *p, t_cmd* cmd, char *word)
 		free(cmd->pipe_heredoc);
 		return (NULL);
 	}
-	update_sigint_interactive(p);
+	update_sigint_interactive();
 	input = readline("Heredoc>");
 	value = "";
 	while(input && strncmp(input, word, max(input, word)))
