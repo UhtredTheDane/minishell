@@ -23,7 +23,7 @@ char    *get_value(t_envp *envp, char *key);
 size_t  egal_pos(char *key);
 char **create_envp_tab(t_envp *envp);
 int	ft_envp_size(t_envp *envp);
-void delete_dico(t_envp **envp);
+void delete_dico(t_envp *envp);
 
 char *create_key(char *str, size_t key_len);
 int create_entries(char *str, char **key, char **value);

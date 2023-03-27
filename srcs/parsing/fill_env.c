@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 18:48:43 by lloisel           #+#    #+#             */
-/*   Updated: 2023/03/26 15:43:23 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/03/27 13:42:23 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ int replace_dollards_current(t_cmd *current, int i,t_envp *envp)
 {
 	while(current->s[0][i])
 	{
-		printf("replace dollards :%s\n",current->s[0] + i);
+//		printf("replace dollards :%s\n",current->s[0] + i);
 		if(current->s[0][i] == '$')
 		{
 			if(!change_dollard(current,&i,envp))

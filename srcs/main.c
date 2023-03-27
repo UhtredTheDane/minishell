@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 17:09:09 by agengemb          #+#    #+#             */
-/*   Updated: 2023/03/26 15:34:06 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/03/27 16:06:49 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,14 @@ int	main(int argc, char **argv, char **envp)
 				return (1);
 			}
 			add_history(p->s);	
-			display_parse(p);	
+//			display_parse(p);	
 			if(!replace_dollards(p,envp_dico))
 			{
 				printf("we can't replace some variable");
 				return(0);
 			}
 		
-			display_parse(p);	
+			//display_parse(p);	
 			if (!execute(p))
 				printf("Execution foiree\n");	
 			free(in_put);	
@@ -60,6 +60,7 @@ int	main(int argc, char **argv, char **envp)
 		else
 			return (clean_exit(p));
 	}
+	delete_dico(&envp_dico);
 	rl_clear_history();	
 	return(0);
 }

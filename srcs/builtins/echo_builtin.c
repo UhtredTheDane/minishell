@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 18:02:24 by agengemb          #+#    #+#             */
-/*   Updated: 2023/03/25 19:37:21 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/03/27 15:41:03 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,25 @@ int is_echo(t_cmd *cmd)
         return (1);
     return (0);
 }
+int valid_option(char c)
+{
+	return(c == 'n');
+}
+
+int valid_options(char *s)
+{
+	int i;
+	
+	i = 0;
+	while(s[i] && s[i] == 'n')
+		i++;
+	return(s[i] == 1);
+}
 
 int check_option(char *cmd_1)
 {
 	if (!cmd_1)
-        return (1);
+        return (0);
     if (cmd_1[0] == '-' && ft_strlen(cmd_1) == 2)
     {
         if (cmd_1[1] == 'n' || cmd_1[1] == 'N')
