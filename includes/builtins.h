@@ -55,7 +55,7 @@ int builtin_cd(t_envp *envp, t_cmd *cmd);
 int update_env(t_envp *envp);
 int env_with_pwd(t_envp *envp, char *pwd, char **new_pwd, char **old_pwd);
 char  *env_with_no_pwd();
-char *replace_home(t_cmd *cmd, char *home):
+char *replace_home(t_cmd *cmd, char *home);
 int check_path(const char *path);
 char *init_path(t_envp *envp, t_cmd *cmd);
 

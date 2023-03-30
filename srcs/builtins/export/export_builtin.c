@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 18:03:15 by agengemb          #+#    #+#             */
-/*   Updated: 2023/03/26 05:24:43 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/03/30 17:41:28 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	add_var(t_envp *envp, char *cmd, int egal_pos)
 			set_value(envp, cmd, value);
 		else
 		{
-			key = new_key(char *cmd);
+			key = new_key(cmd);
 			if (!key)
 			{
 				free(value);
