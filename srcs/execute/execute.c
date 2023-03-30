@@ -164,9 +164,6 @@ void prepare_cmd(t_cmd *cmd)
 	}
 }
 
-
-
-
 int execute_cmd(t_parse *p, t_cmd *cmd, int old_stdin, int old_stdout)
 {
 	int exec_return;

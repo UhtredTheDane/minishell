@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/builtins.h"
+#include "../../../includes/builtins.h"
 
 int is_cd(t_cmd *cmd)
 {
@@ -21,30 +21,15 @@ int is_cd(t_cmd *cmd)
 
 char *init_path(t_envp *envp, t_cmd *cmd)
 {
-    char *default_folder;
-    char  *home_replace;
+    char *home;
 
-    default_folder = NULL;
-    home_replace = NULL;
-	if (!cmd->cmd[2])
-    	{
-	    	if (!cmd->cmd[1] || (cmd->cmd[1][0] == '~'))
-        	{
-            		default_folder = get_value(envp, "HOME");
-            		if (!default_folder)
-                		return (cmd->cmd[1]);
-            		if (cmd->cmd[1] && cmd->cmd[1][0] == '~' && ft_strlen(cmd->cmd[1]) != 1)
-            		{
-                		home_replace = ft_strjoin(default_folder, cmd->cmd[1] + 1);
-                		if(!home_replace)
-                    			return (cmd->cmd[1]);
-                		return (home_replace);
-            		}
-            		return (default_folder);
-		}
-		else
-			return (cmd->cmd[1]);
-	}
+    home = get_value(envp, "HOME");
+    if (!home)
+        return (cmd->cmd[1]);
+    if (!cmd->cmd[1])
+        return (home);
+	else if (!cmd->cmd[2])
+        return (replace_home(cmd, home));
     printf("minishell: cd: too many arguments\n");
     return (NULL);
 }
@@ -64,34 +49,6 @@ int check_path(const char *path)
         	return (0);
     	}
     	return (1);
-}
-
-char  *env_with_no_pwd()
-{
-    char *old_pwd;
-
-    old_pwd = malloc(sizeof(char));
-	if (!old_pwd)
-        return (NULL);
-	old_pwd[0] = '\0';
-    return (old_pwd);
-}
-
-int env_with_pwd(t_envp *envp, char *pwd, char **new_pwd, char **old_pwd)
-{
-	size_t pwd_size;
-
-	pwd_size = ft_strlen(pwd);
-    *old_pwd = malloc(sizeof(char) * (pwd_size + 1));
-    if (!(*old_pwd))
-        return (0);
-    ft_strlcpy(*old_pwd, pwd, pwd_size + 1);
-    *new_pwd = builtin_pwd();
-	if (*new_pwd)
-    	set_value(envp, "PWD", *new_pwd);
-    else
-        return (0);
-    return (1);
 }
 
 int update_env(t_envp *envp)

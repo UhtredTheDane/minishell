@@ -16,12 +16,14 @@ NAME = minishell
 LIBFT = ./libft/libft.a
 SRC = $(wildcard srcs/*.c)
 FOLDER = $(wildcard srcs/*/*.c)
+FOLDER2 = $(wildcard srcs/*/*/*.c)
 OBJ = $(SRC:.c=.o)
 OBJFOLDER = $(FOLDER:.c=.o)
+OBJFOLDER2 = $(FOLDER2:.c=.o)
 
 all: $(NAME)
 
-$(NAME): $(OBJ) $(OBJFOLDER) $(LIBFT)
+$(NAME): $(OBJ) $(OBJFOLDER) $(OBJFOLDER2) $(LIBFT)
 	$(CC) $^ -o $@ -lreadline
 
 %.o: %.c
@@ -35,6 +37,7 @@ clean:
 	rm -rf $(LIBFT)
 	rm -rf $(OBJ)
 	rm -rf $(OBJFOLDER)
+	rm -rf $(OBJFOLDER2)
 
 fclean: clean
 	rm -rf $(NAME)

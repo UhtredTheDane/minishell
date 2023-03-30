@@ -18,6 +18,7 @@ int is_echo(t_cmd *cmd)
         return (1);
     return (0);
 }
+
 int valid_option(char c)
 {
 	return(c == 'n');

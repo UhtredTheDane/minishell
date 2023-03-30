@@ -10,32 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/builtins.h"
+#include "../../../includes/builtins.h"
 
 int is_export(t_cmd *cmd)
 {
     	if (ft_strncmp(cmd->cmd[0], "export", 6) == 0)
 		return (1);
 	return (0);
-}
-
-int is_entrie_valid(char *str, int egal_pos)
-{
-	int i;
-
-	i = 0;
-	while (str[i] && i < egal_pos)
-	{
-		if (i == 0 && !ft_isalpha(str[i]) && str[i] != '_')
-			return (0);
-		else
-		{
-			if (!ft_isalnum(str[i]) && str[i] != '_')
-				return (0);
-		}
-		++i;
-	}
-	return (1);
 }
 
 int check_identifier(char *cmd, int egal_pos)
@@ -50,30 +31,26 @@ int check_identifier(char *cmd, int egal_pos)
 
 int	add_var(t_envp *envp, char *cmd, int egal_pos)
 {
-	t_envp *new;
 	char *key;
     char *value;
 	
 	if (cmd[egal_pos] != '\0')
 	{
     	cmd[egal_pos] = '\0';
+		value = new_value(cmd, egal_pos);
+		if (!value)
+			return (0);
 		if (get_value(envp, cmd) != NULL)
-		{
-			value = ft_strjoin("", cmd + egal_pos + 1);
 			set_value(envp, cmd, value);
-		}
 		else
 		{
-			key = ft_strjoin("", cmd);
-    		value = ft_strjoin("", cmd + egal_pos + 1);
-			new = ft_envp_new(key, value);
-   	 		if (!new)
+			key = new_key(char *cmd);
+			if (!key)
 			{
-				free(key);
 				free(value);
 				return (0);
 			}
-    		ft_envp_add(&envp, new);
+			return (add_new_entries(envp, key, value));
 		}
 	}
 	return (1);
@@ -89,7 +66,7 @@ int    builtin_export(t_envp *envp, t_cmd *cmd)
 	i = 1;
 	while (cmd->cmd[i])
 	{
-        	egal_pos = skip_to_X(cmd->cmd[i], 0, "=");
+        egal_pos = skip_to_X(cmd->cmd[i], 0, "=");
 		if (!check_identifier(cmd->cmd[i], egal_pos))
 			return_code = 1;
 		else
