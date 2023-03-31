@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 15:12:01 by lloisel           #+#    #+#             */
-/*   Updated: 2023/03/27 18:17:10 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/03/31 17:43:19 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../includes/pipex.h"
@@ -58,6 +58,8 @@ void free_parse(t_parse *p)
 		}
 		if(p->pipes_fd)
 			free(p->pipes_fd);
+		if(p->s)
+			free(p->s);
 		free(p);
 	}
 }
