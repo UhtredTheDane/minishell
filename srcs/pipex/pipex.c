@@ -27,6 +27,8 @@ char	*make_cmd(t_parse *p, char *name_cmd)
 	i = 0;
 	while (envp[i] && ft_strncmp(envp[i], "PATH=", 5) != 0)
 		++i;
+	if(!envp[i])
+		return (free(cmd),clean_2d_tab(envp),NULL);
 	tempo_cmd = find_path(envp, cmd, i);
 	clean_2d_tab(envp);
 	if (!tempo_cmd)

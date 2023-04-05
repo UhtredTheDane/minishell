@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 17:09:09 by agengemb          #+#    #+#             */
-/*   Updated: 2023/03/28 00:49:35 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/06 00:56:07 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,15 @@ int	main(int argc, char **argv, char **envp)
 	prompt = "Minishell :";
 	envp_dico = create_shell_envp(envp);
 	p = NULL;
+	in_put = NULL;
 	if (!envp_dico)
 		return (1);
 	if (!init_all_signal_no_interactive()) 
 		return (1);
 	while (1)
 	{
+		if(in_put)
+			free(in_put);
 		in_put = readline(prompt);
 		if (in_put)
 		{
@@ -43,13 +46,10 @@ int	main(int argc, char **argv, char **envp)
 				free_parse(p);
 			p = parsing(in_put, envp_dico);
 			if (!p)
-			{
 				printf("parsing error\n");
-				return (1);
-			}
 			else
 			{
-				add_history(p->s);	
+				add_history(p->s);
 				//			display_parse(p);	
 				if(!replace_dollards(p,envp_dico))
 				{
@@ -60,15 +60,15 @@ int	main(int argc, char **argv, char **envp)
 				{
 					if (!execute(p))
 						printf("Execution foiree\n");	
-				}
+				}		
 			}
-			free(in_put);	
 		}
 		else
+		{		
 			return (clean_exit(p,envp_dico));
+		}
 	}
 	delete_dico(envp_dico);
-	rl_clear_history();	
 	return(0);
 }
 /*

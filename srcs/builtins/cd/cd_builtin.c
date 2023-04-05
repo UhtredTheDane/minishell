@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 17:59:28 by agengemb          #+#    #+#             */
-/*   Updated: 2023/03/27 05:12:38 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/06 00:55:16 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,17 @@ int is_cd(t_cmd *cmd)
         return (1);
     return (0);
 }
-
+int size_cmd(t_cmd *cmd)
+{
+	int i;
+	
+	i=0;
+	while(cmd->cmd[i])
+	{
+		i++;
+	}
+	return(i);
+}
 char *init_path(t_envp *envp, t_cmd *cmd)
 {
     char *home;
@@ -28,10 +38,11 @@ char *init_path(t_envp *envp, t_cmd *cmd)
         return (cmd->cmd[1]);
     else if (!cmd->cmd[1])
         return (home);
-	else if (!cmd->cmd[2])
+else if (!cmd->cmd[2])
         return (replace_home(cmd, home));
     printf("minishell: cd: too many arguments\n");
     return (NULL);
+	//faire en sorte que tout les path renvoyés puissent etre free
 }
 
 int check_path(const char *path)

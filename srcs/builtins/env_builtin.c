@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 18:03:01 by agengemb          #+#    #+#             */
-/*   Updated: 2023/03/23 18:14:35 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/03/31 15:43:31 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,9 @@ int    builtin_env(t_envp *envp, t_cmd *cmd)
     while (char_envp[i])
     {
         printf("%s\n", char_envp[i]);
+		free(char_envp[i]);
         ++i;
     }
+	free(char_envp);
     return (0);
 }
