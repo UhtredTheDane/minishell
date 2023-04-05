@@ -1,5 +1,16 @@
 #include "../../includes/pipex.h"
 
+char	*format_string(char *name_cmd)
+{
+	char	*temp;
+
+	temp = ft_strjoin("/", name_cmd);
+	if (!temp)
+		return (NULL);
+	free(name_cmd);
+	return (temp);
+}
+
 char	*test_path(char **all_paths, char *cmd_0)
 {
 	size_t	i;

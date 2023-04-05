@@ -2,17 +2,6 @@
 
 extern int cmd_return;
 
-char	*format_string(char *name_cmd)
-{
-	char	*temp;
-
-	temp = ft_strjoin("/", name_cmd);
-	if (!temp)
-		return (NULL);
-	free(name_cmd);
-	return (temp);
-}
-
 char	*make_cmd(t_parse *p, char *name_cmd)
 {
 	char	*cmd;
@@ -63,16 +52,16 @@ void waiting_all_sons(size_t nb_sons, pid_t last)
 	}
 }
 
-int	run_pipe(t_parse *p)
+pid_t create_process(t_parse *p)
 {
-	int	i;
-	int return_code;
 	pid_t pid;
+	int return_code;
+	int	i;
 	t_cmd *current;
 
 	return_code = 0;
-	current = p->first;
 	i = 0;
+	current = p->first;
 	while (current)
 	{
 		pid = fork();
@@ -89,6 +78,15 @@ int	run_pipe(t_parse *p)
 		current = current->next;
 		++i;
 	}
+	return (pid);
+}
+
+int	run_pipe(t_parse *p)
+{
+	pid_t pid;
+	
+	if (!create_process(p))
+		return (0);
 	if (!update_sigint_interactive(0))
 		return (0);
 	close_all_pipes(p);

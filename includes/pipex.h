@@ -19,7 +19,8 @@ int		ft_strncmp(const char *s1, const char *s2, size_t n);
 size_t	ft_strlen(const char *s);
 char	**ft_split(char const *s, char c);
 
-
+char	*format_string(char *name_cmd);
+pid_t create_process(t_parse *p);
 char	*make_cmd(t_parse *p, char *name_cmd);
 char *search_cmd(t_parse *p, t_cmd *cmd);
 int	run_pipe(t_parse *p);
