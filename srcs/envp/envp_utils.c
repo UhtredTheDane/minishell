@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 18:24:22 by agengemb          #+#    #+#             */
-/*   Updated: 2023/03/23 18:24:23 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/06 00:49:31 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ size_t choose_size(char *key, char *elem_key)
     size_t size_elem_key;
 
     size_key = ft_strlen(key);
-    size_elem_key = ft_strlen(elem_key)
+    size_elem_key = ft_strlen(elem_key);
     if(size_key > size_elem_key)
         return (size_key);
     return (size_elem_key);
