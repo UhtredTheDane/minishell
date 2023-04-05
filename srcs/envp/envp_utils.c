@@ -26,28 +26,16 @@ size_t  egal_pos(char *key)
     return (0);
 }
 
-char **create_envp_tab(t_envp *envp)
+size_t choose_size(char *key, char *elem_key)
 {
-    char **tab_envp;
-    int nb_env;
-    int i;
-    char *temp;
+    size_t size_key;
+    size_t size_elem_key;
 
-    nb_env = ft_envp_size(envp);
-    tab_envp = malloc(sizeof(char *) * (nb_env + 1));
-    if (!tab_envp)
-        return (NULL);
-    tab_envp[nb_env] = NULL;
-    i = 0;
-    while (envp)
-    {
-        temp = ft_strjoin(envp->key, "=");
-        tab_envp[i] = ft_strjoin(temp, envp->value);
-        free(temp);
-        envp = envp->next;
-        ++i;
-    }
-    return (tab_envp);
+    size_key = ft_strlen(key);
+    size_elem_key = ft_strlen(elem_key)
+    if(size_key > size_elem_key)
+        return (size_key);
+    return (size_elem_key);
 }
 
 int	ft_envp_size(t_envp *envp)

@@ -24,9 +24,9 @@ char *init_path(t_envp *envp, t_cmd *cmd)
     char *home;
 
     home = get_value(envp, "HOME");
-    if (!home)
+    if (!home && !cmd->cmd[2])
         return (cmd->cmd[1]);
-    if (!cmd->cmd[1])
+    else if (!cmd->cmd[1])
         return (home);
 	else if (!cmd->cmd[2])
         return (replace_home(cmd, home));
@@ -78,6 +78,7 @@ int update_env(t_envp *envp)
     return (1);
 }
 
+//modifier le path pour qu'il puisse etre free
 int builtin_cd(t_envp *envp, t_cmd *cmd)
 {
     char *path;

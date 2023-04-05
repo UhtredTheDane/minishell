@@ -18,10 +18,7 @@ int   set_value(t_envp *envp, char *key, char *value)
 
     while (envp)
     {
-        if(ft_strlen(key) > ft_strlen(envp->key))
-        	size_key = ft_strlen(key);
-        else
-        	size_key = ft_strlen(envp->key);
+        size_key = choose_size(key, envp->key);
         if (ft_strncmp(envp->key, key, size_key) == 0)
         {
             free(envp->value);
@@ -44,10 +41,7 @@ void delete_key(t_envp **envp, char *key)
         elem = *envp;
         while (elem)
         {
-            if(ft_strlen(key) > ft_strlen(elem->key))
-        	    size_key = ft_strlen(key);
-             else
-        	    size_key = ft_strlen(elem->key);
+            size_key = choose_size(key, elem->key);
             if (ft_strncmp(elem->key, key, size_key) == 0)
             {
                free(elem->key);
@@ -67,17 +61,11 @@ void delete_key(t_envp **envp, char *key)
 
 char    *get_value(t_envp *envp, char *key)
 {
-
     size_t size_key;
 
     while (envp)
     {
-		if(ft_strlen(key) > ft_strlen(envp->key))
-        	size_key = ft_strlen(key);
-        else
-		{
-        	size_key = ft_strlen(envp->key);
-		}
+		size_key = choose_size(key, envp->key);
 		if (ft_strncmp(key, envp->key, size_key) == 0)
             return (envp->value);
         envp = envp->next;

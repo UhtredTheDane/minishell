@@ -14,34 +14,24 @@
 
 #define PATH_MAX 4000
 
+
 int is_builtin(t_cmd *cmd)
 {
+    int res;
+
+    res = 0;
     if (cmd && cmd->cmd)
     {
-        if (ft_strncmp(cmd->cmd[0], "cd", 2) == 0)
-            return (1);
-        else if (ft_strncmp(cmd->cmd[0], "echo", 4) == 0)
-            return (1);
-        else if (ft_strncmp(cmd->cmd[0], "pwd", 3) == 0)
-            return (1);
-        else if (ft_strncmp(cmd->cmd[0], "unset", 5) == 0)
-            return (1);
-        else if (ft_strncmp(cmd->cmd[0], "export", 6) == 0)
-            return (1);
-        else if (ft_strncmp(cmd->cmd[0], "env", 3) == 0)
-            return (1);
-        else if (ft_strncmp(cmd->cmd[0], "exit", 4) == 0)
-            return (1);
+        res = is_cd(cmd) || is_export(cmd) || is_echo(cmd) || 
+            is_env(cmd) || is_exit(cmd) || is_pwd(cmd) || is_unset(cmd);
     }
-    return (0);
+    return (res);
 }
 
 int execute_builtin(t_parse *p, t_cmd *cmd)
 {
     if (is_cd(cmd))
-    {
         return (builtin_cd(p->envp, cmd));
-    }
     else if (is_echo(cmd))
         return (builtin_echo(cmd));
     else if (is_env(cmd))
