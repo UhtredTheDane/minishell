@@ -85,7 +85,8 @@ int	run_pipe(t_parse *p)
 {
 	pid_t pid;
 	
-	if (!create_process(p))
+	pid = create_process(p);
+	if (!pid)
 		return (0);
 	if (!update_sigint_interactive(0))
 		return (0);

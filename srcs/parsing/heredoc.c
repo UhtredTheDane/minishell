@@ -81,7 +81,7 @@ int run_heredoc(t_cmd *cmd, char *word)
 	close(cmd->pipe_heredoc[1]);
 	return (1);
 }
-
+ 
 int get_heredoc(t_parse *p, t_cmd* cmd, char *word)
 {
 	pid_t pid;
