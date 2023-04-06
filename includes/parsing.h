@@ -12,7 +12,7 @@
 # define PARSING_H
 
 # include "envp.h"
-# include "signals.h"
+# include "signal.h"
 # include <unistd.h>
 # include <sys/types.h>
 # include <sys/wait.h>

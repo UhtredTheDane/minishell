@@ -16,7 +16,7 @@
 #include <stdio.h>
 #include <stdlib.h>		
 #include "../../libft/libft.h"
-#include "../../includes/signals.h"
+#include "../../includes/signal.h"
 
 extern int cmd_return;
 

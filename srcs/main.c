@@ -12,7 +12,7 @@
 
 #include "../includes/main.h"
 #include "../includes/envp.h"
-#include "../includes/signals.h"
+#include "../includes/signal.h"
 #include "../includes/parsing.h"
 
 int cmd_return = 0;
