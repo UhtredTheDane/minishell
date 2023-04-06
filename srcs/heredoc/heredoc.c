@@ -1,8 +1,6 @@
 #include "../../includes/heredoc.h"
 
-extern int cmd_return;
-
-char *get_name(t_cmd *cmd,int i,int op)
+char *get_name(t_cmd *cmd, int i, int op)
 {
 	int start_w;
 		
