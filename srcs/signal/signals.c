@@ -12,16 +12,6 @@
 
 #include "../../includes/signals.h"
 
-int clean_exit(t_parse *p,t_envp *envp)
-{
-	if(p)
-		free_parse(p);	
-	delete_dico(envp);
-	rl_clear_history();	
-	printf("exit\n");
-	return (0); 
-}
-
 int update_signal(int signum, void (*handler)(int))
 {
     struct sigaction action;

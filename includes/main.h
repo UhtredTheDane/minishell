@@ -28,6 +28,6 @@
 # include "pipex.h"
 
 typedef struct s_dico t_dico;
-
+int clean_exit(t_parse *p,t_envp *envp);
 void	son_proc(char *input_cmd, char **envp, int *pipe_fd, size_t num_proc);
 #endif

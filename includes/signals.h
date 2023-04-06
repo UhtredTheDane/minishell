@@ -25,7 +25,6 @@
 typedef struct s_envp t_envp;
 typedef struct s_parse t_parse;
 
-int clean_exit(t_parse *p,t_envp *envp);
 int update_signal(int signum, void (*handler)(int));
 int update_sigint_interactive(int type);
 void no_interactive_handler(int signal);
