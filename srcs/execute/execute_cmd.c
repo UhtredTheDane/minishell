@@ -78,6 +78,7 @@ char *trim_quotes(char *cmd)
 		double_pos = skip_to_X(res, current_pos, "\"");
 		res = remove_first(res, &current_pos, quote_pos, double_pos);
 	}
+	return (res);
 }
 
 void prepare_cmd(t_cmd *cmd)
