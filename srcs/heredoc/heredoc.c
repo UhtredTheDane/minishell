@@ -1,5 +1,12 @@
 #include "../../includes/heredoc.h"
 
+int max(char *input,char *word)
+{
+	if(ft_strlen(input) > ft_strlen((word)))
+		return(ft_strlen(input));
+	return (ft_strlen(word));
+}
+
 char *get_name(t_cmd *cmd, int i, int op)
 {
 	int start_w;
