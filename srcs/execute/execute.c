@@ -57,28 +57,6 @@ int char_in_str(char c, char *str)
 	return (0);
 }
 
-/*
-char *trim_double_quote(char *basic_str, char *charset)
-{
-	char	*tempo_str;
-	char	*new_str;
-	int	quote_pos;
-
-	new_str = ft_strtrim(basic_str, char);
-	if (!new_str)
-			return (basic_str);
-	free(basic_str);
-	while (char_in_str('"', new_str))
-	{
-		quote_pos = skip_to_X(new_str, 0, "\"");
-		new_str[quote_pos] = '\0';
-		tempo_str = ft_strjoin(new_str, new_str + quote_pos + 1);
-		free(new_str);
-		new_str = tempo_str;
-	}
-	return (new_str);
-}*/
-
 char **update_for_grep(char **cmd)
 {
 	char **new_cmd;
@@ -239,7 +217,7 @@ int	execute(t_parse *p)
 		cmd_return = manager(p, p->first, 0);
 	else if(!run_pipe(p))
 	{
-		printf("Impossible de lancer les pip\n");
+		printf("Impossible de lancer les pipes\n");
 		return(0);
 	}
 	return (1);
