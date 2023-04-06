@@ -2,12 +2,12 @@
 
 int max(char *input,char *word)
 {
-	if(ft_strlen(input) > ft_strlen((word)))
-		return(ft_strlen(input));
+	if (ft_strlen(input) > ft_strlen((word)))
+		return (ft_strlen(input));
 	return (ft_strlen(word));
 }
 
-char *get_name(t_cmd *cmd, int i, int op)
+char *get_delim(t_cmd *cmd, int i, int op)
 {
 	int start_w;
 		
@@ -54,7 +54,7 @@ int run_heredoc(t_cmd *cmd, char *word)
 	}
 	if(!input)
 	{
-		printf("Heredoc expect %s not end of file\n",word);
+		printf("Heredoc expect %s not end of file\n", word);
 		close(cmd->pipe_heredoc[1]);
 		return(0);
 	}
@@ -69,14 +69,6 @@ int get_heredoc(t_parse *p, t_cmd* cmd, char *word)
 	int return_code;
 
 	p = (t_parse *) p;
-	cmd->pipe_heredoc = malloc(sizeof(int) * 2);
-	if (!cmd->pipe_heredoc)
-			return (0);
-	if (pipe(cmd->pipe_heredoc) == -1)
-	{
-		free(cmd->pipe_heredoc);
-		return (0);
-	}
 	pid = fork();
 	if (pid < 0)
 	{
@@ -101,10 +93,19 @@ int get_heredoc(t_parse *p, t_cmd* cmd, char *word)
 
 int here_doc(t_parse *p, t_cmd *cmd, int i, int op)
 {
-	char *word;
+	char *delim;
+	int return_code;
 
-	word = get_name(cmd,i,op);
+	delim = get_delim(cmd,i,op);
 	if(!word)
 		return(0);
-	return (get_heredoc(p, cmd, word));
+	cmd->pipe_heredoc = malloc(sizeof(int) * 2);
+	if (!cmd->pipe_heredoc)
+			return (0);
+	if (pipe(cmd->pipe_heredoc) == -1)
+	{
+		free(cmd->pipe_heredoc);
+		return (0);
+	}
+	return (get_heredoc(p, cmd, delim));
 }
