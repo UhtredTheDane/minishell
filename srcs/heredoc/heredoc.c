@@ -7,7 +7,7 @@ int max(char *input,char *word)
 	return (ft_strlen(word));
 }
 
-char *get_delim(t_cmd *cmd, int i, int op)
+char *get_name(t_cmd *cmd, int i, int op)
 {
 	int start_w;
 		
@@ -94,10 +94,9 @@ int get_heredoc(t_parse *p, t_cmd* cmd, char *word)
 int here_doc(t_parse *p, t_cmd *cmd, int i, int op)
 {
 	char *delim;
-	int return_code;
 
-	delim = get_delim(cmd,i,op);
-	if(!word)
+	delim = get_name(cmd,i,op);
+	if(!delim)
 		return(0);
 	cmd->pipe_heredoc = malloc(sizeof(int) * 2);
 	if (!cmd->pipe_heredoc)
