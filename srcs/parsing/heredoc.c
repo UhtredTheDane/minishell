@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 16:47:53 by lloisel           #+#    #+#             */
-/*   Updated: 2023/03/28 00:52:56 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/06 16:44:00 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ int get_heredoc(t_parse *p, t_cmd* cmd, char *word)
 	if (!update_sigint_interactive(0))
 		return (0);
 	pid = waitpid(-1, &status, 0);
-	if (!update_sigint_no_interactive()) 
+	if (!update_no_interactive_sigint()) 
 		return (1);
 	close(cmd->pipe_heredoc[1]);
 	if (!WIFEXITED(status))

@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 17:48:19 by agengemb           #+#    #+#             */
-/*   Updated: 2023/03/28 00:31:56 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/06 16:44:46 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int update_no_interactive_sigint()
 //Faire qu'en mode non interactif SIGINT reset le prompt
 int init_no_interactive_signals()
 {
-    if (!update_sigint_interactive())
+    if (!update_no_interactive_sigint())
         return (0);
     if (!update_signal(SIGQUIT, SIG_IGN))
         return (0);
