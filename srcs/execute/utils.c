@@ -14,6 +14,46 @@ int char_in_str(char c, char *str)
 	return (0);
 }
 
+void add_option_a(char **cmd, char **new_cmd)
+{
+	int i;
+	int j;
+
+	i = 0;
+	j = 0;
+	while(cmd[i])
+	{
+		if (j == 1)
+			new_cmd[j] = ft_strdup("-a");
+			//tester pour free
+		else
+		{
+			new_cmd[j] = ft_strdup(cmd[i]);
+			//tester poour free en cas d erreur
+			++i;
+		}
+		++j;
+	}
+	new_cmd[j] = NULL;
+}
+
+char **update_for_grep(char **cmd)
+{
+	char **new_cmd;
+	int i;
+
+	i = 0;
+	while (cmd[i])
+		i++;
+	new_cmd = malloc(sizeof(char*) * (i + 2));
+	if (!new_cmd)
+		return (cmd);
+	add_option_a(cmd, new_cmd);
+	//if !new_cmd
+	//free(cmd);
+	return (new_cmd);
+}
+
 int redirect_stdin(t_parse *p, t_cmd *cmd, int num_read)
 { 
 	if (cmd->heredoc)

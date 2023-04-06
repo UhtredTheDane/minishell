@@ -25,7 +25,7 @@ void add_cmd_bis(t_parse *p,t_cmd *cmd)
 	if(p->first == NULL)
 	{
 		p->first = cmd;	
-		p->last = cmd;	
+		p->last = cmd;
 	}
 	else
 	{

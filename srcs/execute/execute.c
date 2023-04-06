@@ -2,6 +2,24 @@
 
 extern int cmd_return;
 
+int execute_cmd(t_parse *p, t_cmd *cmd, int old_stdin, int old_stdout)
+{
+	int exec_return;
+
+	prepare_cmd(cmd);
+	if (is_builtin(cmd))
+	{
+		exec_return = execute_builtin(p, cmd);
+		dup2(old_stdin, 0);
+		dup2(old_stdout, 1);
+		return (exec_return);
+	}
+	else
+		exec_return = run_cmd(p, cmd);
+	//attetion bien free
+	return (127);
+}
+
 int manager(t_parse *p, t_cmd *cmd, int num_proc)
 {
 	int num_write;
