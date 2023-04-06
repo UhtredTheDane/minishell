@@ -33,7 +33,7 @@ int	main(int argc, char **argv, char **envp)
 	in_put = NULL;
 	if (!envp_dico)
 		return (1);
-	if (!init_all_signal_no_interactive()) 
+	if (!init_no_interactive_signals()) 
 		return (1);
 	while (1)
 	{

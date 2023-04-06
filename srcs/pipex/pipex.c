@@ -91,8 +91,10 @@ int	run_pipe(t_parse *p)
 	if (!update_sigint_interactive(0))
 		return (0);
 	close_all_pipes(p);
+	if (p->count == 0)
+		p->count = 1;
 	waiting_all_sons(p->count, pid);
-	if (!update_sigint_no_interactive()) 
+	if (!update_no_interactive_sigint()) 
 		return (1);
 	return (1);
 }

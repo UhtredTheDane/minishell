@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/envp.h"
 #include "../../includes/signals.h"
 
 int clean_exit(t_parse *p,t_envp *envp)
@@ -23,52 +22,39 @@ int clean_exit(t_parse *p,t_envp *envp)
 	return (0); 
 }
 
-void interactive_signals_handler(int signal)
+int update_signal(int signum, void (*handler)(int))
 {
-     if(signal == 2)
+    struct sigaction action;
+
+	ft_bzero(&action, sizeof(action));
+	action.sa_handler = handler;
+	if (sigaction(signum, &action, NULL) == -1)
     {
-       	rl_replace_line("", 1);
-	    exit(0);
-        /*rl_on_new_line();
-       	rl_replace_line("", 1);
-        rl_redisplay();*/
+        perror("Erreur sigaction\n");
+        return (0);
     }
+    return (1);
 }
 
-
-
-
-
+//Type 0 = ignore le signal SIGINT pour le pere pendant le lancement d'un pipe
+//Type 1 = reset le comportement par default de SIGINT (utilisé lors d'un pipe pour les fils)
 
 int update_sigint_interactive(int type)
 {
-	struct sigaction action;
-	
     if(type == 0)
     {
-        ft_bzero(&action, sizeof(action));
-	    action.sa_handler = SIG_IGN;
-	    if (sigaction(SIGINT, &action, NULL) == -1)
-        {
-            perror("Erreur sigaction\n");
+        if (!update_signal(SIGINT, SIG_IGN))
             return (0);
-        }
-        return (1);
     }
     else
     {
-	    ft_bzero(&action, sizeof(action));
-	    action.sa_handler = SIG_DFL;
-	    if (sigaction(SIGINT, &action, NULL) == -1)
-        {
-            perror("Erreur sigaction\n");
+        if (!update_signal(SIGINT, SIG_DFL))
             return (0);
-        }
-        return (1);
     }
+    return (1);
 }
 
-void signals_handler(int signal)
+void no_interactive_handler(int signal)
 {
     if(signal == 2)
     {
@@ -79,52 +65,18 @@ void signals_handler(int signal)
     }
 }
 
-int update_sigint_no_interactive(void)
+int update_no_interactive_sigint()
 {
-	struct sigaction action;
-	
-	ft_bzero(&action, sizeof(action));
-	action.sa_handler = &signals_handler;
-	if (sigaction(SIGINT, &action, NULL) == -1)
-    {
-        perror("Erreur sigaction\n");
+	if (!update_signal(SIGINT, &no_interactive_handler))
         return (0);
-    }
     return (1);
 }
 
-//Permet d'ignorer sigquit tout au long du minishell
-int update_sigquit(void)
+//Ignorer SIGQUIT en mode interactif ou non
+//Faire qu'en mode non interactif SIGINT reset le prompt
+int init_no_interactive_signals()
 {
-	struct sigaction action;
-
-	ft_bzero(&action, sizeof(action));
-	action.sa_handler = SIG_IGN;
-	if (sigaction(SIGQUIT, &action, NULL) == -1)
-    {
-        perror("Erreur sigaction\n");
-        return (0);
-    }
-    return (1);
-}
-
-int update_signal(int signum, void (*sa_handler)(int))
-{
-    struct sigaction action;
-
-	ft_bzero(&action, sizeof(action));
-	action.sa_handler = sa_handler;
-	if (sigaction(signum, &action, NULL) == -1)
-    {
-        perror("Erreur sigaction\n");
-        return (0);
-    }
-    return (1);
-}
-
-int init_all_signal_no_interactive()
-{
-    if (!update_signal(SIGINT, &signals_handler))
+    if (!update_sigint_interactive())
         return (0);
     if (!update_signal(SIGQUIT, SIG_IGN))
         return (0);
