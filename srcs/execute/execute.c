@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 16:23:32 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/07 16:25:22 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/07 20:16:08 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,14 @@ int	execute_cmd(t_parse *p, t_cmd *cmd, int old_stdin, int old_stdout)
 	return (127);
 }
 
-int	manager(t_parse *p, t_cmd *cmd, int num_proc)
+int	manager(t_parse *p, t_cmd *cmd, int num_proc, int builtin)
 {
 	int	num_write;
 	int	num_read;
 	int	old_stdin;
 	int	old_stdout;
 
-	if (p->pipes_fd)
+	if (p->pipes_fd || !builtin)
 	{
 		if (!update_no_interactive_sigint(1))
 			return (0);
@@ -72,7 +72,7 @@ int	execute(t_parse *p)
 		return (0);
 	}
 	if (!p->pipes_fd && is_builtin(p->first))
-		cmd_return = manager(p, p->first, 0);
+		cmd_return = manager(p, p->first, 0, 1);
 	else if (!run_pipe(p))
 	{
 		printf("Impossible de lancer les pipes\n");

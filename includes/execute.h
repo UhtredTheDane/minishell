@@ -14,7 +14,7 @@ void prepare_cmd(t_cmd *cmd);
 int run_cmd(t_parse *p, t_cmd *cmd);
 
 int execute_cmd(t_parse *p, t_cmd *cmd, int old_stdin, int old_stdout);
-int manager(t_parse *p, t_cmd *cmd, int num_proc);
+int manager(t_parse *p, t_cmd *cmd, int num_proc, int builtin);
 int	execute(t_parse *p);
 
 int char_in_str(char c, char *str);

@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 16:35:02 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/07 19:16:35 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/07 20:20:21 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,6 @@ int run_heredoc(t_cmd *cmd, char *word,t_envp *envp)
 
 	close(cmd->pipe_heredoc[0]);
 	if (!update_no_interactive_sigint(1))
-		return (0);
-	if (!update_no_interactive_sigquit())
 		return (0);
 	input = readline("Heredoc>");
 	while(input && strncmp(input, word, max(input, word)))
