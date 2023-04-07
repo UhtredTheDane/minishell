@@ -26,7 +26,7 @@ typedef struct s_parse t_parse;
 
 int update_signal(int signum, void (*handler)(int));
 
-int update_sigint_interactive(int type);
+int update_no_interactive_sigint(int type);
 
 void interactive_handler(int signal);
 int update_interactive_sigint();

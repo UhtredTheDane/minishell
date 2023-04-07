@@ -100,7 +100,7 @@ int	run_pipe(t_parse *p)
 	pid = create_process(p);
 	if (!pid)
 		return (0);
-	if (!update_sigint_interactive(0))
+	if (!update_no_interactive_sigint(0))
 		return (0);
 	close_all_pipes(p);
 	if (p->count == 0)
