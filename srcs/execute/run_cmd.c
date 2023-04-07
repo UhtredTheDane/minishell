@@ -1,11 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   run_cmd.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/07 16:25:39 by agengemb          #+#    #+#             */
+/*   Updated: 2023/04/07 19:23:32 by agengemb         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/execute.h"
 
-char *init_pos_first(int *current_pos, int quote_pos, int double_pos)
+char	*init_pos_first(int *current_pos, int quote_pos, int double_pos)
 {
 	if (quote_pos <= double_pos)
 	{
 		*current_pos = quote_pos;
-		return ("'");;
+		return ("'");
 	}
 	else
 	{
@@ -13,10 +25,11 @@ char *init_pos_first(int *current_pos, int quote_pos, int double_pos)
 		return ("\"");
 	}
 }
-char *remove_first(char *cmd, int *current_pos, int quote_pos, int double_pos)
+
+char	*remove_first(char *cmd, int *current_pos, int quote_pos, int double_pos)
 {
-	char *first;
-	char *tempo_str;
+	char	*first;
+	char	*tempo_str;
 
 	first = init_pos_first(current_pos, quote_pos, double_pos);
 	if ((size_t) *current_pos != ft_strlen(cmd))
@@ -34,16 +47,16 @@ char *remove_first(char *cmd, int *current_pos, int quote_pos, int double_pos)
 	return (cmd);
 }
 
-char *trim_quotes(char *cmd)
+char	*trim_quotes(char *cmd)
 {
-	int current_pos;
-	int quote_pos;
-	int double_pos;
-	char *res;
+	char	*res;
+	int		current_pos;
+	int		quote_pos;
+	int		double_pos;
 
 	current_pos = 0;
 	res = cmd;
-	while(cmd[current_pos])
+	while (cmd[current_pos])
 	{
 		quote_pos = skip_to_X(res, current_pos, "'");
 		double_pos = skip_to_X(res, current_pos, "\"");
@@ -52,7 +65,7 @@ char *trim_quotes(char *cmd)
 	return (res);
 }
 
-void prepare_cmd(t_cmd *cmd)
+void	prepare_cmd(t_cmd *cmd)
 {
 	size_t	i;
 
@@ -76,7 +89,7 @@ void prepare_cmd(t_cmd *cmd)
 	}
 }
 
-int run_cmd(t_parse *p, t_cmd *cmd)
+int	run_cmd(t_parse *p, t_cmd *cmd)
 {
 	char **envp;
 	if(!cmd->cmd)

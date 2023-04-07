@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/07 16:45:04 by agengemb          #+#    #+#             */
+/*   Updated: 2023/04/07 16:45:37 by agengemb         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/pipex.h"
 
-void set_num_pipe(t_parse *p, int *num_read, int *num_write, int num_proc)
+void	set_num_pipe(t_parse *p, int *num_read, int *num_write, int num_proc)
 {
 	if (num_proc != 0)
 		*num_read = (num_proc - 1) * 2;
@@ -44,7 +56,7 @@ int	link_stdout(t_parse *p, int num_write)
 
 void	close_useless_pipes(t_parse *p, int num_read, int num_write)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < (p->count - 1) * 2)
@@ -55,9 +67,9 @@ void	close_useless_pipes(t_parse *p, int num_read, int num_write)
 	}
 }
 
-void close_all_pipes(t_parse *p)
+void	close_all_pipes(t_parse *p)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < (p->count - 1) * 2)

@@ -1,29 +1,41 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/07 16:35:02 by agengemb          #+#    #+#             */
+/*   Updated: 2023/04/07 19:16:35 by agengemb         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/heredoc.h"
 
-int max(char *input,char *word)
+int	max(char *input, char *word)
 {
 	if (ft_strlen(input) > ft_strlen((word)))
 		return (ft_strlen(input));
 	return (ft_strlen(word));
 }
 
-char *get_name(t_cmd *cmd, int i, int op)
+char	*get_name(t_cmd *cmd, int i, int op)
 {
-	int start_w;
-		
+	int	start_w;
+
 	i = skip_space(cmd->s[0], i);
-	if(is_special(cmd->s[0][i],"<> "))
-		return(NULL);
+	if (is_special(cmd->s[0][i], "<> "))
+		return (NULL);
 	start_w = i;
-	while(cmd->s[0][i] && !is_special(cmd->s[0][i],"<> "))
+	while (cmd->s[0][i] && !is_special(cmd->s[0][i], "<> "))
 	{
-		if(cmd->s[0][i] == '\'')
-			i = skip_to_X(cmd->s[0] + i, i + 1,"\'");
-		else if(cmd->s[0][i] == '\"')
-			i = skip_to_X(cmd->s[0] + i, i + 1,"\"");
+		if (cmd->s[0][i] == '\'')
+			i = skip_to_X(cmd->s[0] + i, i + 1, "\'");
+		else if (cmd->s[0][i] == '\"')
+			i = skip_to_X(cmd->s[0] + i, i + 1, "\"");
 		i++;
 	}
-	return(trimming(op,cmd, start_w, i));
+	return (trimming(op, cmd, start_w, i));
 }
 
 int run_heredoc(t_cmd *cmd, char *word,t_envp *envp)
@@ -51,12 +63,12 @@ int run_heredoc(t_cmd *cmd, char *word,t_envp *envp)
 	free(input);
 	return (1);
 }
- 
-int get_heredoc(t_parse *p, t_cmd* cmd, char *word)
+
+int	get_heredoc(t_parse *p, t_cmd *cmd, char *word)
 {
-	pid_t pid;
-	int status; 
-	int return_code;
+	pid_t	pid;
+	int		status;
+	int		return_code;
 
 	p = (t_parse *) p;
 	pid = fork();
@@ -75,24 +87,24 @@ int get_heredoc(t_parse *p, t_cmd* cmd, char *word)
 	if (!update_sigint_interactive(0))
 		return (0);
 	pid = waitpid(-1, &status, 0);
-	if (!update_no_interactive_sigint()) 
+	if (!update_no_interactive_sigint())
 		return (1);
 	close(cmd->pipe_heredoc[1]);
 	if (!WIFEXITED(status))
 		return (0);
-	return (1);	
+	return (1);
 }
 
-int here_doc(t_parse *p, t_cmd *cmd, int i, int op)
+int	here_doc(t_parse *p, t_cmd *cmd, int i, int op)
 {
-	char *delim;
+	char	*delim;
 
-	delim = get_name(cmd,i,op);
-	if(!delim)
-		return(0);
+	delim = get_name(cmd, i, op);
+	if (!delim)
+		return (0);
 	cmd->pipe_heredoc = malloc(sizeof(int) * 2);
 	if (!cmd->pipe_heredoc)
-			return (0);
+		return (0);
 	if (pipe(cmd->pipe_heredoc) == -1)
 	{
 		free(cmd->pipe_heredoc);

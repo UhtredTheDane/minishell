@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/07 16:05:18 by agengemb          #+#    #+#             */
+/*   Updated: 2023/04/07 16:07:12 by agengemb         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../../includes/builtins.h"
 
-int is_entrie_valid(char *str, int egal_pos)
+int	is_entrie_valid(char *str, int egal_pos)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (str[i] && i < egal_pos)
@@ -19,9 +31,9 @@ int is_entrie_valid(char *str, int egal_pos)
 	return (1);
 }
 
-char *new_key(char *cmd)
+char	*new_key(char *cmd)
 {
-	char *key;
+	char	*key;
 
 	key = ft_strjoin("", cmd);
 	if (!key)
@@ -29,9 +41,9 @@ char *new_key(char *cmd)
 	return (key);
 }
 
-char *new_value(char *cmd, int egal_pos)
+char	*new_value(char *cmd, int egal_pos)
 {
-	char *value;
+	char	*value;
 
 	value = ft_strjoin("", cmd + egal_pos + 1);
 	if (!value)
@@ -39,17 +51,17 @@ char *new_value(char *cmd, int egal_pos)
 	return (value);
 }
 
-int add_new_entries(t_envp *envp, char *key, char *value)
+int	add_new_entries(t_envp *envp, char *key, char *value)
 {
-	t_envp *new;
+	t_envp	*new;
 
 	new = ft_envp_new(key, value);
-   	if (!new)
+	if (!new)
 	{
 		free(key);
 		free(value);
 		return (0);
 	}
-    ft_envp_add(&envp, new);
+	ft_envp_add(&envp, new);
 	return (1);
 }
