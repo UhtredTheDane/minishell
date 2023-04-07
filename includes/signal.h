@@ -28,7 +28,7 @@ int update_signal(int signum, void (*handler)(int));
 
 int update_sigint_interactive(int type);
 
-void no_interactive_handler(int signal);
-int update_no_interactive_sigint();
-int init_no_interactive_signals();
+void interactive_handler(int signal);
+int update_interactive_sigint();
+int init_interactive_signals();
 #endif

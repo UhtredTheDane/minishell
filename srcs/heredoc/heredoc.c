@@ -87,7 +87,7 @@ int	get_heredoc(t_parse *p, t_cmd *cmd, char *word)
 	if (!update_sigint_interactive(0))
 		return (0);
 	pid = waitpid(-1, &status, 0);
-	if (!update_no_interactive_sigint())
+	if (!update_interactive_sigint())
 		return (1);
 	close(cmd->pipe_heredoc[1]);
 	if (!WIFEXITED(status))

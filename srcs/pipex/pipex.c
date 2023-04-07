@@ -106,7 +106,7 @@ int	run_pipe(t_parse *p)
 	if (p->count == 0)
 		p->count = 1;
 	waiting_all_sons(p->count, pid);
-	if (!update_no_interactive_sigint())
+	if (!update_interactive_sigint())
 		return (1);
 	return (1);
 }
