@@ -45,6 +45,8 @@ int run_heredoc(t_cmd *cmd, char *word,t_envp *envp)
 	close(cmd->pipe_heredoc[0]);
 	if (!update_no_interactive_sigint(1))
 		return (0);
+	if (!update_no_interactive_sigquit())
+		return (0);
 	input = readline("Heredoc>");
 	while(input && strncmp(input, word, max(input, word)))
 	{
