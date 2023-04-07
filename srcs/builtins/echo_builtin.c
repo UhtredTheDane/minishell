@@ -6,43 +6,61 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 18:02:24 by agengemb          #+#    #+#             */
-/*   Updated: 2023/03/23 18:14:25 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/07 15:27:55 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/builtins.h"
 
-int is_echo(t_cmd *cmd)
+int	is_echo(t_cmd *cmd)
 {
-    int n_option;
-    int i;
-    char *message;
-
-    if (ft_strncmp(cmd->cmd[0], "echo", 4) == 0)
-    {
-        n_option = 0;
-	message = "";
-        i = 1;
-        while (cmd->cmd[i])
-        {
-            if (cmd->cmd[i][0] == '-')
-            {
-                if (cmd->cmd[i][1] == 'n' || cmd->cmd[i][1] == 'N')
-                    n_option = 1;
-            }
-            else
-                message = cmd->cmd[i];
-            ++i;
-        }
-        builtin_echo(message, n_option);
-        return (1);
-    }
-    return (0);
+	if (ft_strncmp(cmd->cmd[0], "echo", 4) == 0)
+		return (1);
+	return (0);
 }
 
-void    builtin_echo(const char *message, int n_option)
+int	valid_option(char c)
 {
-    printf("%s", message);
-    if (!n_option)
-        printf("\n");
+	return (c == 'n');
+}
+
+int	valid_options(char *s)
+{
+	int	i;
+
+	i = 0;
+	while (s[i] && s[i] == 'n')
+		i++;
+	return (s[i] == 1);
+}
+
+int	check_option(char *cmd_1)
+{
+	if (!cmd_1)
+		return (0);
+	if (cmd_1[0] == '-' && ft_strlen(cmd_1) == 2)
+	{
+		if (cmd_1[1] == 'n' || cmd_1[1] == 'N')
+			return (1);
+	}
+	return (0);
+}
+
+int	builtin_echo(t_cmd *cmd)
+{
+	int	i;
+	int	n_option;
+
+	n_option = check_option(cmd->cmd[1]);
+	i = n_option + 1;
+	while (cmd->cmd[i])
+	{
+		printf("%s", cmd->cmd[i]);
+		if (cmd->cmd[i] != NULL)
+			printf(" ");
+		++i;
+	}
+	if (!n_option)
+		printf("\n");
+	return (0);
 }

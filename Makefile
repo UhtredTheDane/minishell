@@ -6,7 +6,7 @@
 #    By: agengemb <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/21 16:23:39 by agengemb          #+#    #+#              #
-#    Updated: 2023/03/23 18:11:46 by agengemb         ###   ########.fr        #
+#    Updated: 2023/04/06 23:42:16 by agengemb         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,15 +15,15 @@ CFLAGS = -Wall -Werror -Wextra -g
 NAME = minishell
 LIBFT = ./libft/libft.a
 SRC = $(wildcard srcs/*.c)
-BUILT = $(wildcard srcs/builtins/*.c)
-ENVP = $(wildcard srcs/envp/*.c)
+FOLDER = $(wildcard srcs/*/*.c)
+FOLDER2 = $(wildcard srcs/*/*/*.c)
 OBJ = $(SRC:.c=.o)
-OBJBUILT = $(BUILT:.c=.o)
-OBJENVP = $(ENVP:.c=.o)
+OBJFOLDER = $(FOLDER:.c=.o)
+OBJFOLDER2 = $(FOLDER2:.c=.o)
 
 all: $(NAME)
 
-$(NAME): $(OBJ) $(OBJBUILT) $(OBJENVP) $(LIBFT)
+$(NAME): $(OBJ) $(OBJFOLDER) $(OBJFOLDER2) $(LIBFT)
 	$(CC) $^ -o $@ -lreadline
 
 %.o: %.c
@@ -36,6 +36,8 @@ clean:
 	make -C libft clean
 	rm -rf $(LIBFT)
 	rm -rf $(OBJ)
+	rm -rf $(OBJFOLDER)
+	rm -rf $(OBJFOLDER2)
 
 fclean: clean
 	rm -rf $(NAME)
