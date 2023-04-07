@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   envp_shell.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/07 16:16:16 by agengemb          #+#    #+#             */
+/*   Updated: 2023/04/07 16:19:54 by agengemb         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/envp.h"
 
-int update_shlvl(t_envp *shell_envp)
+int	update_shlvl(t_envp *shell_envp)
 {
-	char *lvl;  
-	int tempo_lvl;
+	char	*lvl;
+	int		tempo_lvl;
 
 	lvl = get_value(shell_envp, "SHLVL");
 	if (lvl == NULL)
@@ -25,10 +37,10 @@ int update_shlvl(t_envp *shell_envp)
 	return (1);
 }
 
-int add_pwd(t_envp **shell_envp)
+int	add_pwd(t_envp **shell_envp)
 {
-	char *pwd;
-	char *old_pwd;
+	char	*pwd;
+	char	*old_pwd;
 
 	pwd = builtin_pwd();
 	if (!pwd)
@@ -42,10 +54,10 @@ int add_pwd(t_envp **shell_envp)
 	return (1);
 }
 
-int create_entries(char *str, char **key, char **value)
+int	create_entries(char *str, char **key, char **value)
 {
-	size_t key_len;
-	size_t value_len;
+	size_t	key_len;
+	size_t	value_len;
 
 	key_len = egal_pos(str);
 	value_len = ft_strlen(str + key_len + 1);
@@ -58,12 +70,12 @@ int create_entries(char *str, char **key, char **value)
 	return (1);
 }
 
-t_envp  *create_shell_envp(char **envp)
+t_envp	*create_shell_envp(char **envp)
 {
-	t_envp *shell_envp;
-	char *key;
-	char *value;
-	size_t  i;
+	t_envp	*shell_envp;
+	char	*key;
+	char	*value;
+	size_t	i;
 
 	i = 0;
 	shell_envp = NULL;

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipex.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/07 16:41:38 by agengemb          #+#    #+#             */
+/*   Updated: 2023/04/07 16:44:43 by agengemb         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/pipex.h"
 
 extern int cmd_return;
@@ -7,25 +19,25 @@ char	*make_cmd(t_parse *p, char *name_cmd)
 	char	*cmd;
 	char	*tempo_cmd;
 	size_t	i;
-	char **envp;
+	char	**envp;
 
 	envp = create_envp_tab(p->envp);
 	cmd = format_string(name_cmd);
 	if (!cmd)
-		return (clean_2d_tab(envp),NULL);
+		return (clean_2d_tab(envp), NULL);
 	i = 0;
 	while (envp[i] && ft_strncmp(envp[i], "PATH=", 5) != 0)
 		++i;
-	if(!envp[i])
-		return (free(cmd),clean_2d_tab(envp),NULL);
+	if (!envp[i])
+		return (free(cmd), clean_2d_tab(envp), NULL);
 	tempo_cmd = find_path(envp, cmd, i);
 	clean_2d_tab(envp);
 	if (!tempo_cmd)
-		return (free(cmd),NULL);
+		return (free(cmd), NULL);
 	return (tempo_cmd);
 }
 
-char *search_cmd(t_parse *p, t_cmd *cmd)
+char	*search_cmd(t_parse *p, t_cmd *cmd)
 {
 	char	*cmd_name;
 
@@ -35,11 +47,11 @@ char *search_cmd(t_parse *p, t_cmd *cmd)
 	return (cmd_name);
 }
 
-void waiting_all_sons(size_t nb_sons, pid_t last)
+void	waiting_all_sons(size_t nb_sons, pid_t last)
 {
 	size_t	i;
-	int status;
-	pid_t pid;
+	pid_t	pid;
+	int		status;
 
 	status = 0;
 	i = 0;
@@ -52,12 +64,12 @@ void waiting_all_sons(size_t nb_sons, pid_t last)
 	}
 }
 
-pid_t create_process(t_parse *p)
+pid_t	create_process(t_parse *p)
 {
-	pid_t pid;
-	int return_code;
-	int	i;
-	t_cmd *current;
+	pid_t	pid;
+	t_cmd	*current;
+	int		return_code;
+	int		i;
 
 	return_code = 0;
 	i = 0;
@@ -83,8 +95,8 @@ pid_t create_process(t_parse *p)
 
 int	run_pipe(t_parse *p)
 {
-	pid_t pid;
-	
+	pid_t	pid;
+
 	pid = create_process(p);
 	if (!pid)
 		return (0);
@@ -94,7 +106,7 @@ int	run_pipe(t_parse *p)
 	if (p->count == 0)
 		p->count = 1;
 	waiting_all_sons(p->count, pid);
-	if (!update_no_interactive_sigint()) 
+	if (!update_no_interactive_sigint())
 		return (1);
 	return (1);
 }

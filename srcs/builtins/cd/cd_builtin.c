@@ -6,105 +6,105 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 17:59:28 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/06 00:55:16 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/07 15:55:58 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/builtins.h"
 
-int is_cd(t_cmd *cmd)
+int	is_cd(t_cmd *cmd)
 {
-    if (ft_strncmp(cmd->cmd[0], "cd", 2) == 0)
-        return (1);
-    return (0);
+	if (ft_strncmp(cmd->cmd[0], "cd", 2) == 0)
+		return (1);
+	return (0);
 }
-int size_cmd(t_cmd *cmd)
-{
-	int i;
-	
-	i=0;
-	while(cmd->cmd[i])
-	{
-		i++;
-	}
-	return(i);
-}
-char *init_path(t_envp *envp, t_cmd *cmd)
-{
-    char *home;
 
-    home = get_value(envp, "HOME");
-    if (!home && !cmd->cmd[2])
-        return (cmd->cmd[1]);
-    else if (!cmd->cmd[1])
-        return (home);
-else if (!cmd->cmd[2])
-        return (replace_home(cmd, home));
-    printf("minishell: cd: too many arguments\n");
-    return (NULL);
+int	size_cmd(t_cmd *cmd)
+{
+	int	i;
+
+	i = 0;
+	while (cmd->cmd[i])
+		i++;
+	return (i);
+}
+
+char	*init_path(t_envp *envp, t_cmd *cmd)
+{
+	char	*home;
+
+	home = get_value(envp, "HOME");
+	if (!home && !cmd->cmd[2])
+		return (cmd->cmd[1]);
+	else if (!cmd->cmd[1])
+		return (home);
+	else if (!cmd->cmd[2])
+		return (replace_home(cmd, home));
+	printf("minishell: cd: too many arguments\n");
+	return (NULL);
 	//faire en sorte que tout les path renvoyés puissent etre free
 }
 
-int check_path(const char *path)
+int	check_path(const char *path)
 {
-    struct stat buf;
+	struct stat	buf;
 
-    	if (lstat(path, &buf) == -1)
+	if (lstat(path, &buf) == -1)
 	{
-        	printf("minishell: cd: %s No such file or directory\n", path);
+		printf("minishell: cd: %s No such file or directory\n", path);
 		return (0);
 	}
-    	if (!S_ISDIR(buf.st_mode))
-    	{
-        	 printf("minishell: cd: %s Not a directory\n", path);
-        	return (0);
-    	}
-    	return (1);
+	if (!S_ISDIR(buf.st_mode))
+	{
+		printf("minishell: cd: %s Not a directory\n", path);
+		return (0);
+	}
+	return (1);
 }
 
-int update_env(t_envp *envp)
+int	update_env(t_envp *envp)
 {
-    char    *old_pwd;
-    char    *new_pwd;
-    char    *pwd;
-   
-    pwd = get_value(envp, "PWD");
-    if (!pwd)
-    {
-	    old_pwd = env_with_no_pwd();
-	    if (!old_pwd)
-        	return (0);
-    }
-    else
-    {
-        if(!env_with_pwd(envp, pwd, &new_pwd, &old_pwd))
-        {
-            if (old_pwd)
-                free(old_pwd);
-            return (0);
-        }
-    }
-    if (!set_value(envp, "OLDPWD", old_pwd))
-	    free(old_pwd);
-    return (1);
+	char	*old_pwd;
+	char	*new_pwd;
+	char	*pwd;
+
+	pwd = get_value(envp, "PWD");
+	if (!pwd)
+	{
+		old_pwd = env_with_no_pwd();
+		if (!old_pwd)
+			return (0);
+	}
+	else
+	{
+		if (!env_with_pwd(envp, pwd, &new_pwd, &old_pwd))
+		{
+			if (old_pwd)
+				free(old_pwd);
+			return (0);
+		}
+	}
+	if (!set_value(envp, "OLDPWD", old_pwd))
+		free(old_pwd);
+	return (1);
 }
 
 //modifier le path pour qu'il puisse etre free
-int builtin_cd(t_envp *envp, t_cmd *cmd)
+int	builtin_cd(t_envp *envp, t_cmd *cmd)
 {
-    char *path;
+	char	*path;
 
-    path = init_path(envp, cmd);
-    if (!path)
-        return (1);
-    if (!check_path(path))
-        return (1);
-    if (chdir(path) == -1)
-    {
-        perror("cd");
-        return (1);
-    }
-    if (!update_env(envp))
-        printf("Probleme lors de l'update de l'environnement.\n");
-    return (0);
+	path = init_path(envp, cmd);
+	if (!path)
+		return (1);
+	if (!check_path(path))
+		return (1);
+	if (chdir(path) == -1)
+	{
+		perror("cd");
+		return (1);
+	}
+	if (!update_env(envp))
+		printf("Probleme lors de l'update de l'environnement.\n");
+	return (0);
 }
