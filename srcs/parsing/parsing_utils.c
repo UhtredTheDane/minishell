@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 12:53:06 by lloisel           #+#    #+#             */
-/*   Updated: 2023/03/27 21:32:38 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/07 12:36:22 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,17 @@
 #include "../../includes/envp.h"
 #include <stdio.h>
 
+int is_empty(char *s)
+{
+	int i;
+	
+	i = 0;
+	while(s[i] && is_special(s[i]," \t"))
+		++i;
+	if(s[i] == '\0')
+		return(1);
+	return(0);
+}
 
 void display_cmd(t_cmd *cmd)
 {

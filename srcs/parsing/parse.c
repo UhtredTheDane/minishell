@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 13:17:21 by lloisel           #+#    #+#             */
-/*   Updated: 2023/03/31 18:02:55 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/04/07 12:43:16 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int parse(char *input,t_parse *p)
 	int start_w;
 
 	i = -1;
-	start_w = 0;
+	start_w = 0;	
 	p->s = malloc(sizeof(char )*ft_strlen(input) + 1);
 	if(!p->s)
 		return(0);
@@ -100,9 +100,11 @@ t_parse *parsing(char *input, t_envp *envp_dico)
 	t_parse *p;
 	int	i;
 
+	if(is_empty(input))
+		return(NULL);
 	p = init_parse(envp_dico);
 	if(!p)
-		return(0);
+		return(NULL);
 	if(!parse(input,p))
 		return (NULL);
 	if (p->count < 2)

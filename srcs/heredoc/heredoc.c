@@ -26,39 +26,29 @@ char *get_name(t_cmd *cmd, int i, int op)
 	return(trimming(op,cmd, start_w, i));
 }
 
-int run_heredoc(t_cmd *cmd, char *word)
+int run_heredoc(t_cmd *cmd, char *word,t_envp *envp)
 {
-	char *value;
 	char *input;
-	int size;
 
 	close(cmd->pipe_heredoc[0]);
 	if (!update_sigint_interactive(1))
 		return (0);
 	input = readline("Heredoc>");
-	value = "";
 	while(input && strncmp(input, word, max(input, word)))
 	{
-		size = ft_strlen(input) + ft_strlen(value) + 2; 
-		value = malloc(size);
-		if(!value)
-		{
-			close(cmd->pipe_heredoc[1]);
-			return(0);	
-		}
-		value[0] = '\0';
-		ft_strlcat(value, input, size);
-		ft_strlcat(value,"\n",size);
-		write(cmd->pipe_heredoc[1], value, size);
+		input = replace_dollards_heredoc(input,envp);
+		write(cmd->pipe_heredoc[1], input, ft_strlen(input) + 1);
+		write(cmd->pipe_heredoc[1], "\n", 1);
+		free(input);
 		input = readline("Heredoc>");
-	}
+	}	
+	close(cmd->pipe_heredoc[1]);
 	if(!input)
 	{
 		printf("Heredoc expect %s not end of file\n", word);
-		close(cmd->pipe_heredoc[1]);
 		return(0);
 	}
-	close(cmd->pipe_heredoc[1]);
+	free(input);
 	return (1);
 }
  
@@ -77,9 +67,11 @@ int get_heredoc(t_parse *p, t_cmd* cmd, char *word)
 	}
 	else if (pid == 0)
 	{
-		return_code = run_heredoc(cmd, word);
+		return_code = run_heredoc(cmd, word,p->envp);
+		free(word);
 		exit(return_code);
 	}
+	free(word);
 	if (!update_sigint_interactive(0))
 		return (0);
 	pid = waitpid(-1, &status, 0);

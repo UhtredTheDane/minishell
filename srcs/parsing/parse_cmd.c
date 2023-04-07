@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 13:00:43 by lloisel           #+#    #+#             */
-/*   Updated: 2023/03/27 22:01:18 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/07 13:42:54 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ t_cmd *init_cmd(void)
 	cmd->out = -1;
 	cmd->append = 1;
 	cmd->heredoc = 0;
+	cmd->pipe_heredoc = NULL;
 	return (cmd);
 }
 

@@ -43,6 +43,8 @@ typedef struct s_parse {
 	struct s_cmd *last;	
 } t_parse;
 
+char *big_join(char *first ,char  *second,char * last,int c);
+int is_empty(char *s);
 char *get_name(t_cmd *cmd,int i,int op);
 int here_doc(t_parse *p, t_cmd *cmd,int i,int op);
 int double_quote_no_close(char *s,int *i);

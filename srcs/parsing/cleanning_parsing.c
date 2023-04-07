@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 15:12:01 by lloisel           #+#    #+#             */
-/*   Updated: 2023/03/31 17:43:19 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/04/07 13:41:51 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../includes/pipex.h"
@@ -39,6 +39,8 @@ void free_cmd(t_cmd *cmd)
 		free(cmd->filename_in);
 	if(cmd->filename_out)
 		free(cmd->filename_out);
+	if(cmd->pipe_heredoc)
+		free(cmd->pipe_heredoc);
 }
 
 void free_parse(t_parse *p)

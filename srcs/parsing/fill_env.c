@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 18:48:43 by lloisel           #+#    #+#             */
-/*   Updated: 2023/03/27 13:42:23 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/04/07 14:01:17 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 
 extern int cmd_return;
 
-char *big_join(char *first ,char  *second,char * last)
+char *big_join(char *first ,char  *second,char * last,int c)
 {
 	int size;
 	char *new;
@@ -33,6 +33,8 @@ char *big_join(char *first ,char  *second,char * last)
 	ft_strlcat(new,second,size+1);
 	ft_strlcat(new,last,size+1);
 	free(first);
+	if(c)
+		free(second);	
 	return(new);	
 }
  
@@ -76,16 +78,16 @@ int change_dollard_bis(t_cmd *cmd,int *i, t_envp *envp)
 	if(cmd->s[0][end] && cmd->s[0][end] == '?')
 	{
 		end++;
-		cmd->s[0] = big_join(cmd->s[0], ft_itoa(cmd_return), cmd->s[0] +end);
+		cmd->s[0] = big_join(cmd->s[0], ft_itoa(cmd_return), cmd->s[0] +end,1);
 		return(1);
 	}
 	while(cmd->s[0][end] && !is_special(cmd->s[0][end],"<>\" $\'"))
 		end++;
 	value = get_key(cmd, envp,*i + 1,end);
 	if(!value)
-		cmd->s[0] = big_join(cmd->s[0],"",cmd->s[0] +end );
+		cmd->s[0] = big_join(cmd->s[0],"",cmd->s[0] +end,0 );
 	else 
-		cmd->s[0] = big_join(cmd->s[0],value,cmd->s[0] +end );
+		cmd->s[0] = big_join(cmd->s[0],value,cmd->s[0] +end,0 );
 	return(1);
 }
 int change_dollard(t_cmd *cmd,int *i, t_envp *envp)
@@ -104,16 +106,16 @@ int change_dollard(t_cmd *cmd,int *i, t_envp *envp)
 	if(cmd->s[0][end] && cmd->s[0][end] == '?')
 	{
 		end++;
-		cmd->s[0] = big_join(cmd->s[0], ft_itoa(cmd_return),cmd->s[0] +end);
+		cmd->s[0] = big_join(cmd->s[0], ft_itoa(cmd_return),cmd->s[0] +end,1);
 		return(1);
 	}
 	while(cmd->s[0][end] && !is_special(cmd->s[0][end],"<>\" $\'"))
 		end++;
 	value = get_key(cmd, envp,*i + 1,end);
 	if(!value)
-		cmd->s[0] = big_join(cmd->s[0],"",cmd->s[0] +end );
+		cmd->s[0] = big_join(cmd->s[0],"",cmd->s[0] +end ,0);
 	else 
-		cmd->s[0] = big_join(cmd->s[0],value,cmd->s[0] +end );
+		cmd->s[0] = big_join(cmd->s[0],value,cmd->s[0] +end ,0);
 	return(1);
 }
 
