@@ -84,10 +84,11 @@ pid_t	create_process(t_parse *p)
 		}
 		else if (pid == 0)
 		{
-			return_code = manager(p, current, i++, 0);
+			return_code = manager(p, current, i, 0);
 			free_parse(p);
 			exit(return_code);
 		}
+		++i;
 		current = current->next;
 	}
 	return (pid);
