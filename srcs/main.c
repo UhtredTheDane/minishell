@@ -18,9 +18,7 @@
 int cmd_return = 0;
 
 int clean_exit(t_parse *p,t_envp *envp)
-{
-	if(p)
-		free_parse(p);	
+{	
 	delete_dico(envp);
 	rl_clear_history();	
 	printf("exit\n");
