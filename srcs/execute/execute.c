@@ -56,8 +56,7 @@ int	manager(t_parse *p, t_cmd *cmd, int num_proc, int builtin)
 
 int	execute(t_parse *p)
 {
-	if (!edit_parsing(p) && !split_cmd(p))
-
+	if (!edit_parsing(p) || !split_cmd(p))
 		return (0);
 	if (!p->pipes_fd && is_builtin(p->first))
 		cmd_return = manager(p, p->first, 0, 1);
