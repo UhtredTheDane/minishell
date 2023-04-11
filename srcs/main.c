@@ -47,8 +47,6 @@ int	main(int argc, char **argv, char **envp)
 		return (1);
 	while (1)
 	{
-		if(in_put)
-			free(in_put);
 		in_put = readline(prompt);
 		if (in_put)
 		{
@@ -72,6 +70,7 @@ int	main(int argc, char **argv, char **envp)
 						printf("Execution foiree\n");	
 				}		
 			}
+			free(in_put);
 		}
 		else
 		{		
