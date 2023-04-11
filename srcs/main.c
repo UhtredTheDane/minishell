@@ -50,15 +50,10 @@ int	main(int argc, char **argv, char **envp)
 		in_put = readline(prompt);
 		if (in_put)
 		{
-			if(p)
-				free_parse(p);
 			p = parsing(in_put, envp_dico);
-			if (!p)
-				printf("parsing error\n");
-			else
+			if (p)
 			{
 				add_history(p->s);
-				//			display_parse(p);	
 				if(!replace_dollards(p,envp_dico))
 				{
 					printf("we can't replace some variable");
@@ -68,18 +63,19 @@ int	main(int argc, char **argv, char **envp)
 				{
 					if (!execute(p))
 						printf("Execution foiree\n");	
-				}		
+				}
+				free_parse(p);	
 			}
 			free(in_put);
 		}
 		else
-		{		
-			return (clean_exit(p,envp_dico));
-		}
+			return (clean_exit(p, envp_dico));
 	}
+	rl_clear_history();
 	delete_dico(envp_dico);
 	return(0);
 }
+
 /*
    int main(int argc,char**argv,char **envp)
    {

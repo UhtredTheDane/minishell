@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../includes/pipex.h"
-
+ 
 void	set_num_pipe(t_parse *p, int *num_read, int *num_write, int num_proc)
 {
 	if (num_proc != 0)

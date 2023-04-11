@@ -24,12 +24,12 @@ int	execute_cmd(t_parse *p, t_cmd *cmd, int old_stdin, int old_stdout)
 		exec_return = execute_builtin(p, cmd);
 		dup2(old_stdin, 0);
 		dup2(old_stdout, 1);
-		return (exec_return);
 	}
 	else
 		exec_return = run_cmd(p, cmd);
-	//attetion bien free
-	return (127);
+	close(old_stdin);
+	close(old_stdout);
+	return (exec_return);
 }
 
 int	manager(t_parse *p, t_cmd *cmd, int num_proc, int builtin)
@@ -39,38 +39,26 @@ int	manager(t_parse *p, t_cmd *cmd, int num_proc, int builtin)
 	int	old_stdin;
 	int	old_stdout;
 
-	if (p->pipes_fd || !builtin)
-	{
-		if (!update_no_interactive_sigint(1))
-			return (0);
-		if (!update_no_interactive_sigquit())
-			return (0);
-	}
+	if ((p->pipes_fd || !builtin) && !init_not_interactive_signals(1))
+		return (0);
 	set_num_pipe(p, &num_read, &num_write, num_proc);
 	close_useless_pipes(p, num_read, num_write);
 	old_stdin = dup(0);
 	old_stdout = dup(1);
-	if (!redirect_stdin(p, cmd, num_read))
+	if (!redirect_stdin(p, cmd, num_read) || !redirect_stdout(p, cmd, num_write))
+	{
+		close(old_stdin);
+		close(old_stdout);
 		return (2);
-	if (!redirect_stdout(p, cmd, num_write))
-		return (3);
+	}
 	return (execute_cmd(p, cmd, old_stdin, old_stdout));
-	//free(p->pipes_fd); tout free
-	return (0);
 }
 
 int	execute(t_parse *p)
 {
-	if (!edit_parsing(p))
-	{
-		printf("parsing has been cancel for some reasons");
+	if (!edit_parsing(p) && !split_cmd(p))
+
 		return (0);
-	}	
-	if (!split_cmd(p))
-	{
-		printf("split failed for some reason");
-		return (0);
-	}
 	if (!p->pipes_fd && is_builtin(p->first))
 		cmd_return = manager(p, p->first, 0, 1);
 	else if (!run_pipe(p))

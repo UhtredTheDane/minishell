@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../includes/pipex.h"
-
+ 
 char	*format_string(char *name_cmd)
 {
 	char	*temp;
@@ -61,9 +61,7 @@ char	*find_path(char **envp, char *cmd, size_t i)
 
 	temp = get_path(envp[i] + 5, cmd);
 	if (!temp)
-	{
 		return (NULL);
-	}
 	free(cmd);
 	return (temp);
 }

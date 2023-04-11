@@ -43,7 +43,7 @@ int run_heredoc(t_cmd *cmd, char *word,t_envp *envp)
 	char *input;
 
 	close(cmd->pipe_heredoc[0]);
-	if (!update_no_interactive_sigint(1))
+	if (!update_not_interactive_sigint(1))
 		return (0);
 	input = readline("Heredoc>");
 	while(input && strncmp(input, word, max(input, word)))
@@ -84,7 +84,7 @@ int	get_heredoc(t_parse *p, t_cmd *cmd, char *word)
 		exit(return_code);
 	}
 	free(word);
-	if (!update_no_interactive_sigint(0))
+	if (!update_not_interactive_sigint(0))
 		return (0);
 	pid = waitpid(-1, &status, 0);
 	if (!update_interactive_sigint())

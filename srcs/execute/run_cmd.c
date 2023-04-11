@@ -36,11 +36,15 @@ char	*remove_first(char *cmd, int *current_pos, int quote_pos, int double_pos)
 	{
 		cmd[*current_pos] = '\0';
 		tempo_str = ft_strjoin(cmd, cmd + *current_pos + 1);
+		if (!tempo_str)
+			return (NULL);
 		free(cmd);
 		cmd = tempo_str;
 		*current_pos = skip_to_X(cmd, *current_pos, first);
 		cmd[*current_pos] = '\0';
 		tempo_str = ft_strjoin(cmd, cmd + *current_pos + 1);
+		if (!tempo_str)
+			return (cmd);
 		free(cmd);
 		cmd = tempo_str;
 	}
@@ -49,38 +53,33 @@ char	*remove_first(char *cmd, int *current_pos, int quote_pos, int double_pos)
 
 char	*trim_quotes(char *cmd)
 {
-	char	*res;
+	char	*trim_cmd;
 	int		current_pos;
 	int		quote_pos;
 	int		double_pos;
 
 	current_pos = 0;
-	res = cmd;
-	while (cmd[current_pos])
+	trim_cmd = ft_strdup(cmd);
+	while (trim_cmd[current_pos])
 	{
-		quote_pos = skip_to_X(res, current_pos, "'");
-		double_pos = skip_to_X(res, current_pos, "\"");
-		res = remove_first(res, &current_pos, quote_pos, double_pos);
+		quote_pos = skip_to_X(trim_cmd, current_pos, "'");
+		double_pos = skip_to_X(trim_cmd, current_pos, "\"");
+		trim_cmd = remove_first(trim_cmd, &current_pos, quote_pos, double_pos);
+		if (!trim_cmd)
+			return (cmd);
 	}
-	return (res);
+	return (trim_cmd);
 }
 
 void	prepare_cmd(t_cmd *cmd)
 {
 	size_t	i;
 
-	if (cmd->heredoc)
-	{
-		if(cmd->cmd)
-		{
-			if (ft_strncmp(cmd->cmd[0], "grep", 4) == 0)
-				cmd->cmd = update_for_grep(cmd->cmd);
-		}
-	}
 	i = 0;
-
 	if(cmd->cmd)
 	{
+		if (cmd->heredoc && ft_strncmp(cmd->cmd[0], "grep", 4) == 0)
+			cmd->cmd = update_for_grep(cmd->cmd);
 		while (cmd->cmd[i])
 		{
 			cmd->cmd[i] = trim_quotes(cmd->cmd[i]);
@@ -92,6 +91,7 @@ void	prepare_cmd(t_cmd *cmd)
 int	run_cmd(t_parse *p, t_cmd *cmd)
 {
 	char **envp;
+	
 	if(!cmd->cmd)
 		return(0);
 	if (access(cmd->cmd[0], F_OK) == -1)
@@ -99,7 +99,6 @@ int	run_cmd(t_parse *p, t_cmd *cmd)
 		cmd->cmd[0] = search_cmd(p, cmd);
 		if (!cmd->cmd[0])
 		{
-			//free
 			printf("%s: command not found\n",cmd->s[0]);
 			return (127);
 		}

@@ -20,14 +20,15 @@
 # include <readline/history.h>
 # include <unistd.h>
 # include "envp.h"
-
+ 
 typedef struct s_envp t_envp;
 typedef struct s_parse t_parse;
 
 int update_signal(int signum, void (*handler)(int));
 
-int update_no_interactive_sigint(int type);
-int update_no_interactive_sigquit();
+int update_not_interactive_sigint(int type);
+int update_not_interactive_sigquit();
+int	init_not_interactive_signals(int type);
 
 void interactive_handler(int signal);
 int update_interactive_sigint();

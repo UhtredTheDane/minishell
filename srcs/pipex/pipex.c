@@ -84,11 +84,11 @@ pid_t	create_process(t_parse *p)
 		}
 		else if (pid == 0)
 		{
-			return_code = manager(p, current, i, 0);
+			return_code = manager(p, current, i++, 0);
+			free_parse(p);
 			exit(return_code);
 		}
 		current = current->next;
-		++i;
 	}
 	return (pid);
 }
@@ -100,7 +100,7 @@ int	run_pipe(t_parse *p)
 	pid = create_process(p);
 	if (!pid)
 		return (0);
-	if (!update_no_interactive_sigint(0))
+	if (!update_not_interactive_sigint(0))
 		return (0);
 	close_all_pipes(p);
 	if (p->count == 0)
