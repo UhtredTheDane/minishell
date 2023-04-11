@@ -18,7 +18,7 @@ int manager(t_parse *p, t_cmd *cmd, int num_proc, int builtin);
 int	execute(t_parse *p);
 
 int char_in_str(char c, char *str);
-void add_option_a(char **cmd, char **new_cmd);
+char **add_option_a(char **cmd, int size_cmd);
 char **update_for_grep(char **cmd);
 int redirect_stdin(t_parse *p, t_cmd *cmd, int num_read);
 int redirect_stdout(t_parse *p, t_cmd *cmd, int num_write);
