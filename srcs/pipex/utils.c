@@ -6,12 +6,12 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 16:45:04 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/07 16:45:37 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/13 00:40:30 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/pipex.h"
- 
+
 void	set_num_pipe(t_parse *p, int *num_read, int *num_write, int num_proc)
 {
 	if (num_proc != 0)

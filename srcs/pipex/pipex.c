@@ -6,13 +6,13 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 16:41:38 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/07 20:17:46 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/13 00:41:49 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/pipex.h"
 
-extern int cmd_return;
+extern int	cmd_return;
 
 char	*make_cmd(t_parse *p, char *name_cmd)
 {

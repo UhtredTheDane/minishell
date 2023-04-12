@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 15:56:35 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/07 16:02:10 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/13 00:19:08 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,20 +40,22 @@ int	env_with_pwd(t_envp *envp, char *pwd, char **new_pwd, char **old_pwd)
 	return (1);
 }
 
-char	*replace_home(t_cmd *cmd, char *home)
+char	*replace_home(t_cmd *cmd, char *default_folder)
 {
 	char	*path;
+	char	*initial_path;
 
+	initial_path = ft_strdup(cmd->cmd[1]);
 	if (cmd->cmd[1] && (cmd->cmd[1][0] == '~'))
 	{
 		if (ft_strlen(cmd->cmd[1]) != 1)
 		{
-			path = ft_strjoin(home, cmd->cmd[1] + 1);
+			path = ft_strjoin(default_folder, cmd->cmd[1] + 1);
 			if (!path)
-				return (cmd->cmd[1]);
+				return (initial_path);
 			return (path);
 		}
-		return (home);
+		return (default_folder);
 	}
-	return (cmd->cmd[1]);
+	return (initial_path);
 }

@@ -6,12 +6,12 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 16:41:25 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/07 16:41:27 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/13 00:41:26 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/pipex.h"
- 
+
 char	*format_string(char *name_cmd)
 {
 	char	*temp;

@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 16:31:04 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/07 16:34:19 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/13 00:36:33 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,11 @@ int	char_in_str(char c, char *str)
 	return (0);
 }
 
-char **add_option_a(char **cmd, int size_cmd)
+char	**add_option_a(char **cmd, int size_cmd)
 {
-	int	i;
-	int	j;
 	char	**new_cmd;
+	int		i;
+	int		j;
 
 	new_cmd = malloc(sizeof(char *) * (size_cmd + 2));
 	if (!new_cmd)

@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 16:16:16 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/07 16:19:54 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/13 00:53:34 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,10 @@ int	create_entries(char *str, char **key, char **value)
 		return (0);
 	*value = create_value(str, key_len, value_len);
 	if (!*value)
+	{
+		free(value);
 		return (0);
+	}
 	return (1);
 }
 
@@ -84,7 +87,10 @@ t_envp	*create_shell_envp(char **envp)
 	while (envp[i])
 	{
 		if (!create_entries(envp[i], &key, &value))
-			return (NULL);//a voir
+		{
+			delete_dico(shell_envp);
+			return (NULL);
+		}
 		ft_envp_add(&shell_envp, ft_envp_new(key, value));
 		++i;
 	}

@@ -8,7 +8,7 @@ typedef struct s_parse t_parse;
 typedef struct s_cmd t_cmd;
  
 char *init_pos_first(int *current_pos, int quote_pos, int double_pos);
-char *remove_first(char *cmd, int *current_pos, int quote_pos, int double_pos);
+char *rm_first(char *cmd, int *current_pos, int quote_pos, int double_pos);
 char *trim_quotes(char *cmd);
 void prepare_cmd(t_cmd *cmd);
 int run_cmd(t_parse *p, t_cmd *cmd);

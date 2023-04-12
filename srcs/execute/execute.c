@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 16:23:32 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/12 16:47:06 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/13 00:37:11 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ int	manager(t_parse *p, t_cmd *cmd, int num_proc, int builtin)
 	close_useless_pipes(p, num_read, num_write);
 	old_stdin = dup(0);
 	old_stdout = dup(1);
-	if (!redirect_stdin(p, cmd, num_read) || !redirect_stdout(p, cmd, num_write))
+	if (!redirect_stdin(p, cmd, num_read)
+		|| !redirect_stdout(p, cmd, num_write))
 	{
 		close(old_stdin);
 		close(old_stdout);
