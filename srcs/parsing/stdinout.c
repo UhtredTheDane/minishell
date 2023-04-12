@@ -100,7 +100,6 @@ int fill_stdout(t_cmd *cmd,int i)
 	else 
 		cmd->append = 0;
 	i = skip_space(cmd->s[0],i);
-	printf("%s\n",cmd->s[0] + i);
 	if(!cmd->s[0][i] || is_special(cmd->s[0][i],"<> |"))
 		return(0);
 	start_w = i;
