@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 17:09:09 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/06 00:56:07 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/12 15:50:12 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 int cmd_return = 0;
 
-int clean_exit(t_parse *p,t_envp *envp)
+int clean_exit(t_envp *envp)
 {	
 	delete_dico(envp);
 	rl_clear_history();	
@@ -67,7 +67,7 @@ int	main(int argc, char **argv, char **envp)
 			free(in_put);
 		}
 		else
-			return (clean_exit(p, envp_dico));
+			return (clean_exit(envp_dico));
 	}
 	rl_clear_history();
 	delete_dico(envp_dico);
