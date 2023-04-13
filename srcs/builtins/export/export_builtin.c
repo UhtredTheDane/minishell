@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 18:03:15 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/07 16:05:08 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/13 14:49:14 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	builtin_export(t_envp *envp, t_cmd *cmd)
 	i = 1;
 	while (cmd->cmd[i])
 	{
-		egal_pos = skip_to_X(cmd->cmd[i], 0, "=");
+		egal_pos = skip_to_x(cmd->cmd[i], 0, "=");
 		if (!check_identifier(cmd->cmd[i], egal_pos))
 			return_code = 1;
 		else

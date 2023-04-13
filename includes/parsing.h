@@ -65,7 +65,7 @@ void free_parse(t_parse *p);
 int edit_parsing(t_parse *p);
 void display_cmd(t_cmd *cmd);
 
-int skip_to_X(char *s,int i,char *charset);
+int skip_to_x(char *s,int i,char *charset);
 int skip_space(char *s,int i);
 char *trimming(int op,t_cmd *cmd,int start,int end);
 #endif

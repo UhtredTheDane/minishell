@@ -1,10 +1,12 @@
+/* ************************************************************************** */
+/*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   edit_parsing.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/09 16:59:11 by lloisel           #+#    #+#             */
-/*   Updated: 2023/03/16 14:47:19 by lloisel          ###   ########.fr       */
+/*   Created: 2023/04/13 10:42:42 by lloisel           #+#    #+#             */
+/*   Updated: 2023/04/13 14:46:59 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,43 +16,43 @@
 #include "../../includes/envp.h"
 #include <stdio.h>
 
-int edit_current(t_parse *p, t_cmd *current)
+int	edit_current(t_parse *p, t_cmd *current)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while(current->s[0][i])
+	while (current->s[0][i])
 	{
-		if(current->s[0][i] && current->s[0][i] == '\'')
-			i = skip_to_X(current->s[0], i + 1, "\'") + 1;
-		if(current->s[0][i] && current->s[0][i] == '\"')
-			i = skip_to_X(current->s[0], i + 1, "\"") + 1;
-		if(current->s[0][i] && current->s[0][i] == '<')
+		if (current->s[0][i] && current->s[0][i] == '\'')
+			i = skip_to_x(current->s[0], i + 1, "\'") + 1;
+		if (current->s[0][i] && current->s[0][i] == '\"')
+			i = skip_to_x(current->s[0], i + 1, "\"") + 1;
+		if (current->s[0][i] && current->s[0][i] == '<')
 		{
-			if(!fill_stdin(p, current,i))
-				return(0);
+			if (!fill_stdin(p, current, i))
+				return (0);
 		}
-		else if(current->s[0][i] && current->s[0][i] == '>')
+		else if (current->s[0][i] && current->s[0][i] == '>')
 		{
-			if(!fill_stdout(current,i))
-				return(0);
+			if (!fill_stdout(current, i))
+				return (0);
 		}
-		else if(current->s[0][i])
+		else if (current->s[0][i])
 			i++;
 	}
-	return(1);
+	return (1);
 }
 
-int edit_parsing(t_parse *p)
+int	edit_parsing(t_parse *p)
 {
-	t_cmd *current;
+	t_cmd	*current;
 
 	current = p->first;
-	while(current)
+	while (current)
 	{
-		if(!edit_current(p, current))
+		if (!edit_current(p, current))
 			return (0);
 		current = current->next;
 	}
-	return(1);
+	return (1);
 }

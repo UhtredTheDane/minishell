@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 18:03:30 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/12 23:15:21 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/13 14:44:17 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	check_dollar(t_parse *p)
 	return_code = 0;
 	while (dollar_in_str(p->s + i))
 	{
-		dollar_pos = skip_to_X(p->s, i, "$") + 1;
+		dollar_pos = skip_to_x(p->s, i, "$") + 1;
 		i = dollar_pos;
 		while (ft_isalnum(p->s[i]))
 			++i;
