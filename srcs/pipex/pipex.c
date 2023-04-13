@@ -12,8 +12,6 @@
 
 #include "../../includes/pipex.h"
 
-extern int	cmd_return;
-
 char	*make_cmd(t_parse *p, char *name_cmd)
 {
 	char	*cmd;
@@ -59,7 +57,7 @@ void	waiting_all_sons(size_t nb_sons, pid_t last)
 	{
 		pid = waitpid(-1, &status, 0);
 		if (WIFEXITED(status) && pid == last)
-			cmd_return = WEXITSTATUS(status);
+			g_rt = WEXITSTATUS(status);
 		++i;
 	}
 }
@@ -71,7 +69,6 @@ pid_t	create_process(t_parse *p)
 	int		return_code;
 	int		i;
 
-	return_code = 0;
 	i = 0;
 	current = p->first;
 	while (current)

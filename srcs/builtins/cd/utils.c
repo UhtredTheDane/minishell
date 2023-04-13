@@ -12,6 +12,16 @@
 
 #include "../../../includes/builtins.h"
 
+int	size_cmd(t_cmd *cmd)
+{
+	int	i;
+
+	i = 0;
+	while (cmd->cmd[i])
+		++i;
+	return (i);
+}
+
 char	*env_with_no_pwd(void)
 {
 	char	*old_pwd;

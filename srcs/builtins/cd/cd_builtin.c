@@ -19,16 +19,6 @@ int	is_cd(t_cmd *cmd)
 	return (0);
 }
 
-int	size_cmd(t_cmd *cmd)
-{
-	int	i;
-
-	i = 0;
-	while (cmd->cmd[i])
-		i++;
-	return (i);
-}
-
 char	*init_path(t_envp *envp, t_cmd *cmd)
 {
 	char	*home;

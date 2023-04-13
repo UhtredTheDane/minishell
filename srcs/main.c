@@ -15,7 +15,7 @@
 #include "../includes/signal.h"
 #include "../includes/parsing.h"
 
-int cmd_return = 0;
+int g_rt = 0;
 
 int clean_exit(t_envp *envp)
 {	

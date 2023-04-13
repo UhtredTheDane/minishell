@@ -17,8 +17,6 @@
 #include <stdlib.h>		
 #include "../../libft/libft.h"
 
-extern int cmd_return;
-
 char *big_join(char *first ,char  *second,char * last,int c)
 {
 	int size;
@@ -78,7 +76,7 @@ int change_dollard_bis(t_cmd *cmd,int *i, t_envp *envp)
 	if(cmd->s[0][end] && cmd->s[0][end] == '?')
 	{
 		end++;
-		cmd->s[0] = big_join(cmd->s[0], ft_itoa(cmd_return), cmd->s[0] +end,1);
+		cmd->s[0] = big_join(cmd->s[0], ft_itoa(g_rt), cmd->s[0] +end,1);
 		return(1);
 	}
 	while(cmd->s[0][end] && !is_special(cmd->s[0][end],"<>\" $\'"))
@@ -106,7 +104,7 @@ int change_dollard(t_cmd *cmd,int *i, t_envp *envp)
 	if(cmd->s[0][end] && cmd->s[0][end] == '?')
 	{
 		end++;
-		cmd->s[0] = big_join(cmd->s[0], ft_itoa(cmd_return),cmd->s[0] +end,1);
+		cmd->s[0] = big_join(cmd->s[0], ft_itoa(g_rt),cmd->s[0] +end,1);
 		return(1);
 	}
 	while(cmd->s[0][end] && !is_special(cmd->s[0][end],"<>\" $\'"))

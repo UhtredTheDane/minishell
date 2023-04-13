@@ -30,6 +30,7 @@
 typedef struct s_dico t_dico;
 typedef struct s_parse t_parse;
 typedef struct s_envp t_envp;
+
 int clean_exit(t_envp *envp);
 void	son_proc(char *input_cmd, char **envp, int *pipe_fd, size_t num_proc);
 #endif

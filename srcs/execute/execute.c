@@ -12,8 +12,6 @@
 
 #include "../../includes/execute.h"
 
-extern int	cmd_return;
-
 int	execute_cmd(t_parse *p, t_cmd *cmd, int old_stdin, int old_stdout)
 {
 	int	exec_return;
@@ -60,7 +58,7 @@ int	execute(t_parse *p)
 	if (!edit_parsing(p) || !split_cmd(p))
 		return (0);
 	if (!p->pipes_fd && is_builtin(p->first))
-		cmd_return = manager(p, p->first, 0, 1);
+		g_rt = manager(p, p->first, 0, 1);
 	else if (!run_pipe(p))
 	{
 		printf("Impossible de lancer les pipes\n");

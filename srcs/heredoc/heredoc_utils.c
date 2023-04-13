@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 15:36:51 by lloisel           #+#    #+#             */
-/*   Updated: 2023/04/13 01:02:16 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/13 16:32:19 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,14 @@
 #include "../../includes/envp.h"
 #include "../../includes/heredoc.h"
 
-extern int cmd_return;
+void	son_heredoc(t_parse *p, t_cmd *cmd, char *word)
+{
+	int	return_code;
+
+	return_code = run_heredoc(cmd, word, p->envp);
+	free(word);
+	exit(return_code);
+}
 
 char	*get_key_heredoc(char **tab, t_envp *envp, int i, int end)
 {
@@ -59,7 +66,7 @@ int	change_dollard_heredoc(char **tmp, int *i, t_envp *envp)
 	if (tmp[0][end] && tmp[0][end] == '?')
 	{
 		end++;
-		tmp[0] = big_join(tmp[0], ft_itoa(cmd_return), tmp[0] + end, 1);
+		tmp[0] = big_join(tmp[0], ft_itoa(g_rt), tmp[0] + end, 1);
 		return (1);
 	}
 	while (tmp[0][end] && !is_special(tmp[0][end], "<>\" $\'"))

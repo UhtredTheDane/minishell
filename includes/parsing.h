@@ -43,6 +43,8 @@ typedef struct s_parse {
 	struct s_cmd *last;	
 } t_parse;
 
+extern int	g_rt;
+
 char *big_join(char *first ,char  *second,char * last,int c);
 int is_empty(char *s);
 char *get_name(t_cmd *cmd,int i,int op);
