@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 18:48:43 by lloisel           #+#    #+#             */
-/*   Updated: 2023/04/13 17:10:17 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/13 17:51:24 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,8 @@ int	change_dollard_bis(t_cmd *cmd, int *i, t_envp *envp)
 	if (cmd->s[0][end] && cmd->s[0][end] == '?')
 	{
 		end++;
-		cmd->s[0] = big_join(cmd->s[0], ft_itoa(g_rt), cmd->s[0] +end,1);
-		return(1);
+		cmd->s[0] = big_join(cmd->s[0], ft_itoa(g_rt), cmd->s[0] + end, 1);
+		return (1);
 	}
 	while (cmd->s[0][end] && !is_special(cmd->s[0][end], "<>\" $\'"))
 		end++;
@@ -86,8 +86,8 @@ int	change_dollard(t_cmd *cmd, int *i, t_envp *envp)
 	if (cmd->s[0][end] && cmd->s[0][end] == '?')
 	{
 		end++;
-		cmd->s[0] = big_join(cmd->s[0], ft_itoa(g_rt),cmd->s[0] +end,1);
-		return(1);
+		cmd->s[0] = big_join(cmd->s[0], ft_itoa(g_rt), cmd->s[0] + end, 1);
+		return (1);
 	}
 	while (cmd->s[0][end] && !is_special(cmd->s[0][end], "<>\" $\'"))
 		end++;
