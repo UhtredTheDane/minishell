@@ -6,10 +6,9 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 13:00:43 by lloisel           #+#    #+#             */
-/*   Updated: 2023/04/07 13:42:54 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/04/13 16:26:28 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include <string.h>
 #include <stdio.h>
@@ -20,11 +19,11 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
-void add_cmd_bis(t_parse *p,t_cmd *cmd)
+void	add_cmd_bis(t_parse *p, t_cmd *cmd)
 {
-	if(p->first == NULL)
+	if (p->first == NULL)
 	{
-		p->first = cmd;	
+		p->first = cmd;
 		p->last = cmd;
 	}
 	else
@@ -32,11 +31,12 @@ void add_cmd_bis(t_parse *p,t_cmd *cmd)
 		p->last->next = cmd;
 		p->last = cmd;
 	}
+	p->count = p->count + 1;
 }
 
-t_cmd *init_cmd(void)
+t_cmd	*init_cmd(void)
 {
-	t_cmd *cmd;
+	t_cmd	*cmd;
 
 	cmd = malloc(sizeof(t_cmd));
 	if (!cmd)
@@ -54,49 +54,44 @@ t_cmd *init_cmd(void)
 	return (cmd);
 }
 
-int add_cmd(t_parse *p ,int start,int end)
+int	add_cmd(t_parse *p, int start, int end)
 {
-	t_cmd *cmd;
-	int size;
-	int i;
+	t_cmd	*cmd;
+	int		size;
+	int		i;
 
 	cmd = init_cmd();
-	if(!cmd)
-		return(0);
-	size  = end-start;
-	if(size <= 0 && p->s[start] != '\0')
-		return(0);
-	cmd->s = malloc(sizeof(char *));
-	if(!cmd->s)
+	if (!cmd)
 		return (0);
-	cmd->s[0] = malloc(sizeof(char)*size + 1);
-	if(!cmd->s[0])
-		return(0);
-	i = 0;
-	while(i < size)
-	{	
-		cmd->s[0][i]=p->s[start + i];
-		++i;
-	}
-	p->pipes_fd = NULL;
+	size = end - start;
+	if (size <= 0 && p->s[start] != '\0')
+		return (0);
+	cmd->s = malloc(sizeof(char *));
+	if (!cmd->s)
+		return (0);
+	cmd->s[0] = malloc(sizeof(char) * size + 1);
+	if (!cmd->s[0])
+		return (0);
+	i = -1;
+	while (++i < size)
+		cmd->s[0][i] = p->s[start + i];
 	cmd->s[0][i] = '\0';
-	add_cmd_bis(p,cmd);
-	p->count = p->count + 1;
-	return(1);
+	add_cmd_bis(p, cmd);
+	return (1);
 }
 
-t_parse *init_parse(t_envp *envp_dico)
+t_parse	*init_parse(t_envp *envp_dico)
 {
-	t_parse *p;
+	t_parse	*p;
 
 	p = malloc(sizeof(t_parse));
-	if(!p)
-		return(NULL);
+	if (!p)
+		return (NULL);
 	p->s = NULL;
+	p->pipes_fd = NULL;
 	p->envp = envp_dico;
-	p->count  = 0;
+	p->count = 0;
 	p->first = NULL;
 	p->last = NULL;
 	return (p);
 }
-

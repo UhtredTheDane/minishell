@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 16:25:39 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/13 00:35:39 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/13 14:45:58 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	*rm_first(char *cmd, int *current_pos, int quote_pos, int double_pos)
 			return (NULL);
 		free(cmd);
 		cmd = tempo_str;
-		*current_pos = skip_to_X(cmd, *current_pos, first);
+		*current_pos = skip_to_x(cmd, *current_pos, first);
 		cmd[*current_pos] = '\0';
 		tempo_str = ft_strjoin(cmd, cmd + *current_pos + 1);
 		if (!tempo_str)
@@ -62,8 +62,8 @@ char	*trim_quotes(char *cmd)
 	trim_cmd = ft_strdup(cmd);
 	while (trim_cmd[current_pos])
 	{
-		quote_pos = skip_to_X(trim_cmd, current_pos, "'");
-		double_pos = skip_to_X(trim_cmd, current_pos, "\"");
+		quote_pos = skip_to_x(trim_cmd, current_pos, "'");
+		double_pos = skip_to_x(trim_cmd, current_pos, "\"");
 		trim_cmd = rm_first(trim_cmd, &current_pos, quote_pos, double_pos);
 		if (!trim_cmd)
 			return (cmd);
