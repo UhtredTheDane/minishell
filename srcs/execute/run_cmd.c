@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 16:25:39 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/13 14:45:58 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/04/13 19:44:07 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ char	*trim_quotes(char *cmd)
 		if (!trim_cmd)
 			return (cmd);
 	}
+	free(cmd);
 	return (trim_cmd);
 }
 
@@ -94,6 +95,7 @@ int	run_cmd(t_parse *p, t_cmd *cmd)
 
 	if (!cmd->cmd)
 		return (0);
+	
 	if (access(cmd->cmd[0], F_OK) == -1)
 	{
 		cmd->cmd[0] = search_cmd(p, cmd);
