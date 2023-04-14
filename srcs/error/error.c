@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 10:37:09 by lloisel           #+#    #+#             */
-/*   Updated: 2023/04/14 11:45:42 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/04/14 15:25:14 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,26 @@
 #include <stdio.h>
 #include "../../libft/libft.h"
 
-void syntax_err(char token)
+void syntax_err(char *token)
 {
-	if(token == '\0')
+	if(token[0] == '>')
+	{
+		if(token[1] && token[1] == '>')
+			printf("Syntax error near token : '>>'\n");	
+		else
+			printf("Syntax error near token : '>'\n");	
+	}
+	if(token[0] == '<')
+	{
+		if(token[1] && token[1] == '<')
+			printf("Syntax error near token : '<<'\n");	
+		else
+			printf("Syntax error near token : '<'\n");	
+	}
+	if(token[0] == '\0')
 		printf("Syntax error near token : 'newline'\n");	
-	else
-		printf("Syntax error near token : '%c'\n", token);	
 }
+
 void	error(char *s)
 {
 	int	l;
