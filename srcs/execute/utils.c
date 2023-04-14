@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 16:31:04 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/14 15:50:51 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/14 23:41:34 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int	already_with_path(t_parse *p, char *cmd)
 	size_t	size;
 
 	if (cmd[0] == '.' && cmd[1] == '/')
-		return (1);	
+		return (1);
 	all_path = ft_split(get_value(p->envp, "PATH"), ':');
 	if (!all_path)
 		return (0);
@@ -101,7 +101,7 @@ int	already_with_path(t_parse *p, char *cmd)
 		if (ft_strncmp(all_path[i], cmd, size) == 0)
 		{
 			clean_2d_tab(all_path);
-			return (1);	
+			return (1);
 		}
 		++i;
 	}

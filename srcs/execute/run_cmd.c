@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 16:25:39 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/14 21:15:31 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/14 23:42:47 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	*rm_first(char *cmd, int *current_pos, int quote_pos, int double_pos)
 	if (*current_pos != (int)ft_strlen(cmd))
 	{
 		cmd[*current_pos] = '\0';
-		tempo_str = ft_strjoin(cmd, cmd + *current_pos + 1);	
+		tempo_str = ft_strjoin(cmd, cmd + *current_pos + 1);
 		if (!tempo_str)
 			return (NULL);
 		free(cmd);
@@ -76,7 +76,7 @@ void	prepare_cmd(t_cmd *cmd)
 {
 	size_t	i;
 
-	i = 0; 
+	i = 0;
 	if (cmd->cmd)
 	{
 		if (cmd->heredoc && ft_strncmp(cmd->cmd[0], "grep", 4) == 0)
@@ -107,7 +107,7 @@ int	run_cmd(t_parse *p, t_cmd *cmd)
 		}
 		cmd->cmd[0] = tempo_cmd;
 	}
-	res_test = test_acces(cmd)
+	res_test = test_acces(cmd);
 	if (res_test)
 		return (res_test);
 	envp = create_envp_tab(p->envp);

@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 18:03:01 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/14 16:31:30 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/14 23:39:58 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	show_env(t_envp *envp)
 {
 	int		i;
 	char	**char_envp;
-	
+
 	char_envp = create_envp_tab(envp);
 	if (char_envp)
 	{

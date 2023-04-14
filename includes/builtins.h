@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 15:02:15 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/13 16:34:20 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/14 23:38:47 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ int		is_builtin(t_cmd *cmd);
 int		execute_builtin(t_parse *p, t_cmd *cmd);
 void	print_pwd(void);
 void	delete_key(t_envp **envp, char *key);
+void	show_env(t_envp *envp);
 char	*new_key(char *cmd);
 char	*new_value(char *cmd, int egal_pos);
 char	*builtin_pwd(void);
