@@ -24,26 +24,32 @@ int	is_env(t_cmd *cmd)
 	return (0);
 }
 
-int	builtin_env(t_envp *envp, t_cmd *cmd)
+void	show_env(t_envp *envp)
 {
 	int		i;
 	char	**char_envp;
+	
+	char_envp = create_envp_tab(envp);
+	if (char_envp)
+	{
+		i = 0;
+		while (char_envp[i])
+		{
+			printf("%s\n", char_envp[i]);
+			free(char_envp[i]);
+			++i;
+		}
+		free(char_envp);
+	}	
+}
 
+int	builtin_env(t_envp *envp, t_cmd *cmd)
+{
 	if (cmd->cmd[1])
 	{
 		printf("env: '%s': No such file or directory\n", cmd->cmd[1]);
 		return (127);
 	}
-	char_envp = create_envp_tab(envp);
-	if (!char_envp)
-		return (1);
-	i = 0;
-	while (char_envp[i])
-	{
-		printf("%s\n", char_envp[i]);
-		free(char_envp[i]);
-		++i;
-	}
-	free(char_envp);
+	show_env(envp);
 	return (0);
 }

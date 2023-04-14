@@ -65,22 +65,12 @@ int	builtin_export(t_envp *envp, t_cmd *cmd)
 {
 	int	egal_pos;
 	int	return_code;
-	int	i;
-	char	**char_envp;	
+	int	i;	
 	
 	return_code = 0;
-	if (!cmd->cmd[1])
-	{
-		char_envp = create_envp_tab(envp);
-		i = 0;
-		while (char_envp[i])
-		{
-			printf("%s\n", char_envp[i]);
-			free(char_envp[i]);
-			++i;
-		}	
-	}
 	i = 1;
+	if (!cmd->cmd[i])
+		show_env(envp);
 	while (cmd->cmd[i])
 	{
 		egal_pos = skip_to_x(cmd->cmd[i], 0, "=");

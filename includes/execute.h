@@ -32,5 +32,7 @@ int		execute(t_parse *p);
 int		char_in_str(char c, char *str);
 int		redirect_stdin(t_parse *p, t_cmd *cmd, int num_read);
 int		redirect_stdout(t_parse *p, t_cmd *cmd, int num_write);
+int     already_with_path(t_parse *p, char *cmd);
+int     test_acces(t_cmd *cmd);
 extern int				g_rt;
 #endif

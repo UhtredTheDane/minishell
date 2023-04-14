@@ -26,6 +26,21 @@ int	char_in_str(char c, char *str)
 	return (0);
 }
 
+int	test_acces(t_cmd *cmd)
+{
+	if (access(cmd->cmd[0], F_OK) == -1)
+	{
+		printf("minishell: %s: No such file or directory\n", cmd->cmd[0]);
+		return (127);
+	}
+	if (access(cmd->cmd[0], X_OK) == -1)
+	{
+		printf("minishell: %s: Permission denied\n", cmd->cmd[0]);
+		return (126);
+	}
+	return (0);
+}
+
 char	**add_option_a(char **cmd, int size_cmd)
 {
 	char	**new_cmd;
@@ -68,47 +83,28 @@ char	**update_for_grep(char **cmd)
 	return (new_cmd);
 }
 
-int	redirect_stdin(t_parse *p, t_cmd *cmd, int num_read)
+int	already_with_path(t_parse *p, char *cmd)
 {
-	if (cmd->heredoc)
-	{
-		dup2(cmd->pipe_heredoc[0], 0);
-		close(cmd->pipe_heredoc[0]);
-	}
-	else if (cmd->filename_in)
-	{
-		cmd->in = open(cmd->filename_in, O_RDONLY);
-		if (cmd->in == -1)
-			return (0);
-		dup2(cmd->in, 0);
-		close(cmd->in);
-	}
-	else
-		if (!link_stdin(p, num_read))
-			return (0);
-	return (1);
-}
+	char	**all_path;
+	size_t	i;
+	size_t	size;
 
-int	redirect_stdout(t_parse *p, t_cmd *cmd, int num_write)
-{
-	int	flags;
-
-	if (cmd->filename_out)
+	if (cmd[0] == '.' && cmd[1] == '/')
+		return (1);	
+	all_path = ft_split(get_value(p->envp, "PATH"), ':');
+	if (!all_path)
+		return (0);
+	i = 0;
+	while (all_path[i])
 	{
-		flags = O_WRONLY | O_CREAT;
-		if (cmd->append)
-			flags = flags | O_APPEND;
-		else
-			flags = flags | O_TRUNC;
-		cmd->out = open(cmd->filename_out, flags,
-				S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH);
-		if (cmd->out == -1)
-			return (0);
-		dup2(cmd->out, 1);
-		close(cmd->out);
+		size = ft_strlen(all_path[i]);
+		if (ft_strncmp(all_path[i], cmd, size) == 0)
+		{
+			clean_2d_tab(all_path);
+			return (1);	
+		}
+		++i;
 	}
-	else
-		if (!link_stdout(p, num_write))
-			return (0);
-	return (1);
+	clean_2d_tab(all_path);
+	return (0);
 }
