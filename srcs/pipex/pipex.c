@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 16:41:38 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/14 20:36:48 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/14 21:25:15 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,10 @@ int	run_pipe(t_parse *p)
 	if (p->count == 0)
 		p->count = 1;
 	waiting_all_sons(p->count, pid);
+	close(p->first->pipe_heredoc[0]);
+	if (p->first->next == NULL)
+		printf("coucou\n");
+	//close(p->first->next->pipe_heredoc[0]);
 	if (!update_interactive_sigint())
 		return (1);
 	return (1);

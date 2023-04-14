@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 16:25:39 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/14 20:35:41 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/14 21:15:31 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ int	run_cmd(t_parse *p, t_cmd *cmd)
 	}
 	if (access(cmd->cmd[0], X_OK) == -1)
 	{
-		printf("bash: %s: Permission denied\n", cmd->cmd[0]);
+		printf("minishell: %s: Permission denied\n", cmd->cmd[0]);
 		return (126);
 	}
 	envp = create_envp_tab(p->envp);
