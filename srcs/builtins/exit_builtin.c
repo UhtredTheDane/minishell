@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 18:02:36 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/07 15:38:11 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/14 16:28:40 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,12 @@
 
 int	is_exit(t_cmd *cmd)
 {
-	if (ft_strncmp(cmd->cmd[0], "exit", 4) == 0)
+	size_t	size;
+
+	size = ft_strlen(cmd->cmd[0]);
+	if (size < 4)
+		size = 4;
+	if (ft_strncmp(cmd->cmd[0], "exit", size) == 0)
 		return (1);
 	return (0);
 }

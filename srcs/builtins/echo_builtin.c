@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 18:02:24 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/07 15:27:55 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/14 16:27:46 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,12 @@
 
 int	is_echo(t_cmd *cmd)
 {
-	if (ft_strncmp(cmd->cmd[0], "echo", 4) == 0)
+	size_t	size;
+
+	size = ft_strlen(cmd->cmd[0]);
+	if (size < 4)
+		size = 4;
+	if (ft_strncmp(cmd->cmd[0], "echo", size) == 0)
 		return (1);
 	return (0);
 }

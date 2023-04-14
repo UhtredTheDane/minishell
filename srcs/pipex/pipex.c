@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 16:41:38 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/14 15:40:18 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/14 20:16:41 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,13 @@ char	*make_cmd(t_parse *p, char *name_cmd)
 char	*search_cmd(t_parse *p, t_cmd *cmd)
 {
 	char	*cmd_name;
+	size_t	size;
 
+	size = ft_strlen(cmd->cmd[0]);
+	if (cmd->cmd[0][0] == '\0')
+		return (cmd->cmd[0]);
+	if (ft_strncmp(cmd->cmd[0], ".", size) == 0 || ft_strncmp(cmd->cmd[0], "..", size) == 0)
+		return (NULL);
 	cmd_name = make_cmd(p, cmd->cmd[0]);
 	if (!cmd_name)
 		return (NULL);

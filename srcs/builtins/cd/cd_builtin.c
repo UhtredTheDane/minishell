@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 17:59:28 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/13 00:19:31 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/14 16:33:06 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,12 @@
 
 int	is_cd(t_cmd *cmd)
 {
-	if (ft_strncmp(cmd->cmd[0], "cd", 2) == 0)
+	size_t	size;
+
+	size = ft_strlen(cmd->cmd[0]);
+	if (size < 2)
+		size = 2;
+	if (ft_strncmp(cmd->cmd[0], "cd", size) == 0)
 		return (1);
 	return (0);
 }

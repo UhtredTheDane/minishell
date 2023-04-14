@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 16:41:25 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/14 15:37:47 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/14 19:30:51 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,10 @@ char	*test_path(char **all_paths, char *cmd_0)
 		if (!good_path)
 			return (NULL);
 		if (access(good_path, F_OK) == 0)
+		{
+			printf("sa passe ici\n");
 			return (good_path);
+		}
 		++i;
 		free(good_path);
 	}

@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 18:03:30 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/13 14:44:17 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/04/14 16:30:32 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,12 @@
 
 int	is_unset(t_cmd *cmd)
 {
-	if (ft_strncmp(cmd->cmd[0], "unset", 5) == 0)
+	size_t	size;
+
+	size = ft_strlen(cmd->cmd[0]);
+	if (size < 5)
+		size = 5;
+	if (ft_strncmp(cmd->cmd[0], "unset", size) == 0)
 		return (1);
 	return (0);
 }

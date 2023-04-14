@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 18:03:15 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/13 14:49:14 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/04/14 16:40:49 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,12 @@
 
 int	is_export(t_cmd *cmd)
 {
-	if (ft_strncmp(cmd->cmd[0], "export", 6) == 0)
+	size_t	size;
+
+	size = ft_strlen(cmd->cmd[0]);
+	if (size < 6)
+		size = 6;
+	if (ft_strncmp(cmd->cmd[0], "export", size) == 0)
 		return (1);
 	return (0);
 }
@@ -61,8 +66,20 @@ int	builtin_export(t_envp *envp, t_cmd *cmd)
 	int	egal_pos;
 	int	return_code;
 	int	i;
-
+	char	**char_envp;	
+	
 	return_code = 0;
+	if (!cmd->cmd[1])
+	{
+		char_envp = create_envp_tab(envp);
+		i = 0;
+		while (char_envp[i])
+		{
+			printf("%s\n", char_envp[i]);
+			free(char_envp[i]);
+			++i;
+		}	
+	}
 	i = 1;
 	while (cmd->cmd[i])
 	{

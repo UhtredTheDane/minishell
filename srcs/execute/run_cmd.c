@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 16:25:39 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/14 15:24:46 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/14 18:44:38 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	prepare_cmd(t_cmd *cmd)
 {
 	size_t	i;
 
-	i = 0;
+	i = 0; 
 	if (cmd->cmd)
 	{
 		if (cmd->heredoc && ft_strncmp(cmd->cmd[0], "grep", 4) == 0)
@@ -89,6 +89,32 @@ void	prepare_cmd(t_cmd *cmd)
 	}
 }
 
+int	already_with_path(t_parse *p, char *cmd)
+{
+	char	**all_path;
+	size_t	i;
+	size_t	size;
+
+	if (cmd[0] == '.' && cmd[1] == '/')
+		return (1);	
+	all_path = ft_split(get_value(p->envp, "PATH"), ':');
+	if (!all_path)
+		return (0);
+	i = 0;
+	while (all_path[i])
+	{
+		size = ft_strlen(all_path[i]);
+		if (ft_strncmp(all_path[i], cmd, size) == 0)
+		{
+			clean_2d_tab(all_path);
+			return (1);	
+		}
+		++i;
+	}
+	clean_2d_tab(all_path);
+	return (0);
+}
+
 int	run_cmd(t_parse *p, t_cmd *cmd)
 {
 	char	**envp;
@@ -96,7 +122,7 @@ int	run_cmd(t_parse *p, t_cmd *cmd)
 
 	if (!cmd->cmd)
 		return (0);
-	if (access(cmd->cmd[0], F_OK) == -1 || cmd->cmd[0][0] != '/')
+	if (!already_with_path(p, cmd->cmd[0]))
 	{
 		tempo_cmd = search_cmd(p, cmd);
 		if (!tempo_cmd)
@@ -105,6 +131,16 @@ int	run_cmd(t_parse *p, t_cmd *cmd)
 			return (127);
 		}
 		cmd->cmd[0] = tempo_cmd;
+	}
+	if (access(cmd->cmd[0], F_OK) == -1)
+	{
+		printf("minishell: %s: No such file or directory\n", cmd->cmd[0]);
+		return (127);
+	}
+	if (access(cmd->cmd[0], X_OK) == -1)
+	{
+		printf("bash: %s: Permission denied\n", cmd->cmd[0]);
+		return (126);
 	}
 	envp = create_envp_tab(p->envp);
 	execve(cmd->cmd[0], cmd->cmd, envp);

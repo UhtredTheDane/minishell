@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 18:02:46 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/07 15:40:31 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/14 16:29:40 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,12 @@
 
 int	is_pwd(t_cmd *cmd)
 {
-	if (ft_strncmp(cmd->cmd[0], "pwd", 3) == 0)
+	size_t	size;
+
+	size = ft_strlen(cmd->cmd[0]);
+	if (size < 3)
+		size = 3;
+	if (ft_strncmp(cmd->cmd[0], "pwd", size) == 0)
 		return (1);
 	return (0);
 }
