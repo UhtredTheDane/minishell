@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 16:35:02 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/14 17:40:08 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/04/14 23:03:37 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,11 @@ int	here_doc(t_parse *p, t_cmd *cmd, int i, int op)
 	delim = get_name(cmd, i, op);
 	if (!delim)
 		return (0);
+	if (cmd->pipe_heredoc)
+	{
+		close(cmd->pipe_heredoc[0]);
+		free(cmd->pipe_heredoc);
+	}
 	cmd->pipe_heredoc = malloc(sizeof(int) * 2);
 	if (!cmd->pipe_heredoc)
 		return (0);

@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 16:07:38 by lloisel           #+#    #+#             */
-/*   Updated: 2023/04/14 17:40:59 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/04/14 23:05:35 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,18 +80,18 @@ int	fill_stdout(t_cmd *cmd, int i)
 	i = fill_out_bis(cmd, i);
 	if (is_special(cmd->s[0][i], "<> ") && start_w == i)
 		return (syntax_err(cmd->s[0] + i, cmd), 0);
-	if(cmd->filename_out)
-		free(cmd->filename_out);	
+	if (cmd->filename_out)
+		free(cmd->filename_out);
 	cmd->filename_out = trimming(op, cmd, start_w, i);
 	return (handle_file(cmd));
 }
 
 int	simple_stdin(t_cmd *cmd, int i, int op)
 {
-	char *tmp;
+	char	*tmp;
 
 	tmp = get_name(cmd, i, op);
-	if(cmd->filename_in)
+	if (cmd->filename_in)
 		free(cmd->filename_in);
 	cmd->filename_in = tmp;
 	if (!cmd->filename_in)

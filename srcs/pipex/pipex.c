@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 16:41:38 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/14 21:25:15 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/14 23:01:56 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ char	*search_cmd(t_parse *p, t_cmd *cmd)
 	size = ft_strlen(cmd->cmd[0]);
 	if (cmd->cmd[0][0] == '\0')
 		return (cmd->cmd[0]);
-	if (ft_strncmp(cmd->cmd[0], ".", size) == 0 || ft_strncmp(cmd->cmd[0], "..", size) == 0)
+	if (ft_strncmp(cmd->cmd[0], ".", size) == 0
+		|| ft_strncmp(cmd->cmd[0], "..", size) == 0)
 		return (NULL);
 	cmd_name = make_cmd(p, cmd->cmd[0]);
 	if (!cmd_name)
@@ -110,10 +111,8 @@ int	run_pipe(t_parse *p)
 	if (p->count == 0)
 		p->count = 1;
 	waiting_all_sons(p->count, pid);
-	close(p->first->pipe_heredoc[0]);
-	if (p->first->next == NULL)
-		printf("coucou\n");
-	//close(p->first->next->pipe_heredoc[0]);
+	if (p->first->pipe_heredoc)
+		close(p->first->pipe_heredoc[0]);
 	if (!update_interactive_sigint())
 		return (1);
 	return (1);
