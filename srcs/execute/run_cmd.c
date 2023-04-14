@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 16:25:39 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/14 20:21:34 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/14 20:35:41 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ void	prepare_cmd(t_cmd *cmd)
 			cmd->cmd[i] = trim_quotes(cmd->cmd[i]);
 			++i;
 		}
-		display_cmd(cmd);
 	}
 }
 

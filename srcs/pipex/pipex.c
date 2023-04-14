@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 16:41:38 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/14 20:22:07 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/14 20:36:48 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ pid_t	create_process(t_parse *p)
 		else if (pid == 0)
 		{
 			return_code = manager(p, current, i, 0);
-			display_parse(p);
 			free_parse(p);
 			exit(return_code);
 		}

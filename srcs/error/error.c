@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 10:37:09 by lloisel           #+#    #+#             */
-/*   Updated: 2023/04/14 17:39:27 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/04/14 20:39:33 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 
 void	syntax_err(char *token, t_cmd *cmd)
 {
-	printf("place of error :%s\n",token);
 	if (token[0] == '>')
 	{
 		if(token[1] && token[1] == '>')
