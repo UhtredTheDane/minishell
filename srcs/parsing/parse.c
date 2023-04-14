@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 13:17:21 by lloisel           #+#    #+#             */
-/*   Updated: 2023/04/13 14:37:46 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/04/14 12:07:01 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,16 +119,16 @@ t_parse	*parsing(char *input, t_envp *envp_dico)
 	if (!p)
 		return (NULL);
 	if (!parse(input, p))
-		return (NULL);
+		return (free_parse(p),NULL);
 	if (p->count < 2)
 		p->pipes_fd = NULL;
 	else
 	{
 		p->pipes_fd = malloc(sizeof(int) * (p->count - 1) * 2);
 		if (!p->pipes_fd)
-			return (NULL);
+			return (free_parse(p),NULL);
 	}
 	if (!pipe_parse(p))
-		return (0);
+		return (free_parse(p), NULL);
 	return (p);
 }
