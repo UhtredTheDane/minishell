@@ -6,16 +6,18 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 10:37:09 by lloisel           #+#    #+#             */
-/*   Updated: 2023/04/14 16:07:12 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/14 17:39:27 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>		 
 #include <stdio.h>
 #include "../../libft/libft.h"
+#include "../../includes/parsing.h"
 
-void	syntax_err(char *token)
+void	syntax_err(char *token, t_cmd *cmd)
 {
+	printf("place of error :%s\n",token);
 	if (token[0] == '>')
 	{
 		if(token[1] && token[1] == '>')
@@ -30,7 +32,9 @@ void	syntax_err(char *token)
 		else
 			printf("Syntax error near token : '<'\n");	
 	}
-	if (token[0] == '\0')
+	if (token[0] == '\0' && cmd->next != NULL)
+		printf("Syntax error near token : '|'\n");	
+	else
 		printf("Syntax error near token : 'newline'\n");	
 }
 

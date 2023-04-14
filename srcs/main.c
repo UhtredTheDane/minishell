@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 17:09:09 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/13 18:26:42 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/14 18:21:26 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ void	cmd_treatment(t_envp *envp_dico, char *in_put)
 	p = parsing(in_put, envp_dico);
 	if (p)
 	{
-		add_history(p->s);
 		if (!replace_dollards(p, envp_dico))
 			printf("we can't replace some variable");
 		else
