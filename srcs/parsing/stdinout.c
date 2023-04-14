@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 16:07:38 by lloisel           #+#    #+#             */
-/*   Updated: 2023/04/14 11:41:59 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/04/14 15:38:29 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,8 @@ int	fill_stdout(t_cmd *cmd, int i)
 	if (is_special(cmd->s[0][i], "<> ") && start_w == i)
 		return (syntax_err(cmd->s[0][i]), 0);
 	cmd->filename_out = trimming(op, cmd, start_w, i);
-	if(!handle_file(cmd))
-		return(0);
+	if (!handle_file(cmd))
+		return (0);
 	return (1);
 }
 

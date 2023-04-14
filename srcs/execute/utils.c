@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 16:31:04 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/13 00:36:33 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/14 15:50:51 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,8 @@ int	redirect_stdin(t_parse *p, t_cmd *cmd, int num_read)
 	else if (cmd->filename_in)
 	{
 		cmd->in = open(cmd->filename_in, O_RDONLY);
+		if (cmd->in == -1)
+			return (0);
 		dup2(cmd->in, 0);
 		close(cmd->in);
 	}
@@ -100,6 +102,8 @@ int	redirect_stdout(t_parse *p, t_cmd *cmd, int num_write)
 			flags = flags | O_TRUNC;
 		cmd->out = open(cmd->filename_out, flags,
 				S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH);
+		if (cmd->out == -1)
+			return (0);
 		dup2(cmd->out, 1);
 		close(cmd->out);
 	}

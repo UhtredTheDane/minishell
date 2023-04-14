@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 16:41:25 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/13 00:41:26 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/14 15:37:47 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ char	*format_string(char *name_cmd)
 	temp = ft_strjoin("/", name_cmd);
 	if (!temp)
 		return (NULL);
-	//free(name_cmd);
 	return (temp);
 }
 
