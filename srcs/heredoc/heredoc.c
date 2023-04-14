@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 16:35:02 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/14 16:06:21 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/14 17:40:08 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ char	*get_name(t_cmd *cmd, int i, int op)
 
 	i = skip_space(cmd->s[0], i);
 	if (!cmd->s[0][i])
-		return (syntax_err(cmd->s[0] + i), NULL);
+		return (syntax_err(cmd->s[0] + i, cmd), NULL);
 	if (is_special(cmd->s[0][i], "<> "))
-		return (syntax_err(cmd->s[0] + i), NULL);
+		return (syntax_err(cmd->s[0] + i, cmd), NULL);
 	start_w = i;
 	while (cmd->s[0][i] && !is_special(cmd->s[0][i], "<> "))
 	{

@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 13:17:21 by lloisel           #+#    #+#             */
-/*   Updated: 2023/04/14 15:39:17 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/14 18:02:17 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "../../includes/parsing.h"
+#include "../../includes/error.h"
 #include <unistd.h>
 #include "../../libft/libft.h"
 #include <readline/readline.h>
@@ -46,14 +47,14 @@ int	pipe_at_end(t_parse *p)
 
 int	parse_bis(t_parse *p, int *i, int *start_w)
 {
-	if (p->s[*i] == '|')
+	if (p->s[*i] && p->s[*i] == '|')
 	{
 		if (!add_cmd(p, *start_w, *i))
 			return (0);
 		*start_w = *i + 1;
 		*i = skip_space(p->s, *i + 1);
 		if (p->s[*i] == '|')
-			return (0);
+			return (error("Syntax error Unexpected token : '|'\n"), 0);
 		if (p->s[*i] == '\0')
 		{
 			if (!pipe_at_end(p))
@@ -88,7 +89,11 @@ int	parse(char *input, t_parse *p)
 	while (p->s[++i] && p->s[i] != '\0')
 	{
 		if (!parse_bis(p, &i, &start_w))
+		{
+			add_history(p->s);
 			return (0);
+		}
+		add_history(p->s);
 	}
 	if (!add_cmd(p, start_w, i))
 		return (0);

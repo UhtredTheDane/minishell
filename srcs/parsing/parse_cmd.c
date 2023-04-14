@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 13:00:43 by lloisel           #+#    #+#             */
-/*   Updated: 2023/04/14 11:21:37 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/04/14 18:18:29 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "../../includes/parsing.h"
+#include "../../includes/error.h"
 #include <unistd.h>
 #include "../../libft/libft.h"
 #include <readline/readline.h>
@@ -59,13 +60,13 @@ int	add_cmd(t_parse *p, int start, int end)
 	t_cmd	*cmd;
 	int		size;
 	int		i;
-
+	
 	cmd = init_cmd();
 	if (!cmd)
 		return (0);
 	size = end - start;
 	if (size <= 0 && p->s[start] != '\0')
-		return (0);
+		return (free(cmd),error("Syntax error Unexpected token : '|'\n"), 0);
 	cmd->s = malloc(sizeof(char *));
 	if (!cmd->s)
 		return (0);

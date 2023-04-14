@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 10:42:42 by lloisel           #+#    #+#             */
-/*   Updated: 2023/04/14 11:05:53 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/04/14 19:35:53 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,13 @@ int	edit_current(t_parse *p, t_cmd *current)
 	int	i;
 
 	i = 0;
+	display_cmd(current);
 	while (current->s[0][i])
 	{
 		if (current->s[0][i] && current->s[0][i] == '\'')
-			i = skip_to_x(current->s[0], i + 1, "\'") + 1;
+			i = skip_to_x(current->s[0], i + 1, "\'");
 		if (current->s[0][i] && current->s[0][i] == '\"')
-			i = skip_to_x(current->s[0], i + 1, "\"") + 1;
+			i = skip_to_x(current->s[0], i + 1, "\"");
 		if (current->s[0][i] && current->s[0][i] == '<')
 		{
 			if (!fill_stdin(p, current, i))

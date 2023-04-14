@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 16:25:39 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/14 18:44:38 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/14 20:21:34 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	*rm_first(char *cmd, int *current_pos, int quote_pos, int double_pos)
 	if (*current_pos != (int)ft_strlen(cmd))
 	{
 		cmd[*current_pos] = '\0';
-		tempo_str = ft_strjoin(cmd, cmd + *current_pos + 1);
+		tempo_str = ft_strjoin(cmd, cmd + *current_pos + 1);	
 		if (!tempo_str)
 			return (NULL);
 		free(cmd);
@@ -86,6 +86,7 @@ void	prepare_cmd(t_cmd *cmd)
 			cmd->cmd[i] = trim_quotes(cmd->cmd[i]);
 			++i;
 		}
+		display_cmd(cmd);
 	}
 }
 
