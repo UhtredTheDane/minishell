@@ -19,7 +19,7 @@ char	*format_string(char *name_cmd)
 	temp = ft_strjoin("/", name_cmd);
 	if (!temp)
 		return (NULL);
-	free(name_cmd);
+	//free(name_cmd);
 	return (temp);
 }
 
