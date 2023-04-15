@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 15:56:35 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/13 00:19:08 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/15 16:12:56 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,14 @@ char	*replace_home(t_cmd *cmd, char *default_folder)
 		{
 			path = ft_strjoin(default_folder, cmd->cmd[1] + 1);
 			if (!path)
-				return (initial_path);
+				return (free(default_folder), initial_path);
+			free(initial_path);
+			free(default_folder);
 			return (path);
 		}
+		free(initial_path);
 		return (default_folder);
 	}
+	free(default_folder);
 	return (initial_path);
 }

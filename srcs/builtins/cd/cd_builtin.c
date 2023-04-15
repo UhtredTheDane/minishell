@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 17:59:28 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/14 16:33:06 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/15 16:30:50 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,16 @@ char	*init_path(t_envp *envp, t_cmd *cmd)
 	char	*default_folder;
 
 	home = get_value(envp, "HOME");
-	default_folder = ft_strdup(home);
-	if (!home && !cmd->cmd[2])
-		return (cmd->cmd[1]);
-	else if (!cmd->cmd[1])
+	if (!home)
+		default_folder = ft_strdup("HOME");
+	else
+		default_folder = ft_strdup(home);
+	if (!cmd->cmd[1])
 		return (default_folder);
 	else if (!cmd->cmd[2])
 		return (replace_home(cmd, default_folder));
 	printf("minishell: cd: too many arguments\n");
+	free(default_folder);
 	return (NULL);
 }
 
@@ -94,12 +96,17 @@ int	builtin_cd(t_envp *envp, t_cmd *cmd)
 	if (!path)
 		return (1);
 	if (!check_path(path))
+	{
+		free(path);
 		return (1);
+	}
 	if (chdir(path) == -1)
 	{
 		perror("cd");
+		free(path);
 		return (1);
 	}
+	free(path);
 	if (!update_env(envp))
 		printf("Probleme lors de l'update de l'environnement.\n");
 	return (0);
