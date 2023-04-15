@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 16:25:39 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/14 23:42:47 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/15 12:42:48 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,10 @@ char	*rm_first(char *cmd, int *current_pos, int quote_pos, int double_pos)
 			return (cmd);
 		free(cmd);
 		cmd = tempo_str;
+		return (tempo_str);
 	}
-	return (cmd);
+	free(cmd);
+	return (NULL);
 }
 
 char	*trim_quotes(char *cmd)
@@ -66,15 +68,15 @@ char	*trim_quotes(char *cmd)
 		double_pos = skip_to_x(trim_cmd, current_pos, "\"");
 		trim_cmd = rm_first(trim_cmd, &current_pos, quote_pos, double_pos);
 		if (!trim_cmd)
-			return (cmd);
+			return (NULL);
 	}
-	free(cmd);
 	return (trim_cmd);
 }
 
 void	prepare_cmd(t_cmd *cmd)
 {
 	size_t	i;
+	char	*tempo_cmd;
 
 	i = 0;
 	if (cmd->cmd)
@@ -83,7 +85,12 @@ void	prepare_cmd(t_cmd *cmd)
 			cmd->cmd = update_for_grep(cmd->cmd);
 		while (cmd->cmd[i])
 		{
-			cmd->cmd[i] = trim_quotes(cmd->cmd[i]);
+			tempo_cmd = trim_quotes(cmd->cmd[i]);
+			if (tempo_cmd)
+			{
+				free(cmd->cmd[i]);
+				cmd->cmd[i] = tempo_cmd;
+			}
 			++i;
 		}
 	}

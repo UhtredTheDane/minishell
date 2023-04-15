@@ -6,11 +6,13 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 16:31:04 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/14 23:41:34 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/15 12:57:35 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/execute.h"
+#include <sys/types.h>
+#include <dirent.h>
 
 int	char_in_str(char c, char *str)
 {
@@ -83,28 +85,20 @@ char	**update_for_grep(char **cmd)
 	return (new_cmd);
 }
 
-int	already_with_path(t_parse *p, char *cmd)
+int	test_directory(char *cmd)
 {
-	char	**all_path;
-	size_t	i;
-	size_t	size;
+	DIR	*directory;
 
-	if (cmd[0] == '.' && cmd[1] == '/')
-		return (1);
-	all_path = ft_split(get_value(p->envp, "PATH"), ':');
-	if (!all_path)
-		return (0);
-	i = 0;
-	while (all_path[i])
+	if (cmd[0] == '/')
 	{
-		size = ft_strlen(all_path[i]);
-		if (ft_strncmp(all_path[i], cmd, size) == 0)
+		directory = opendir(cmd);
+		if (directory)
 		{
-			clean_2d_tab(all_path);
-			return (1);
+			printf("minishell: %s: Is a directory\n", cmd);
+			closedir(directory);
+			return (0);
 		}
-		++i;
+		closedir(directory);
 	}
-	clean_2d_tab(all_path);
-	return (0);
+	return (1);
 }
