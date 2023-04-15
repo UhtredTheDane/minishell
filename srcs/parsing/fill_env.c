@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 18:48:43 by lloisel           #+#    #+#             */
-/*   Updated: 2023/04/15 13:24:26 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/04/15 14:22:27 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,20 @@ char	*get_key(t_cmd *cmd, t_envp *envp, int i, int end)
 	return (tmp);
 }
 
+int	special_case_dollard(t_cmd *cmd, int end)
+{
+	if (cmd->s[0][end] && is_special(cmd->s[0][end], "0123456789?"))
+	{
+		end++;
+		if (cmd->s[0][end - 1] == '?')
+			cmd->s[0] = big_join(cmd->s[0], ft_itoa(g_rt), cmd->s[0] + end, 1);
+		else
+			cmd->s[0] = big_join(cmd->s[0], "", cmd->s[0] + end, 0);
+		return (1);
+	}
+	return (0);
+}
+
 int	change_dollard_bis(t_cmd *cmd, int *i, t_envp *envp)
 {
 	int		end;
@@ -54,15 +68,8 @@ int	change_dollard_bis(t_cmd *cmd, int *i, t_envp *envp)
 	}
 	else
 		cmd->s[0][*i] = '\0';
-	if (cmd->s[0][end] && is_special(cmd->s[0][end], "0123456789?"))
-	{
-		end++;
-		if(cmd->s[0][end - 1] == '?')
-			cmd->s[0] = big_join(cmd->s[0], ft_itoa(g_rt), cmd->s[0] + end, 1);
-		else	
-			cmd->s[0] = big_join(cmd->s[0], "", cmd->s[0] + end, 0);
+	if (special_case_dollard(cmd, end))
 		return (1);
-	}	
 	while (cmd->s[0][end] && !is_special(cmd->s[0][end], "=<>\" $\'"))
 		end++;
 	value = get_key(cmd, envp,*i + 1, end);
@@ -86,15 +93,8 @@ int	change_dollard(t_cmd *cmd, int *i, t_envp *envp)
 	}
 	else
 		cmd->s[0][*i] = '\0';
-	if (cmd->s[0][end] && is_special(cmd->s[0][end], "0123456789?"))
-	{
-		end++;
-		if(cmd->s[0][end - 1] == '?')
-			cmd->s[0] = big_join(cmd->s[0], ft_itoa(g_rt), cmd->s[0] + end, 1);
-		else	
-			cmd->s[0] = big_join(cmd->s[0], "", cmd->s[0] + end, 0);
+	if (special_case_dollard(cmd, end))
 		return (1);
-	}
 	while (cmd->s[0][end] && !is_special(cmd->s[0][end], "=<>\" $\'"))
 		end++;
 	value = get_key(cmd, envp,*i + 1, end);
