@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 16:25:39 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/15 19:36:01 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/15 20:59:09 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,10 +104,9 @@ void	prepare_cmd(t_cmd *cmd)
 
 int	first_test(char **cmd)
 {
-	if (cmd || (ft_strlen(cmd[0]) == 1
-			&& (cmd[0][0] == ':' || cmd[0][0] == '!')))
+	if (ft_strlen(cmd[0]) == 1 && (cmd[0][0] == ':'
+			|| cmd[0][0] == '!'))
 		return (0);
-	
 	if (!test_directory(cmd[0]))
 		return (126);
 	return (1);
