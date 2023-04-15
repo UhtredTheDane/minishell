@@ -12,34 +12,6 @@
 
 #include "../../includes/execute.h"
 
-int	already_with_path(t_parse *p, char *cmd)
-{
-	char	**all_path;
-	size_t	i;
-	size_t	size;
-
-	if (cmd[0] == '.' && cmd[1] == '/')
-		return (1);
-	if (!test_directory(cmd))
-		return (126);
-	all_path = ft_split(get_value(p->envp, "PATH"), ':');
-	if (!all_path)
-		return (0);
-	i = 0;
-	while (all_path[i])
-	{
-		size = ft_strlen(all_path[i]);
-		if (ft_strncmp(all_path[i], cmd, size) == 0)
-		{
-			clean_2d_tab(all_path);
-			return (1);
-		}
-		++i;
-	}
-	clean_2d_tab(all_path);
-	return (0);
-}
-
 int	execute_cmd(t_parse *p, t_cmd *cmd, int old_stdin, int old_stdout)
 {
 	int	exec_return;
