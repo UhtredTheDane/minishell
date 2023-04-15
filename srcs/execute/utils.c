@@ -60,3 +60,13 @@ int	test_directory(char *cmd)
 	}
 	return (1);
 }
+
+int	first_test(char **cmd)
+{
+	if (ft_strlen(cmd[0]) == 1 && (cmd[0][0] == ':'
+			|| cmd[0][0] == '!'))
+		return (0);
+	if (!test_directory(cmd[0]))
+		return (126);
+	return (1);
+}
