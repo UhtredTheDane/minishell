@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 16:25:39 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/15 12:42:48 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/15 19:17:51 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ char	*rm_couple(char *cmd, int *current_pos, int quote_pos, int double_pos)
 {
 	char	*first;
 	char	*tempo_str;
-	int	i;
-	
+	int		i;
+
 	tempo_str = NULL;
 	first = init_pos_first(current_pos, quote_pos, double_pos);
 	i = 0;
@@ -73,6 +73,8 @@ char	*trim_quotes(char *cmd)
 			if (!trim_cmd)
 				return (NULL);
 		}
+		else
+			current_pos = quote_pos;
 	}
 	return (trim_cmd);
 }
