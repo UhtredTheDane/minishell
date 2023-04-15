@@ -24,28 +24,27 @@ int	is_echo(t_cmd *cmd)
 	return (0);
 }
 
-int	valid_option(char c)
-{
-	return (c == 'n');
-}
-
-int	valid_options(char *s)
+int	check_options(char *s, char option)
 {
 	int	i;
 
 	i = 0;
-	while (s[i] && s[i] == 'n')
-		i++;
-	return (s[i] == 1);
+	while (s[i])
+	{
+		if (s[i] != option)
+			return (0);
+		++i;
+	}
+	return (1);
 }
 
-int	check_option(char *cmd_1)
+int	check_option(char *cmd)
 {
-	if (!cmd_1)
+	if (!cmd)
 		return (0);
-	if (cmd_1[0] == '-' && ft_strlen(cmd_1) == 2)
+	if (cmd[0] == '-')
 	{
-		if (cmd_1[1] == 'n' || cmd_1[1] == 'N')
+		if (check_options(cmd + 1, 'n') || check_options(cmd + 1, 'N'))
 			return (1);
 	}
 	return (0);
@@ -56,8 +55,11 @@ int	builtin_echo(t_cmd *cmd)
 	int	i;
 	int	n_option;
 
-	n_option = check_option(cmd->cmd[1]);
-	i = n_option + 1;
+	i = 1;
+	while (check_option(cmd->cmd[i]))
+		++i;
+	if (i > 1)
+		n_option = 1;
 	while (cmd->cmd[i])
 	{
 		printf("%s", cmd->cmd[i]);
