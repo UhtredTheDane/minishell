@@ -102,15 +102,26 @@ void	prepare_cmd(t_cmd *cmd)
 	}
 }
 
+int	first_test(char **cmd)
+{
+	if (cmd || (ft_strlen(cmd[0]) == 1
+			&& (cmd[0][0] == ':' || cmd[0][0] == '!')))
+		return (0);
+	
+	if (!test_directory(cmd[0]))
+		return (126);
+	return (1);
+}
+
 int	run_cmd(t_parse *p, t_cmd *cmd)
 {
 	char	**envp;
 	char	*tempo_cmd;
 	int		res_test;
-
-	if (!cmd->cmd || (ft_strlen(cmd->cmd[0]) == 1
-			&& (cmd->cmd[0][0] == ':' || cmd->cmd[0][0] == '!')))
-		return (0);
+	
+	res_test = first_test(cmd->cmd);
+	if (res_test != 1)
+		return (res_test);
 	if (!already_with_path(p, cmd->cmd[0]))
 	{
 		tempo_cmd = search_cmd(p, cmd);
