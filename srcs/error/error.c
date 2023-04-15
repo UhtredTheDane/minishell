@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 10:37:09 by lloisel           #+#    #+#             */
-/*   Updated: 2023/04/14 23:44:52 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/15 09:55:25 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	syntax_err(char *token, t_cmd *cmd)
 	}
 	if (token[0] == '\0' && cmd->next != NULL)
 		printf("Syntax error near token : '|'\n");
-	else
+	else if(token[0] == '\0')
 		printf("Syntax error near token : 'newline'\n");
 }
 
