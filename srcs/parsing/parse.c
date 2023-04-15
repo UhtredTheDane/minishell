@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 13:17:21 by lloisel           #+#    #+#             */
-/*   Updated: 2023/04/14 18:02:17 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/04/15 19:53:30 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	parse_bis(t_parse *p, int *i, int *start_w)
 		*start_w = *i + 1;
 		*i = skip_space(p->s, *i + 1);
 		if (p->s[*i] == '|')
-			return (error("Syntax error Unexpected token : '|'\n"), 0);
+			return (error("Syntax error Unexpected token : '|'\n"), 2);
 		if (p->s[*i] == '\0')
 		{
 			if (!pipe_at_end(p))
