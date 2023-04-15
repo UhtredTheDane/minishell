@@ -26,31 +26,28 @@ char	*init_pos_first(int *current_pos, int quote_pos, int double_pos)
 	}
 }
 
-char	*rm_first(char *cmd, int *current_pos, int quote_pos, int double_pos)
+char	*rm_couple(char *cmd, int *current_pos, int quote_pos, int double_pos)
 {
 	char	*first;
 	char	*tempo_str;
-
+	int	i;
+	
 	tempo_str = NULL;
 	first = init_pos_first(current_pos, quote_pos, double_pos);
-	if (cmd[*current_pos])
-	{ 
-		cmd[*current_pos] = '\0';
-		tempo_str = ft_strjoin(cmd, cmd + *current_pos + 1);
-		if (!tempo_str)
-			return (NULL);
-		free(cmd);
-		cmd = tempo_str;
-	}
-	*current_pos = skip_to_x(cmd, *current_pos, first);
-	if (cmd[*current_pos])
+	i = 0;
+	while (i < 2)
 	{
-		cmd[*current_pos] = '\0';
-		tempo_str = ft_strjoin(cmd, cmd + *current_pos + 1);
-		if (!tempo_str)
-			return (cmd);
-		free(cmd);
-		cmd = tempo_str;
+		if (cmd[*current_pos])
+		{
+			cmd[*current_pos] = '\0';
+			tempo_str = ft_strjoin(cmd, cmd + *current_pos + 1);
+			if (!tempo_str)
+				return (NULL);
+			free(cmd);
+			cmd = tempo_str;
+		}
+		*current_pos = skip_to_x(cmd, *current_pos, first);
+		++i;
 	}
 	if (!tempo_str)
 		free(cmd);
@@ -70,9 +67,12 @@ char	*trim_quotes(char *cmd)
 	{
 		quote_pos = skip_to_x(trim_cmd, current_pos, "\'");
 		double_pos = skip_to_x(trim_cmd, current_pos, "\"");
-		trim_cmd = rm_first(trim_cmd, &current_pos, quote_pos, double_pos);
-		if (!trim_cmd)
-			return (NULL);
+		if (quote_pos != double_pos)
+		{
+			trim_cmd = rm_couple(trim_cmd, &current_pos, quote_pos, double_pos);
+			if (!trim_cmd)
+				return (NULL);
+		}
 	}
 	return (trim_cmd);
 }
