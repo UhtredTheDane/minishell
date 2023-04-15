@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 16:35:02 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/14 23:03:37 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/15 14:58:52 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	max(char *input, char *word)
 char	*get_name(t_cmd *cmd, int i, int op)
 {
 	int	start_w;
-
+	
 	i = skip_space(cmd->s[0], i);
 	if (!cmd->s[0][i])
 		return (syntax_err(cmd->s[0] + i, cmd), NULL);
@@ -33,9 +33,9 @@ char	*get_name(t_cmd *cmd, int i, int op)
 	while (cmd->s[0][i] && !is_special(cmd->s[0][i], "<> "))
 	{
 		if (cmd->s[0][i] == '\'')
-			i = skip_to_x(cmd->s[0] + i, i + 1, "\'");
+			i = skip_to_x(cmd->s[0], i + 1, "\'");
 		else if (cmd->s[0][i] == '\"')
-			i = skip_to_x(cmd->s[0] + i, i + 1, "\"");
+			i = skip_to_x(cmd->s[0], i + 1, "\"");
 		i++;
 	}
 	return (trimming(op, cmd, start_w, i));
