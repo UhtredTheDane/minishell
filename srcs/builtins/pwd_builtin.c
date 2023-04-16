@@ -24,7 +24,7 @@ int	is_pwd(t_cmd *cmd)
 	return (0);
 }
 
-char	*builtin_pwd(void)
+char	*builtin_pwd(t_cmd *cmd)
 {
 	char	*buffer;
 
@@ -33,7 +33,7 @@ char	*builtin_pwd(void)
 		return (NULL);
 	if (!getcwd(buffer, PATH_MAX))
 	{
-		perror("Erreur getcwd\n");
+		printf("%s: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory\n", cmd->cmd[0]);
 		free(buffer);
 		return (NULL);
 	}
