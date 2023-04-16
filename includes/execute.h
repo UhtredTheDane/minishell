@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 15:14:56 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/14 23:46:17 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/15 21:10:55 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int		redirect_stdin(t_parse *p, t_cmd *cmd, int num_read);
 int		redirect_stdout(t_parse *p, t_cmd *cmd, int num_write);
 int		already_with_path(t_parse *p, char *cmd);
 int		test_acces(t_cmd *cmd);
-int     test_directory(char *cmd);
-int	  first_test(char **cmd);
+int		test_directory(char *cmd);
+int		first_test(char **cmd);
 extern int				g_rt;
 #endif

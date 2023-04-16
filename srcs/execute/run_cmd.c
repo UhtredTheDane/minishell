@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 16:25:39 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/15 20:59:09 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/15 21:09:53 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ int	run_cmd(t_parse *p, t_cmd *cmd)
 	char	**envp;
 	char	*tempo_cmd;
 	int		res_test;
-	
+
 	res_test = first_test(cmd->cmd);
 	if (res_test != 1)
 		return (res_test);
