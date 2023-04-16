@@ -16,9 +16,10 @@
 # include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-# include "../includes/envp.h"
-# include "../includes/signal.h"
-# include "../includes/parsing.h"
+# include "envp.h"
+# include "signal.h"
+# include "parsing.h"
+# include "execute.h"
 
 typedef struct s_dico	t_dico;
 typedef struct s_parse	t_parse;

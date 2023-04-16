@@ -25,10 +25,21 @@ int	clean_exit(t_envp *envp)
 void	cmd_treatment(t_envp *envp_dico, char *in_put)
 {
 	t_parse	*p;
+	char *tempo_cmd;
 
 	p = parsing(in_put, envp_dico);
 	if (p)
 	{
+		while (p->cmd->cmd[i])
+		{
+			tempo_cmd = trim_quotes(p->cmd->cmd[i]);
+			if (tempo_cmd)
+			{
+				free(p->cmd->cmd[i]);
+				p->cmd->cmd[i] = tempo_cmd;
+			}
+			++i;
+		}
 		if (!replace_dollards(p, envp_dico))
 			printf("we can't replace some variable");
 		else

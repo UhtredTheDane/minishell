@@ -92,16 +92,6 @@ void	prepare_cmd(t_cmd *cmd)
 	{
 		if (cmd->heredoc && ft_strncmp(cmd->cmd[0], "grep", 4) == 0)
 			cmd->cmd = update_for_grep(cmd->cmd);
-		while (cmd->cmd[i])
-		{
-			tempo_cmd = trim_quotes(cmd->cmd[i]);
-			if (tempo_cmd)
-			{
-				free(cmd->cmd[i]);
-				cmd->cmd[i] = tempo_cmd;
-			}
-			++i;
-		}
 	}
 }
 
