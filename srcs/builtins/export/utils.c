@@ -12,9 +12,9 @@
 
 #include "../../../includes/builtins.h"
 
-int	is_entrie_valid(char *str, int egal_pos)
+int	is_entrie_valid(char *str, size_t egal_pos)
 {
-	int	i;
+	size_t	i;
 
 	i = 0;
 	while (str[i] && i < egal_pos)
