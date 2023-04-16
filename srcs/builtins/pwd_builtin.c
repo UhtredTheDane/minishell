@@ -40,11 +40,11 @@ char	*builtin_pwd(t_cmd *cmd)
 	return (buffer);
 }
 
-void	print_pwd(void)
+void	print_pwd(t_cmd *cmd)
 {
 	char	*pwd;
 
-	pwd = builtin_pwd();
+	pwd = builtin_pwd(cmd);
 	if (pwd)
 	{
 		printf("%s\n", pwd);
