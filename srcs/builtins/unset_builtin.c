@@ -63,24 +63,6 @@ void	check_basic_var(t_parse *p, int dollar_pos, int i, int *return_code)
 	}
 }
 
-int	check_dollar(t_parse *p)
-{
-	int	i;
-	int	return_code;
-	int	dollar_pos;
-
-	i = 0;
-	return_code = 0;
-	while (dollar_in_str(p->s + i))
-	{
-		dollar_pos = skip_to_x(p->s, i, "$") + 1;
-		i = dollar_pos;
-		while (ft_isalnum(p->s[i]))
-			++i;
-		check_basic_var(p, dollar_pos, i, &return_code);
-	}
-	return (return_code);
-}
 
 int	builtin_unset(t_parse *p, t_cmd *cmd)
 {
@@ -88,12 +70,19 @@ int	builtin_unset(t_parse *p, t_cmd *cmd)
 	int		i;
 	int		return_code;
 
-	return_code = check_dollar(p);
+	return_code = 0;
 	i = 0;
 	while (cmd->cmd[i])
 	{
 		key = cmd->cmd[i];
-		delete_key(&p->envp, key);
+		if (!is_entrie_valid(key, ft_strlen(key))
+		    {
+	    		printf("bash: unset: '%s': not a valid identifier\n",
+					key);
+			   return_code = 1;
+		    }
+		    else
+			delete_key(&p->envp, key);
 		++i;
 	}
 	return (return_code);
