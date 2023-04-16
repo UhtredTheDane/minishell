@@ -27,7 +27,7 @@ int		builtin_env(t_envp *envp, t_cmd *cmd);
 int		is_exit(t_cmd *cmd);
 int		builtin_exit(t_envp *envp, t_cmd *cmd);
 int		is_all_digit(char *str);
-int		is_entrie_valid(char *str, int egal_pos);
+int		is_entrie_valid(char *str, size_t egal_pos);
 int		add_var(t_envp *envp, char *cmd, int egal_pos);
 int		add_new_entries(t_envp *envp, char *key, char *value);
 int		is_export(t_cmd *cmd);
