@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 16:25:39 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/16 02:39:53 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/16 21:01:44 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,16 @@ void	prepare_cmd(t_cmd *cmd)
 	{
 		if (cmd->heredoc && ft_strncmp(cmd->cmd[0], "grep", 4) == 0)
 			cmd->cmd = update_for_grep(cmd->cmd);
+		while (cmd->cmd[i])
+		{
+			tempo_cmd = trim_quotes(cmd->cmd[i]);
+			if (tempo_cmd)
+			{
+				free(cmd->cmd[i]);
+				cmd->cmd[i] = tempo_cmd;
+			}
+			++i;
+		}
 	}
 }
 
