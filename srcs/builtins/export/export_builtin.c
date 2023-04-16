@@ -26,7 +26,7 @@ int	is_export(t_cmd *cmd)
 
 int	check_identifier(char *cmd, int egal_pos)
 {
-	if (egal_pos == 0 || !is_entrie_valid(cmd, egal_pos))
+	if (egal_pos == 0 || !is_entrie_valid(cmd, (size_t)egal_pos))
 	{
 		printf("bash: export: '%s': not a valid identifier\n", cmd);
 		return (0);
