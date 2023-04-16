@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 18:03:30 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/14 16:30:32 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/17 00:46:54 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	check_basic_var(t_parse *p, int dollar_pos, int i, int *return_code)
 			tempo_value = get_value(p->envp, name_var);
 			if (tempo_value)
 				printf("bash: unset: '%s': not a valid identifier\n",
-					tempo_value);
+						tempo_value);
 			*return_code = 1;
 		}
 		free(name_var);
@@ -69,19 +69,20 @@ int	builtin_unset(t_parse *p, t_cmd *cmd)
 	char	*key;
 	int		i;
 	int		return_code;
+	size_t	size_key;
 
 	return_code = 0;
 	i = 0;
 	while (cmd->cmd[i])
 	{
 		key = cmd->cmd[i];
-		if (!is_entrie_valid(key, ft_strlen(key))
-		    {
-	    		printf("bash: unset: '%s': not a valid identifier\n",
-					key);
-			   return_code = 1;
-		    }
-		    else
+		size_key = ft_strlen(key);
+		if (!size_key || !is_entrie_valid(key, size_key))
+		{
+			printf("bash: unset: '%s': not a valid identifier\n", key);
+			return_code = 1;
+		}
+		else
 			delete_key(&p->envp, key);
 		++i;
 	}

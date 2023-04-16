@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 17:59:28 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/15 16:30:50 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/17 00:58:31 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,6 @@ int	update_env(t_envp *envp)
 	return (1);
 }
 
-//modifier le path pour qu'il puisse etre free
 int	builtin_cd(t_envp *envp, t_cmd *cmd)
 {
 	char	*path;
@@ -107,7 +106,6 @@ int	builtin_cd(t_envp *envp, t_cmd *cmd)
 		return (1);
 	}
 	free(path);
-	if (!update_env(envp))
-		printf("Probleme lors de l'update de l'environnement.\n");
+	update_env(envp);
 	return (0);
 }
