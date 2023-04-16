@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 16:16:16 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/13 00:53:34 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/17 01:08:03 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	add_pwd(t_envp **shell_envp)
 	char	*pwd;
 	char	*old_pwd;
 
-	pwd = builtin_pwd();
+	pwd = builtin_pwd("");
 	if (!pwd)
 		return (0);
 	ft_envp_add(shell_envp, ft_envp_new("PWD", pwd));

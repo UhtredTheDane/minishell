@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 15:56:35 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/15 16:12:56 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/17 01:19:45 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ int	env_with_pwd(t_envp *envp, char *pwd, char **new_pwd, char **old_pwd)
 	if (!(*old_pwd))
 		return (0);
 	ft_strlcpy(*old_pwd, pwd, pwd_size + 1);
-	*new_pwd = builtin_pwd();
+	*new_pwd = builtin_pwd("cd");
+	g_rt = 1;
 	if (*new_pwd)
 		set_value(envp, "PWD", *new_pwd);
 	else
