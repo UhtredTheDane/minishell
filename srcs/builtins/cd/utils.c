@@ -43,7 +43,6 @@ int	env_with_pwd(t_envp *envp, char *pwd, char **new_pwd, char **old_pwd)
 		return (0);
 	ft_strlcpy(*old_pwd, pwd, pwd_size + 1);
 	*new_pwd = builtin_pwd("cd");
-	g_rt = 1;
 	if (*new_pwd)
 		set_value(envp, "PWD", *new_pwd);
 	else
