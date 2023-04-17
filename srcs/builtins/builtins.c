@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 01:25:34 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/13 00:29:43 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/17 02:52:22 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,7 @@ int	execute_builtin(t_parse *p, t_cmd *cmd)
 	else if (is_exit(cmd))
 		return (builtin_exit(p->envp, cmd));
 	else if (is_pwd(cmd))
-	{
-		print_pwd();
-		return (0);
-	}
+		return (print_pwd());
 	else if (is_unset(cmd))
 		return (builtin_unset(p, cmd));
 	else if (is_export(cmd))

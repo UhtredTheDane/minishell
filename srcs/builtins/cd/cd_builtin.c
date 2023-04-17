@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 17:59:28 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/17 00:58:31 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/17 02:47:31 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ int	builtin_cd(t_envp *envp, t_cmd *cmd)
 		return (1);
 	}
 	free(path);
-	if (update_env(envp))
+	if (!update_env(envp))
 		return (1);
 	return (0);
 }

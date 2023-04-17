@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 18:02:46 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/17 01:13:40 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/17 04:06:02 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,15 +40,14 @@ char	*builtin_pwd(char *cmd)
 	return (buffer);
 }
 
-void	print_pwd()
+int	print_pwd(void)
 {
 	char	*pwd;
 
-	pwd = builtin_pwd("");
-	if (pwd)
-	{
-		printf("%s\n", pwd);
-		free(pwd);
-	}
-
+	pwd = builtin_pwd("pwd");
+	if (!pwd)
+		return (1);
+	printf("%s\n", pwd);
+	free(pwd);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 15:02:15 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/17 01:15:06 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/17 02:53:58 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int		env_with_pwd(t_envp *envp, char *pwd, char **new_pwd, char **old_pwd);
 int		check_path(const char *path);
 int		is_builtin(t_cmd *cmd);
 int		execute_builtin(t_parse *p, t_cmd *cmd);
-void	print_pwd(void);
+int		print_pwd(void);
 void	delete_key(t_envp **envp, char *key);
 void	show_env(t_envp *envp);
 char	*new_key(char *cmd);
