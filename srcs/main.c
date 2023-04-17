@@ -6,12 +6,12 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 17:09:09 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/17 18:51:26 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/17 23:21:20 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/main.h"
-
+int	ms_check_sig_main(void);
 int	g_rt = 0;
 
 int	clean_exit(t_envp *envp)
@@ -50,6 +50,7 @@ int	main_loop(t_envp *envp_dico, char *prompt)
 	
 	while (1)
 	{
+		ms_check_sig_main();
 		in_put = readline(prompt);
 		if (in_put)
 		{
@@ -72,7 +73,7 @@ int	main(int argc, char **argv, char **envp)
 	argv = (char **)argv;
 	prompt = "Minishell :";
 	envp_dico = create_shell_envp(envp);
-	if (!envp_dico || !init_interactive_signals())
+	if (!envp_dico)
 		return (1);
 	return (main_loop(envp_dico, prompt));
 }

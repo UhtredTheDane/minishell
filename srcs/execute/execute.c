@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 16:23:32 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/17 18:34:59 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/17 23:07:47 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ int	manager(t_parse *p, t_cmd *cmd, int num_proc, int builtin)
 	int	old_stdin;
 	int	old_stdout;
 
-	if ((p->pipes_fd || !builtin) && !init_not_interactive_signals(1))
-		return (0);
+/*	if ((p->pipes_fd || !builtin) && !init_not_interactive_signals(1))
+		return (0);*/
 	set_num_pipe(p, &num_read, &num_write, num_proc);
 	close_useless_pipes(p, num_read, num_write);
 	old_stdin = dup(0);
