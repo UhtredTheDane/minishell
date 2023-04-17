@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 16:25:39 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/16 21:01:44 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/17 15:45:33 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ int	run_cmd(t_parse *p, t_cmd *cmd)
 	char	**envp;
 	char	*tempo_cmd;
 	int		res_test;
+	//char	*error;
 
 	res_test = first_test(cmd->cmd);
 	if (res_test != 1)
@@ -119,7 +120,9 @@ int	run_cmd(t_parse *p, t_cmd *cmd)
 		tempo_cmd = search_cmd(p, cmd);
 		if (!tempo_cmd)
 		{
-			printf("%s: command not found\n", cmd->s[0]);
+			//error = ft_strjoin(cmd->s[0], ": command not found\n");
+			printf("command not found\n");
+			//write(1, error, ft_strlen(error));
 			return (127);
 		}
 		cmd->cmd[0] = tempo_cmd;

@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 13:00:43 by lloisel           #+#    #+#             */
-/*   Updated: 2023/04/14 23:02:56 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/17 15:45:50 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,5 +94,7 @@ t_parse	*init_parse(t_envp *envp_dico)
 	p->count = 0;
 	p->first = NULL;
 	p->last = NULL;
+	p->default_stdin = dup(0);
+	p->default_stdout= dup(1);
 	return (p);
 }

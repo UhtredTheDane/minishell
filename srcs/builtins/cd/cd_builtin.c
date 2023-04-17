@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 17:59:28 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/17 02:47:31 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/17 13:05:09 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,11 @@ char	*init_path(t_envp *envp, t_cmd *cmd)
 	if (!cmd->cmd[1])
 		return (default_folder);
 	else if (!cmd->cmd[2])
+	{
+		if (ft_strlen(cmd->cmd[1]) == 1 && cmd->cmd[1][0] == '-')
+			return (ft_strdup(".."));
 		return (replace_home(cmd, default_folder));
+	}
 	printf("minishell: cd: too many arguments\n");
 	free(default_folder);
 	return (NULL);
@@ -46,8 +50,8 @@ char	*init_path(t_envp *envp, t_cmd *cmd)
 int	check_path(const char *path)
 {
 	struct stat	buf;
-
-	if (lstat(path, &buf) == -1)
+	
+	if (lstat(path, &buf) == -1 || path[0] == '-')
 	{
 		printf("minishell: cd: %s No such file or directory\n", path);
 		return (0);
