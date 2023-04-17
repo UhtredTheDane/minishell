@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 16:42:46 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/13 16:44:35 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/17 18:21:48 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 
 extern int	g_rt;
 
+char	*new_delim(t_parse *p, char *s);
+int		with_quote(char *s);
 int		max(char *input, char *word);
 int		run_heredoc(t_cmd *cmd, char *word, t_envp *envp);
 int		get_heredoc(t_parse *p, t_cmd *cmd, char *word);

@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 14:42:15 by lloisel           #+#    #+#             */
-/*   Updated: 2023/04/17 14:42:42 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/04/17 20:12:13 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,12 @@ int	handle_bis(t_cmd *cmd)
 
 int	handle_file(t_cmd *cmd, t_envp *envp)
 {
-	int	fd;
+	int		fd;
+	char	*tmp;
 
-	cmd->filename_out = replace_dollards_string(cmd->filename_out, 0, envp);
+	tmp = replace_dollards_string(cmd->filename_out, 0, envp);
+	cmd->filename_out = trim_quotes(tmp);
+	free(tmp);
 	fd = open(cmd->filename_out, O_DIRECTORY);
 	if (fd >= 0)
 	{
@@ -48,10 +51,27 @@ int	handle_file(t_cmd *cmd, t_envp *envp)
 			return (1);
 		close(fd);
 	}
-	else
+	else if (handle_bis(cmd))
+		return (1);
+	return (0);
+}
+
+int	handle_file_stdin(t_cmd *cmd)
+{
+	int	fd;
+
+	fd = open(cmd->filename_in, O_DIRECTORY);
+	if (fd >= 0)
 	{
-		if (handle_bis(cmd))
-			return (1);
+		close(fd);
+		printf("minishell: %s: Is a directory\n", cmd->filename_in);
+		return (1);
+	}
+	fd = open(cmd->filename_in, O_WRONLY, 0644);
+	if (fd == -1)
+	{
+		printf("minishell: %s: no such file \n", cmd->filename_in);
+		return (1);
 	}
 	return (0);
 }
