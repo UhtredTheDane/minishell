@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 17:59:28 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/17 16:01:29 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/17 19:44:16 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,12 @@ int	is_cd(t_cmd *cmd)
 	return (0);
 }
 
-char	*init_path(t_envp *envp, t_cmd *cmd)
+char	*init_path(t_parse *p, t_envp *envp, t_cmd *cmd)
 {
 	char	*home;
 	char	*default_folder;
 	char 	*old_pwd;
+	char	*error;
 
 	home = get_value(envp, "HOME");
 	if (!home)
@@ -53,35 +54,44 @@ char	*init_path(t_envp *envp, t_cmd *cmd)
 		}
 		return (replace_home(cmd, default_folder));
 	}
-	printf("minishell: cd: too many arguments\n");
+	error = "too many arguments\n";
+	write(p->default_out, "cd: ", 4);
+	write(p->default_out, error, ft_strlen(error));
 	free(default_folder);
 	return (NULL);
 }
 
-int	check_path(const char *path)
+int	check_path(t_parse *p, const char *path)
 {
 	struct stat	buf;
+	char	*error;
 	
 	if (lstat(path, &buf) == -1 || path[0] == '-')
 	{
-		printf("minishell: cd: %s No such file or directory\n", path);
+		error = ft_strjoin(path, " No such file or directory\n");
+		write(p->default_out, "cd: ", 4);
+		write(p->default_out, error, ft_strlen(error));
+		free(error);
 		return (0);
 	}
 	if (!S_ISDIR(buf.st_mode))
 	{
-		printf("minishell: cd: %s Not a directory\n", path);
+		error = ft_strjoin(path, " Not a directory\n");
+		write(p->default_out, "cd: ", 4);
+		write(p->default_out, error, ft_strlen(error));
+		free(error);
 		return (0);
 	}
 	return (1);
 }
 
-int	update_env(t_envp *envp)
+int	update_env(t_parse *p)
 {
 	char	*old_pwd;
 	char	*new_pwd;
 	char	*pwd;
 
-	pwd = get_value(envp, "PWD");
+	pwd = get_value(p->envp, "PWD");
 	if (!pwd)
 	{
 		old_pwd = env_with_no_pwd();
@@ -90,26 +100,26 @@ int	update_env(t_envp *envp)
 	}
 	else
 	{
-		if (!env_with_pwd(envp, pwd, &new_pwd, &old_pwd))
+		if (!env_with_pwd(p, pwd, &new_pwd, &old_pwd))
 		{
 			if (old_pwd)
 				free(old_pwd);
 			return (0);
 		}
 	}
-	if (!set_value(envp, "OLDPWD", old_pwd))
+	if (!add_new_entries(p->envp, ft_strdup("OLDPWD"), old_pwd))
 		free(old_pwd);
 	return (1);
 }
 
-int	builtin_cd(t_envp *envp, t_cmd *cmd)
+int	builtin_cd(t_parse *p, t_envp *envp, t_cmd *cmd)
 {
 	char	*path;
 
-	path = init_path(envp, cmd);
+	path = init_path(p, envp, cmd);
 	if (!path)
 		return (1);
-	if (!check_path(path))
+	if (!check_path(p, path))
 	{
 		free(path);
 		return (1);
@@ -121,7 +131,7 @@ int	builtin_cd(t_envp *envp, t_cmd *cmd)
 		return (1);
 	}
 	free(path);
-	if (!update_env(envp))
+	if (!update_env(p))
 		return (1);
 	return (0);
 }

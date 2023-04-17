@@ -38,37 +38,13 @@ int	dollar_in_str(char *str)
 	return (0);
 }
 
-void	check_basic_var(t_parse *p, int dollar_pos, int i, int *return_code)
-{
-	char	*name_var;
-	char	*value_var;
-	char	*tempo_value;
-	int		size_name;
-
-	size_name = i - dollar_pos;
-	name_var = malloc(sizeof(char) * (size_name + 1));
-	if (name_var)
-	{
-		ft_strlcpy(name_var, p->s + dollar_pos, size_name + 1);
-		value_var = getenv(name_var);
-		if (value_var)
-		{
-			tempo_value = get_value(p->envp, name_var);
-			if (tempo_value)
-				printf("bash: unset: '%s': not a valid identifier\n",
-					tempo_value);
-			*return_code = 1;
-		}
-		free(name_var);
-	}
-}
-
 int	builtin_unset(t_parse *p, t_cmd *cmd)
 {
 	char	*key;
 	int		i;
 	int		return_code;
 	size_t	size_key;
+	char	*error;
 
 	return_code = 0;
 	i = 0;
@@ -78,7 +54,10 @@ int	builtin_unset(t_parse *p, t_cmd *cmd)
 		size_key = ft_strlen(key);
 		if (!size_key || !is_entrie_valid(key, size_key))
 		{
-			printf("bash: unset: '%s': not a valid identifier\n", key);
+			error = ft_strjoin(key, "': not a valid identifier\n");
+			write(p->default_out, "unset: '", 8);
+			write(p->default_out, error, ft_strlen(error));
+			free(error);
 			return_code = 1;
 		}
 		else

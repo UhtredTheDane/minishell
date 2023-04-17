@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 16:05:18 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/07 16:07:12 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/17 17:18:14 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,10 @@ char	*new_value(char *cmd, int egal_pos)
 	char	*value;
 
 	value = ft_strjoin("", cmd + egal_pos + 1);
-	if (!value)
+	if (!value)		
 		return (NULL);
 	return (value);
-}
+}	
 
 int	add_new_entries(t_envp *envp, char *key, char *value)
 {

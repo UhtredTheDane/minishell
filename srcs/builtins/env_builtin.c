@@ -43,11 +43,16 @@ void	show_env(t_envp *envp)
 	}	
 }
 
-int	builtin_env(t_envp *envp, t_cmd *cmd)
+int	builtin_env(t_parse *p, t_envp *envp, t_cmd *cmd)
 {
+	char	*error;
+
 	if (cmd->cmd[1])
-	{
-		printf("env: '%s': No such file or directory\n", cmd->cmd[1]);
+	{	
+		error = ft_strjoin(cmd->cmd[1], ": No such file or directory\n");
+		write(p->default_out, "env: '", 6);
+		write(p->default_out, error, ft_strlen(error));
+		free(error);
 		return (127);
 	}
 	show_env(envp);

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   	interactive.c                                   :+:      :+:    :+:   */
+/*   interactive.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -21,11 +21,17 @@ void	interactive_handler(int signal)
 		rl_replace_line("", 1);
 		rl_redisplay();
 	}
+	else if (signal == 3)
+	{
+		printf("hello\n");
+		write(2, "Quit (core dumped)\n", 19);
+		exit(131);
+	}
 }
 
 int	update_interactive_sigint(void)
 {
-	if (!update_signal(SIGINT, &interactive_handler))
+	if (!update_signal(SIGINT, SIG_DFL))
 		return (0);
 	return (1);
 }

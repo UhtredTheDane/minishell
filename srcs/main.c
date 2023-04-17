@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 17:09:09 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/17 15:39:15 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/04/17 18:51:26 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,18 @@ int	cmd_treatment(t_envp *envp_dico, char *in_put)
 int	main_loop(t_envp *envp_dico, char *prompt)
 {
 	char	*in_put;
+	int rt;
 
+	
 	while (1)
 	{
 		in_put = readline(prompt);
 		if (in_put)
-			g_rt = cmd_treatment(envp_dico, in_put);
+		{
+			rt = cmd_treatment(envp_dico, in_put);
+			if(rt)
+				g_rt = rt;		
+		}
 		else
 			return (clean_exit(envp_dico));
 	}

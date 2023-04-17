@@ -24,11 +24,16 @@ int	is_export(t_cmd *cmd)
 	return (0);
 }
 
-int	check_identifier(char *cmd, int egal_pos)
+int	check_identifier(t_parse *p, char *cmd, int egal_pos)
 {
+	char	*error;
+
 	if (egal_pos == 0 || !is_entrie_valid(cmd, (size_t)egal_pos))
-	{
-		printf("bash: export: '%s': not a valid identifier\n", cmd);
+	{   
+		error = ft_strjoin(cmd, "': not a valid identifier\n");
+		write(p->default_out, "export: '", 9);
+		write(p->default_out, error, ft_strlen(error));
+		free(error);
 		return (0);
 	}
 	return (1);
@@ -61,7 +66,7 @@ int	add_var(t_envp *envp, char *cmd, int egal_pos)
 	return (1);
 }
 
-int	builtin_export(t_envp *envp, t_cmd *cmd)
+int	builtin_export(t_parse *p, t_envp *envp, t_cmd *cmd)
 {
 	int	egal_pos;
 	int	return_code;
@@ -74,7 +79,7 @@ int	builtin_export(t_envp *envp, t_cmd *cmd)
 	while (cmd->cmd[i])
 	{
 		egal_pos = skip_to_x(cmd->cmd[i], 0, "=");
-		if (!check_identifier(cmd->cmd[i], egal_pos))
+		if (!check_identifier(p, cmd->cmd[i], egal_pos))
 			return_code = 1;
 		else
 			if (!add_var(envp, cmd->cmd[i], egal_pos))

@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 15:12:01 by lloisel           #+#    #+#             */
-/*   Updated: 2023/04/13 10:43:49 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/04/17 17:44:47 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../includes/pipex.h"
@@ -49,7 +49,9 @@ void	free_parse(t_parse *p)
 	t_cmd	*tmp;
 
 	if (p)
-	{	
+	{
+		close(p->default_in);
+		close(p->default_out);	
 		current = p->first;
 		while (current)
 		{

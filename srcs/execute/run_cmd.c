@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 16:25:39 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/17 15:45:33 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/17 18:37:04 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,9 +110,9 @@ int	run_cmd(t_parse *p, t_cmd *cmd)
 	char	**envp;
 	char	*tempo_cmd;
 	int		res_test;
-	//char	*error;
+	char	*error;
 
-	res_test = first_test(cmd->cmd);
+	res_test = first_test(p, cmd->cmd);
 	if (res_test != 1)
 		return (res_test);
 	if (!already_with_path(p, cmd->cmd[0]))
@@ -120,14 +120,14 @@ int	run_cmd(t_parse *p, t_cmd *cmd)
 		tempo_cmd = search_cmd(p, cmd);
 		if (!tempo_cmd)
 		{
-			//error = ft_strjoin(cmd->s[0], ": command not found\n");
-			printf("command not found\n");
-			//write(1, error, ft_strlen(error));
+			error = ft_strjoin(cmd->s[0], ": command not found\n");
+			write(p->default_out, error, ft_strlen(error));
+			free(error);
 			return (127);
 		}
 		cmd->cmd[0] = tempo_cmd;
 	}
-	res_test = test_acces(cmd);
+	res_test = test_acces(p, cmd);
 	if (res_test)
 		return (res_test);
 	envp = create_envp_tab(p->envp);

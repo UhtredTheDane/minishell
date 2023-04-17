@@ -30,18 +30,18 @@ int	is_builtin(t_cmd *cmd)
 int	execute_builtin(t_parse *p, t_cmd *cmd)
 {
 	if (is_cd(cmd))
-		return (builtin_cd(p->envp, cmd));
+		return (builtin_cd(p, p->envp, cmd));
 	else if (is_echo(cmd))
 		return (builtin_echo(cmd));
 	else if (is_env(cmd))
-		return (builtin_env(p->envp, cmd));
+		return (builtin_env(p, p->envp, cmd));
 	else if (is_exit(cmd))
-		return (builtin_exit(p->envp, cmd));
+		return (builtin_exit(p, p->envp, cmd));
 	else if (is_pwd(cmd))
-		return (print_pwd());
+		return (print_pwd(p));
 	else if (is_unset(cmd))
 		return (builtin_unset(p, cmd));
 	else if (is_export(cmd))
-		return (builtin_export(p->envp, cmd));
+		return (builtin_export(p, p->envp, cmd));
 	return (0);
 }

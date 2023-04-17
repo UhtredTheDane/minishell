@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 16:16:16 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/17 01:08:03 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/17 19:41:16 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	update_shlvl(t_envp *shell_envp)
 		if (!lvl)
 			return (0);
 		ft_strlcpy(lvl, "1", 2);
-		ft_envp_add(&shell_envp, ft_envp_new("SHLVL", lvl));
+		ft_envp_add(&shell_envp, ft_envp_new(ft_strdup("SHLVL"), lvl));
 	}
 	else
 	{
@@ -42,15 +42,15 @@ int	add_pwd(t_envp **shell_envp)
 	char	*pwd;
 	char	*old_pwd;
 
-	pwd = builtin_pwd("");
+	pwd = builtin_pwd(NULL, "");
 	if (!pwd)
 		return (0);
-	ft_envp_add(shell_envp, ft_envp_new("PWD", pwd));
+	ft_envp_add(shell_envp, ft_envp_new(ft_strdup("PWD"), pwd));
 	old_pwd = malloc(sizeof(char));
 	if (!old_pwd)
 		return (0);
 	old_pwd[0] = '\0';
-	ft_envp_add(shell_envp, ft_envp_new("OLDPWD", old_pwd));
+	ft_envp_add(shell_envp, ft_envp_new(ft_strdup("OLDPWD"), old_pwd));
 	return (1);
 }
 

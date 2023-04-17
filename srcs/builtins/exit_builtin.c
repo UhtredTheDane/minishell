@@ -40,24 +40,31 @@ int	is_all_digit(char *str)
 	return (1);
 }
 
-int	builtin_exit(t_envp *envp, t_cmd *cmd)
+int	builtin_exit(t_parse *p, t_envp *envp, t_cmd *cmd)
 {
 	int	return_value;
+	char *error;
 
 	printf("exit\n");
 	return_value = 0;
 	if (cmd->cmd[1])
 	{
 		if (!is_all_digit(cmd->cmd[1]))
-		{
-			printf("bash : exit: %s: numeric argument required\n", cmd->cmd[1]);
+		{  
+			error = ft_strjoin(cmd->cmd[1], ": numeric argument required\n");
+			write(p->default_out, "exit: ", 6);
+			write(p->default_out, error, ft_strlen(error));
+			free(error);
 			return_value = 2;
 		}
 		else
 		{
 			if (cmd->cmd[2])
 			{
-				printf("bash : exit: too many arguments\n");
+				error = ft_strjoin(cmd->cmd[1], ": too many arguments\n");
+				write(p->default_out, "exit: ", 6);
+				write(p->default_out, error, ft_strlen(error));
+				free(error);
 				return (1);
 			}
 			return_value = ft_atoi(cmd->cmd[1]);

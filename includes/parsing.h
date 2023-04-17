@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 16:58:02 by lloisel           #+#    #+#             */
-/*   Updated: 2023/04/17 15:49:21 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/17 17:39:01 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ typedef struct s_parse {
 	char			*s;
 	int				count;
 	int				*pipes_fd;
-	int				default_stdin;
-	int				default_stdout;
+	int				default_in;
+	int				default_out;
 }			t_parse;
 
 extern int				g_rt;

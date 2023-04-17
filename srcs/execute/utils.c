@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 16:31:04 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/16 02:12:21 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/17 18:56:35 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,31 +28,40 @@ int	char_in_str(char c, char *str)
 	return (0);
 }
 
-int	test_acces(t_cmd *cmd)
+int	test_acces(t_parse *p, t_cmd *cmd)
 {
+	char	*error;
+
 	if (access(cmd->cmd[0], F_OK) == -1)
 	{
-		printf("minishell: %s: No such file or directory\n", cmd->cmd[0]);
+		error = ft_strjoin(cmd->cmd[0], ": No such file or directory");
+		write(p->default_out, error, ft_strlen(error));
+		free(error);
 		return (127);
 	}
 	if (access(cmd->cmd[0], X_OK) == -1)
 	{
-		printf("minishell: %s: Permission denied\n", cmd->cmd[0]);
+		error = ft_strjoin(cmd->cmd[0], ": Permission denied\n");
+		write(p->default_out, error, ft_strlen(error));
+		free(error);
 		return (126);
 	}
 	return (0);
 }
 
-int	test_directory(char *cmd)
+int	test_directory(t_parse *p, char *cmd)
 {
 	DIR	*directory;
+	char	*error;
 
 	if (cmd[0] == '/')
 	{
 		directory = opendir(cmd);
 		if (directory)
 		{
-			printf("minishell: %s: Is a directory\n", cmd);
+			error = ft_strjoin(cmd, ": Is a directory\n");
+			write(p->default_out, error, ft_strlen(error));
+			free(error);
 			closedir(directory);
 			return (0);
 		}
@@ -61,14 +70,14 @@ int	test_directory(char *cmd)
 	return (1);
 }
 
-int	first_test(char **cmd)
+int	first_test(t_parse *p, char **cmd)
 {
 	if (cmd && cmd[0])
 	{
 		if (ft_strlen(cmd[0]) == 1 && (cmd[0][0] == ':'
 			|| cmd[0][0] == '!'))
 			return (0);
-		if (!test_directory(cmd[0]))
+		if (!test_directory(p, cmd[0]))
 			return (126);
 		return (1);
 	}
@@ -83,7 +92,7 @@ int	already_with_path(t_parse *p, char *cmd)
 
 	if (cmd[0] == '.' && cmd[1] == '/')
 		return (1);
-	if (!test_directory(cmd))
+	if (!test_directory(p, cmd))
 		return (126);
 	all_path = ft_split(get_value(p->envp, "PATH"), ':');
 	if (!all_path)
