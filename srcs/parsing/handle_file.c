@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 14:42:15 by lloisel           #+#    #+#             */
-/*   Updated: 2023/04/17 14:42:42 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/04/17 19:44:58 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,26 @@ int	handle_file(t_cmd *cmd, t_envp *envp)
 	{
 		if (handle_bis(cmd))
 			return (1);
+	}
+	return (0);
+}
+
+int	handle_file_stdin(t_cmd *cmd)
+{
+	int	fd;
+
+	fd = open(cmd->filename_in, O_DIRECTORY);
+	if (fd >= 0)
+	{
+		close(fd);
+		printf("minishell: %s: Is a directory\n", cmd->filename_in);
+		return (1);
+	}
+	fd = open(cmd->filename_in, O_WRONLY, 0644);
+	if (fd == -1)
+	{
+		printf("minishell: %s: no such file \n", cmd->filename_in);
+		return (1);
 	}
 	return (0);
 }

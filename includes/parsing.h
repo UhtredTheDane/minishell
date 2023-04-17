@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 16:58:02 by lloisel           #+#    #+#             */
-/*   Updated: 2023/04/17 18:55:35 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/04/17 19:40:48 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ typedef struct s_parse {
 
 extern int				g_rt;
 
+int		handle_file_stdin(t_cmd *cmd);
 char	*get_key(char *s, t_envp *envp, int i, int end);
 int		handle_file(t_cmd *cmd, t_envp *envp);
 char	*replace_dollards_string(char *s, int i, t_envp *envp);
