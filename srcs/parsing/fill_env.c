@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 18:48:43 by lloisel           #+#    #+#             */
-/*   Updated: 2023/04/15 14:22:27 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/04/17 15:38:13 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,39 @@
 #include <stdlib.h>		
 #include "../../libft/libft.h"
 
+int	replace_dollard_current(t_cmd *cmd, t_envp *envp)
+{
+	int		i;
+	char	*tmp;
+
+	i = 0;
+	if (!cmd->cmd)
+		return (0);
+	while (cmd->cmd[i] != NULL)
+	{
+		tmp = ft_strdup(cmd->cmd[i]);
+		tmp = replace_dollards_string(tmp, 0, envp);
+		free(cmd->cmd[i]);
+		cmd->cmd[i] = tmp;
+		i++;
+	}
+	return (1);
+}
+
+int	replace_dollards(t_parse *p, t_envp *envp)
+{
+	t_cmd	*current;
+
+	current = p->first;
+	while (current)
+	{
+		if (!replace_dollard_current(current, envp))
+			return (0);
+		current = current->next;
+	}
+	return (1);
+}
+/*
 char	*get_key(t_cmd *cmd, t_envp *envp, int i, int end)
 {
 	char	*key;
@@ -148,4 +181,4 @@ int	replace_dollards(t_parse *p, t_envp *envp)
 		current = current->next;
 	}
 	return (1);
-}
+}*/

@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 15:14:56 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/15 21:10:55 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/17 08:50:21 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	prepare_cmd(t_cmd *cmd);
 int		run_cmd(t_parse *p, t_cmd *cmd);
 int		execute_cmd(t_parse *p, t_cmd *cmd, int old_stdin, int old_stdout);
 int		manager(t_parse *p, t_cmd *cmd, int num_proc, int builtin);
-int		execute(t_parse *p);
+int		execute(t_parse *p, t_envp *envp);
 int		char_in_str(char c, char *str);
 int		redirect_stdin(t_parse *p, t_cmd *cmd, int num_read);
 int		redirect_stdout(t_parse *p, t_cmd *cmd, int num_write);
