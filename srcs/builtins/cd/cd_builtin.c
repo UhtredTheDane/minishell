@@ -106,6 +106,7 @@ int	builtin_cd(t_envp *envp, t_cmd *cmd)
 		return (1);
 	}
 	free(path);
-	update_env(envp);
+	if (update_env(envp))
+		return (1);
 	return (0);
 }
