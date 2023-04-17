@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 16:35:02 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/17 15:38:46 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/04/17 18:33:31 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	run_heredoc(t_cmd *cmd, char *word, t_envp *envp)
 	{
 		input = replace_dollards_heredoc(input, envp);
 		write(cmd->pipe_heredoc[1], input, ft_strlen(input) + 1);
-		write(cmd->pipe_heredoc[1], "\n", 1);
+		write(cmd->pipe_heredoc[1], " \n", 2);
 		free(input);
 		input = readline("Heredoc>");
 	}	
@@ -99,6 +99,7 @@ int	here_doc(t_parse *p, t_cmd *cmd, int i, int op)
 	delim = get_name(cmd, i, op);
 	if (!delim)
 		return (2);
+	delim = new_delim(p, delim);
 	if (cmd->pipe_heredoc)
 	{
 		close(cmd->pipe_heredoc[0]);
