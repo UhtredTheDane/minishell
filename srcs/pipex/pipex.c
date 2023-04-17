@@ -6,12 +6,12 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 16:41:38 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/17 23:10:13 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/18 01:05:10 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/pipex.h"
-int	ms_check_sig_fork(void);
+
 char	*make_cmd(t_parse *p, char *name_cmd)
 {
 	char	*cmd;
@@ -81,15 +81,12 @@ pid_t	create_process(t_parse *p)
 	while (current)
 	{
 		pid = fork();
-		ms_check_sig_fork();
+		sig_fork();
 		if (pid < 0)
-		{
-			perror("Probleme fork");
-			return (0);
-		}
+			return (perror("Probleme fork"), 0);
 		else if (pid == 0)
 		{
-			return_code = manager(p, current, i, 0);
+			return_code = manager(p, current, i);
 			free_parse(p);
 			exit(return_code);
 		}

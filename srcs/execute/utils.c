@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 16:31:04 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/17 18:56:35 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/18 00:51:15 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	test_acces(t_parse *p, t_cmd *cmd)
 
 int	test_directory(t_parse *p, char *cmd)
 {
-	DIR	*directory;
+	DIR		*directory;
 	char	*error;
 
 	if (cmd[0] == '/')

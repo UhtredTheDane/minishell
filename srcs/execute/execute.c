@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 16:23:32 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/17 23:07:47 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/18 01:04:49 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,13 @@ int	execute_cmd(t_parse *p, t_cmd *cmd, int old_stdin, int old_stdout)
 	return (exec_return);
 }
 
-int	manager(t_parse *p, t_cmd *cmd, int num_proc, int builtin)
+int	manager(t_parse *p, t_cmd *cmd, int num_proc)
 {
 	int	num_write;
 	int	num_read;
 	int	old_stdin;
 	int	old_stdout;
 
-/*	if ((p->pipes_fd || !builtin) && !init_not_interactive_signals(1))
-		return (0);*/
 	set_num_pipe(p, &num_read, &num_write, num_proc);
 	close_useless_pipes(p, num_read, num_write);
 	old_stdin = dup(0);
@@ -57,7 +55,6 @@ int	execute(t_parse *p, t_envp *envp)
 {
 	int	rt;
 
-	rt = 1;
 	rt = edit_parsing(p, envp);
 	if (rt)
 		return (rt);
@@ -65,7 +62,7 @@ int	execute(t_parse *p, t_envp *envp)
 		return (1);
 	replace_dollards(p, envp);
 	if (!p->pipes_fd && is_builtin(p->first))
-		g_rt = manager(p, p->first, 0, 1);
+		g_rt = manager(p, p->first, 0);
 	else if (!run_pipe(p))
 	{
 		printf("Impossible de lancer les pipes\n");

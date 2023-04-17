@@ -122,8 +122,7 @@ int	run_cmd(t_parse *p, t_cmd *cmd)
 		{
 			error = ft_strjoin(cmd->s[0], ": command not found\n");
 			write(p->default_out, error, ft_strlen(error));
-			free(error);
-			return (127);
+			return (free(error), 127);
 		}
 		cmd->cmd[0] = tempo_cmd;
 	}
@@ -132,6 +131,5 @@ int	run_cmd(t_parse *p, t_cmd *cmd)
 		return (res_test);
 	envp = create_envp_tab(p->envp);
 	execve(cmd->cmd[0], cmd->cmd, envp);
-	clean_2d_tab(envp);
-	return (127);
+	return (clean_2d_tab(envp), 127);
 }

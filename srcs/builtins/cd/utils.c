@@ -6,11 +6,22 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 15:56:35 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/17 19:43:45 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/18 00:43:31 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/builtins.h"
+
+char	*get_home(t_envp *envp)
+{
+	char	*home;
+
+	home = get_value(envp, "HOME");
+	if (!home)
+		return (ft_strdup("HOME"));
+	else
+		return (ft_strdup(home));
+}
 
 int	size_cmd(t_cmd *cmd)
 {

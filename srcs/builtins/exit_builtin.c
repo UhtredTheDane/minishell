@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 18:02:36 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/14 16:28:40 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/18 01:07:06 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,36 +40,40 @@ int	is_all_digit(char *str)
 	return (1);
 }
 
+int	check_params(t_parse *p, t_cmd *cmd)
+{
+	char	*error;
+
+	if (!is_all_digit(cmd->cmd[1]))
+	{
+		error = ft_strjoin(cmd->cmd[1], ": numeric argument required\n");
+		write(p->default_out, "exit: ", 6);
+		write(p->default_out, error, ft_strlen(error));
+		free(error);
+		return (2);
+	}
+	else
+	{
+		if (cmd->cmd[2])
+		{
+			error = ft_strjoin(cmd->cmd[1], ": too many arguments\n");
+			write(p->default_out, "exit: ", 6);
+			write(p->default_out, error, ft_strlen(error));
+			free(error);
+			return (1);
+		}
+		return (ft_atoi(cmd->cmd[1]));
+	}
+}
+
 int	builtin_exit(t_parse *p, t_envp *envp, t_cmd *cmd)
 {
-	int	return_value;
-	char *error;
+	int		return_value;
 
 	printf("exit\n");
 	return_value = 0;
 	if (cmd->cmd[1])
-	{
-		if (!is_all_digit(cmd->cmd[1]))
-		{  
-			error = ft_strjoin(cmd->cmd[1], ": numeric argument required\n");
-			write(p->default_out, "exit: ", 6);
-			write(p->default_out, error, ft_strlen(error));
-			free(error);
-			return_value = 2;
-		}
-		else
-		{
-			if (cmd->cmd[2])
-			{
-				error = ft_strjoin(cmd->cmd[1], ": too many arguments\n");
-				write(p->default_out, "exit: ", 6);
-				write(p->default_out, error, ft_strlen(error));
-				free(error);
-				return (1);
-			}
-			return_value = ft_atoi(cmd->cmd[1]);
-		}
-	}
+		return_value = check_params(p, cmd);
 	delete_dico(envp);
 	exit(return_value);
 }

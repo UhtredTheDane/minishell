@@ -17,6 +17,7 @@
 # include "pipex.h"
 # include "envp.h"
 # include "parsing.h"
+# include "error.h"
 
 typedef struct s_cmd	t_cmd;
 typedef struct s_parse	t_parse;
@@ -55,5 +56,6 @@ char	*builtin_pwd(t_parse *p, char *cmd);
 char	*env_with_no_pwd(void);
 char	*replace_home(t_cmd *cmd, char *home);
 char	*init_path(t_parse *p, t_envp *envp, t_cmd *cmd);
+char	*get_home(t_envp *envp);
 extern int				g_rt;
 #endif

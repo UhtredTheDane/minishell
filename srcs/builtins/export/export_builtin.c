@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 18:03:15 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/14 23:40:30 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/18 00:46:02 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	check_identifier(t_parse *p, char *cmd, int egal_pos)
 	char	*error;
 
 	if (egal_pos == 0 || !is_entrie_valid(cmd, (size_t)egal_pos))
-	{   
+	{
 		error = ft_strjoin(cmd, "': not a valid identifier\n");
 		write(p->default_out, "export: '", 9);
 		write(p->default_out, error, ft_strlen(error));

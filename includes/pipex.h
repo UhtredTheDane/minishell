@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 16:40:44 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/13 16:42:25 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/18 00:28:12 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 
 extern int	g_rt;
 
+int		sig_fork(void);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 int		run_pipe(t_parse *p);
 int		link_stdin(t_parse *p, int num_read);

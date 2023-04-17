@@ -6,16 +6,16 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 17:09:09 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/17 23:21:20 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/18 00:57:13 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/main.h"
-int	ms_check_sig_main(void);
+
 int	g_rt = 0;
 
 int	clean_exit(t_envp *envp)
-{	
+{
 	delete_dico(envp);
 	rl_clear_history();
 	printf("exit\n");
@@ -45,18 +45,18 @@ int	cmd_treatment(t_envp *envp_dico, char *in_put)
 int	main_loop(t_envp *envp_dico, char *prompt)
 {
 	char	*in_put;
-	int rt;
+	int		rt;
 
-	
 	while (1)
 	{
-		ms_check_sig_main();
+		if (sig_main() == -1)
+			return (0);
 		in_put = readline(prompt);
 		if (in_put)
 		{
 			rt = cmd_treatment(envp_dico, in_put);
-			if(rt)
-				g_rt = rt;		
+			if (rt)
+				g_rt = rt;
 		}
 		else
 			return (clean_exit(envp_dico));

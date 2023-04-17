@@ -6,9 +6,10 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 15:12:01 by lloisel           #+#    #+#             */
-/*   Updated: 2023/04/17 17:44:47 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/18 00:42:57 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "../../includes/pipex.h"
 
 void	clean_2d_tab(char **tab_2d)
@@ -51,7 +52,7 @@ void	free_parse(t_parse *p)
 	if (p)
 	{
 		close(p->default_in);
-		close(p->default_out);	
+		close(p->default_out);
 		current = p->first;
 		while (current)
 		{

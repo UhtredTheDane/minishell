@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 15:14:56 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/17 18:25:40 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/18 01:05:42 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,14 @@ char	**add_option_a(char **cmd, int size_cmd);
 void	prepare_cmd(t_cmd *cmd);
 int		run_cmd(t_parse *p, t_cmd *cmd);
 int		execute_cmd(t_parse *p, t_cmd *cmd, int old_stdin, int old_stdout);
-int		manager(t_parse *p, t_cmd *cmd, int num_proc, int builtin);
+int		manager(t_parse *p, t_cmd *cmd, int num_proc);
 int		execute(t_parse *p, t_envp *envp);
 int		char_in_str(char c, char *str);
 int		redirect_stdin(t_parse *p, t_cmd *cmd, int num_read);
 int		redirect_stdout(t_parse *p, t_cmd *cmd, int num_write);
 int		already_with_path(t_parse *p, char *cmd);
 int		test_acces(t_parse *p, t_cmd *cmd);
-int     test_directory(t_parse *p, char *cmd);
-int     first_test(t_parse *p, char **cmd);
+int		test_directory(t_parse *p, char *cmd);
+int		first_test(t_parse *p, char **cmd);
 extern int				g_rt;
 #endif

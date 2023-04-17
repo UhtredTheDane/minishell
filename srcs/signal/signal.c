@@ -6,13 +6,13 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 16:50:50 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/17 22:56:55 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/18 00:59:31 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/signal.h"
 
-static void	ms_sig_handler_main(int signum)
+void	handler_main(int signum)
 {
 	if (signum == SIGINT)
 	{
@@ -24,7 +24,14 @@ static void	ms_sig_handler_main(int signum)
 	}
 }
 
-static void	ms_sig_handler_fork(int signum)
+int	update_interactive_sigint(void)
+{
+	if (signal(SIGINT, SIG_DFL) == SIG_ERR)
+		return (0);
+	return (1);
+}
+
+void	handler_fork(int signum)
 {
 	if (signum == SIGINT)
 	{
@@ -38,47 +45,20 @@ static void	ms_sig_handler_fork(int signum)
 	}
 }
 
-int	ms_check_sig_fork(void)
+int	sig_fork(void)
 {
-	if (signal(SIGINT, ms_sig_handler_fork) == SIG_ERR)
-	{
-		perror("signal");
+	if (signal(SIGINT, handler_fork) == SIG_ERR)
 		return (-1);
-	}
-	else if (signal(SIGQUIT, ms_sig_handler_fork) == SIG_ERR)
-	{
-		perror("signal");
+	else if (signal(SIGQUIT, handler_fork) == SIG_ERR)
 		return (-1);
-	}
 	return (0);
 }
 
-int	ms_check_sig_main(void)
+int	sig_main(void)
 {
-	if (signal(SIGINT, ms_sig_handler_main) == SIG_ERR)
-	{
-		perror("signal");
+	if (signal(SIGINT, handler_main) == SIG_ERR)
 		return (-1);
-	}
 	else if (signal(SIGQUIT, SIG_IGN) == SIG_ERR)
-	{
-		perror("signal");
 		return (-1);
-	}
 	return (0);
-}
-
-
-int	update_signal(int signum, void (*handler)(int))
-{
-	struct sigaction	action;
-
-	ft_bzero(&action, sizeof(action));
-	action.sa_handler = handler;
-	if (sigaction(signum, &action, NULL) == -1)
-	{
-		perror("Erreur sigaction\n");
-		return (0);
-	}
-	return (1);
 }

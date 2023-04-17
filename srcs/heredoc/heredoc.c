@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 16:35:02 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/17 23:24:19 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/18 00:50:52 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ int	run_heredoc(t_cmd *cmd, char *word, t_envp *envp)
 	char	*input;
 
 	close(cmd->pipe_heredoc[0]);
-	//if (!update_not_interactive_sigint(1))
-		//return (0);
+	if (!update_interactive_sigint())
+		return (0);
 	input = readline("Heredoc>");
 	while (input && strncmp(input, word, max(input, word)))
 	{
@@ -82,11 +82,7 @@ int	get_heredoc(t_parse *p, t_cmd *cmd, char *word)
 		son_heredoc(p, cmd, word);
 	free(word);
 	close(cmd->pipe_heredoc[1]);
-//	if (!update_not_interactive_sigint(0))
-//		return (1);
 	pid = waitpid(-1, &status, 0);
-//	if (!update_interactive_sigint())
-//		return (1);
 	if (!WIFEXITED(status))
 		return (1);
 	return (0);
