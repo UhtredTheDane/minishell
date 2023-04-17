@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 15:14:56 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/18 01:05:42 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/18 01:17:04 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	**update_for_grep(char **cmd);
 char	**add_option_a(char **cmd, int size_cmd);
 void	prepare_cmd(t_cmd *cmd);
 int		run_cmd(t_parse *p, t_cmd *cmd);
-int		execute_cmd(t_parse *p, t_cmd *cmd, int old_stdin, int old_stdout);
+int		execute_cmd(t_parse *p, t_cmd *cmd);
 int		manager(t_parse *p, t_cmd *cmd, int num_proc);
 int		execute(t_parse *p, t_envp *envp);
 int		char_in_str(char c, char *str);

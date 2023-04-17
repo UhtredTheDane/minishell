@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 18:02:36 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/18 01:07:06 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/18 01:23:42 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,8 @@ int	builtin_exit(t_parse *p, t_envp *envp, t_cmd *cmd)
 	printf("exit\n");
 	return_value = 0;
 	if (cmd->cmd[1])
-		return_value = check_params(p, cmd);
+	return_value = check_params(p, cmd);
+	free_parse(p);
 	delete_dico(envp);
 	exit(return_value);
 }

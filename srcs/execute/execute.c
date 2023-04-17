@@ -6,13 +6,13 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 16:23:32 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/18 01:04:49 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/18 01:18:04 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/execute.h"
 
-int	execute_cmd(t_parse *p, t_cmd *cmd, int old_stdin, int old_stdout)
+int	execute_cmd(t_parse *p, t_cmd *cmd)
 {
 	int	exec_return;
 
@@ -20,13 +20,11 @@ int	execute_cmd(t_parse *p, t_cmd *cmd, int old_stdin, int old_stdout)
 	if (is_builtin(cmd))
 	{
 		exec_return = execute_builtin(p, cmd);
-		dup2(old_stdin, 0);
-		dup2(old_stdout, 1);
+		dup2(p->default_in, 0);
+		dup2(p->default_out, 1);
 	}
 	else
 		exec_return = run_cmd(p, cmd);
-	close(old_stdin);
-	close(old_stdout);
 	return (exec_return);
 }
 
@@ -34,21 +32,13 @@ int	manager(t_parse *p, t_cmd *cmd, int num_proc)
 {
 	int	num_write;
 	int	num_read;
-	int	old_stdin;
-	int	old_stdout;
 
 	set_num_pipe(p, &num_read, &num_write, num_proc);
 	close_useless_pipes(p, num_read, num_write);
-	old_stdin = dup(0);
-	old_stdout = dup(1);
 	if (!redirect_stdin(p, cmd, num_read)
 		|| !redirect_stdout(p, cmd, num_write))
-	{
-		close(old_stdin);
-		close(old_stdout);
 		return (2);
-	}
-	return (execute_cmd(p, cmd, old_stdin, old_stdout));
+	return (execute_cmd(p, cmd));
 }
 
 int	execute(t_parse *p, t_envp *envp)
