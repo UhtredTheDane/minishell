@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 16:07:38 by lloisel           #+#    #+#             */
-/*   Updated: 2023/04/17 19:45:25 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/04/17 20:00:44 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,9 @@ int	simple_stdin(t_cmd *cmd, int i, int op, t_envp *envp)
 		return (2);
 	if (cmd->filename_in)
 		free(cmd->filename_in);
-	cmd->filename_in = replace_dollards_string(tmp, 0, envp);
+	tmp = replace_dollards_string(tmp, 0, envp);
+	cmd->filename_in = trim_quotes(tmp);
+	free(tmp);
 	if (!cmd->filename_in)
 		return (1);
 	return (handle_file_stdin(cmd));
