@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 10:37:09 by lloisel           #+#    #+#             */
-/*   Updated: 2023/04/15 14:07:41 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/04/17 14:48:09 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,14 @@
 #include <stdio.h>
 #include "../../libft/libft.h"
 #include "../../includes/parsing.h"
+
+void	syntax_bis(char *token, t_cmd *cmd)
+{
+	if (token[0] == '\0' && cmd->next != NULL)
+		printf("Syntax error near token : '|'\n");
+	else if (token[0] == '\0')
+		printf("Syntax error near token : 'newline'\n");
+}
 
 void	syntax_err(char *token, t_cmd *cmd)
 {
@@ -31,10 +39,7 @@ void	syntax_err(char *token, t_cmd *cmd)
 		else
 			printf("Syntax error near token : '<'\n");
 	}
-	if (token[0] == '\0' && cmd->next != NULL)
-		printf("Syntax error near token : '|'\n");
-	else if (token[0] == '\0')
-		printf("Syntax error near token : 'newline'\n");
+	syntax_bis(token, cmd);
 }
 
 void	error(char *s)

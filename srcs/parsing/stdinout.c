@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 16:07:38 by lloisel           #+#    #+#             */
-/*   Updated: 2023/04/14 23:05:35 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/17 15:38:38 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,35 +16,6 @@
 #include <stdio.h>
 #include <stdlib.h>		
 #include "../../libft/libft.h"
-
-int	handle_file(t_cmd *cmd)
-{
-	int	fd;
-
-	fd = open(cmd->filename_out, O_DIRECTORY);
-	if (fd >= 0)
-	{
-		close(fd);
-		printf("minishell: %s: Is a directory\n", cmd->filename_out);
-		return (0);
-	}
-	if (cmd->append)
-	{
-		fd = open(cmd->filename_out, O_WRONLY | O_CREAT | O_APPEND, 0644);
-		if (fd < 0)
-			return (0);
-		close(fd);
-	}
-	else
-	{
-		unlink(cmd->filename_out);
-		fd = open(cmd->filename_out, O_WRONLY | O_CREAT, 0644);
-		if (fd < 0)
-			return (0);
-		close(fd);
-	}
-	return (1);
-}
 
 int	fill_out_bis(t_cmd *cmd, int i)
 {
@@ -59,7 +30,7 @@ int	fill_out_bis(t_cmd *cmd, int i)
 	return (i);
 }
 
-int	fill_stdout(t_cmd *cmd, int i)
+int	fill_stdout(t_cmd *cmd, int i, t_envp *envp)
 {
 	int	start_w;
 	int	op;	
@@ -75,49 +46,53 @@ int	fill_stdout(t_cmd *cmd, int i)
 		cmd->append = 0;
 	i = skip_space(cmd->s[0], i);
 	if (!cmd->s[0][i] || is_special(cmd->s[0][i], "<> |"))
-		return (syntax_err(cmd->s[0] + i, cmd), 0);
+		return (syntax_err(cmd->s[0] + i, cmd), 2);
 	start_w = i;
 	i = fill_out_bis(cmd, i);
 	if (is_special(cmd->s[0][i], "<> ") && start_w == i)
-		return (syntax_err(cmd->s[0] + i, cmd), 0);
+		return (syntax_err(cmd->s[0] + i, cmd), 2);
 	if (cmd->filename_out)
 		free(cmd->filename_out);
 	cmd->filename_out = trimming(op, cmd, start_w, i);
-	return (handle_file(cmd));
+	return (handle_file(cmd, envp));
 }
 
-int	simple_stdin(t_cmd *cmd, int i, int op)
+int	simple_stdin(t_cmd *cmd, int i, int op, t_envp *envp)
 {
 	char	*tmp;
 
 	tmp = get_name(cmd, i, op);
+	if (!tmp)
+		return (2);
 	if (cmd->filename_in)
 		free(cmd->filename_in);
-	cmd->filename_in = tmp;
+	cmd->filename_in = replace_dollards_string(tmp, 0, envp);
 	if (!cmd->filename_in)
-		return (0);
-	return (1);
+		return (1);
+	return (0);
 }
 
-int	fill_stdin(t_parse *p, t_cmd *cmd, int i)
+int	fill_stdin(t_parse *p, t_cmd *cmd, int i, t_envp *envp)
 {
 	int	op;
 	int	tmp;
 
 	op = i;
 	i++;
+	display_parse(p);
 	if (cmd->s[0][i] && cmd->s[0][i] == '<')
 	{
 		tmp = here_doc(p, cmd, i + 1, op);
-		if (!tmp)
-			return (0);
+		if (tmp != 0)
+			return (tmp);
 		cmd->heredoc = 1;
 	}
 	else
 	{
-		if (!simple_stdin(cmd, i, op))
-			return (0);
+		tmp = simple_stdin(cmd, i, op, envp);
+		if (tmp)
+			return (tmp);
 		cmd->heredoc = 0;
 	}
-	return (1);
+	return (0);
 }

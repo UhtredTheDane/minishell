@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 18:02:46 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/17 04:06:02 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/17 14:11:15 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ char	*builtin_pwd(char *cmd)
 		return (NULL);
 	if (!getcwd(buffer, PATH_MAX))
 	{
-		printf("%s: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory\n", cmd);
+		printf("%s: error retrieving current directory: getcwd: ", cmd);
+		printf("cannot access parent directories: No such file or directory\n");
 		free(buffer);
 		return (NULL);
 	}

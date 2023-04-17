@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 13:00:43 by lloisel           #+#    #+#             */
-/*   Updated: 2023/04/14 23:02:56 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/17 13:06:38 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,22 +63,22 @@ int	add_cmd(t_parse *p, int start, int end)
 
 	cmd = init_cmd();
 	if (!cmd)
-		return (0);
+		return (1);
 	size = end - start;
 	if (size <= 0 && p->s[start] != '\0')
-		return (free(cmd), error("Syntax error Unexpected token : '|'\n"), 0);
+		return (free(cmd), error("Syntax error Unexpected token : '|'\n"), 2);
 	cmd->s = malloc(sizeof(char *));
 	if (!cmd->s)
-		return (0);
+		return (1);
 	cmd->s[0] = malloc(sizeof(char) * size + 1);
 	if (!cmd->s[0])
-		return (0);
+		return (1);
 	i = -1;
 	while (++i < size)
 		cmd->s[0][i] = p->s[start + i];
 	cmd->s[0][i] = '\0';
 	add_cmd_bis(p, cmd);
-	return (1);
+	return (0);
 }
 
 t_parse	*init_parse(t_envp *envp_dico)

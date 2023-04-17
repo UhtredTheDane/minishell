@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 16:35:02 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/15 18:51:21 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/17 15:38:46 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,20 +76,20 @@ int	get_heredoc(t_parse *p, t_cmd *cmd, char *word)
 	if (pid < 0)
 	{
 		perror("Probleme fork");
-		return (0);
+		return (1);
 	}
 	else if (pid == 0)
 		son_heredoc(p, cmd, word);
 	free(word);
 	close(cmd->pipe_heredoc[1]);
 	if (!update_not_interactive_sigint(0))
-		return (0);
+		return (1);
 	pid = waitpid(-1, &status, 0);
 	if (!update_interactive_sigint())
-		return (0);
+		return (1);
 	if (!WIFEXITED(status))
-		return (0);
-	return (1);
+		return (1);
+	return (0);
 }
 
 int	here_doc(t_parse *p, t_cmd *cmd, int i, int op)
@@ -98,7 +98,7 @@ int	here_doc(t_parse *p, t_cmd *cmd, int i, int op)
 
 	delim = get_name(cmd, i, op);
 	if (!delim)
-		return (0);
+		return (2);
 	if (cmd->pipe_heredoc)
 	{
 		close(cmd->pipe_heredoc[0]);
@@ -106,11 +106,11 @@ int	here_doc(t_parse *p, t_cmd *cmd, int i, int op)
 	}
 	cmd->pipe_heredoc = malloc(sizeof(int) * 2);
 	if (!cmd->pipe_heredoc)
-		return (0);
+		return (1);
 	if (pipe(cmd->pipe_heredoc) == -1)
 	{
 		free(cmd->pipe_heredoc);
-		return (0);
+		return (1);
 	}
 	return (get_heredoc(p, cmd, delim));
 }

@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 16:23:32 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/15 12:58:03 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/17 15:42:38 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,16 +53,23 @@ int	manager(t_parse *p, t_cmd *cmd, int num_proc, int builtin)
 	return (execute_cmd(p, cmd, old_stdin, old_stdout));
 }
 
-int	execute(t_parse *p)
+int	execute(t_parse *p, t_envp *envp)
 {
-	if (!edit_parsing(p) || !split_cmd(p))
-		return (0);
+	int	rt;
+
+	rt = 1;
+	rt = edit_parsing(p, envp);
+	if (rt)
+		return (rt);
+	if (!split_cmd(p))
+		return (1);
+	replace_dollards(p, envp);
 	if (!p->pipes_fd && is_builtin(p->first))
 		g_rt = manager(p, p->first, 0, 1);
 	else if (!run_pipe(p))
 	{
 		printf("Impossible de lancer les pipes\n");
-		return (0);
+		return (1);
 	}
-	return (1);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 17:09:09 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/16 20:58:20 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/17 15:39:15 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,20 +22,24 @@ int	clean_exit(t_envp *envp)
 	return (0);
 }
 
-void	cmd_treatment(t_envp *envp_dico, char *in_put)
+int	cmd_treatment(t_envp *envp_dico, char *in_put)
 {
 	t_parse	*p;
+	int		rt;
 
-	p = parsing(in_put, envp_dico);
-	if (p)
+	rt = 0;
+	if (is_empty(in_put))
+		return (free(in_put), 0);
+	p = parsing(in_put, envp_dico, &rt);
+	if (!rt && p)
 	{
-		if (!replace_dollards(p, envp_dico))
-			printf("we can't replace some variable");
-		else
-			execute(p);
+		rt = execute(p, envp_dico);
+		if (rt)
+			return (free_parse(p), free(in_put), rt);
 		free_parse(p);
 	}
 	free(in_put);
+	return (rt);
 }
 
 int	main_loop(t_envp *envp_dico, char *prompt)
@@ -46,7 +50,7 @@ int	main_loop(t_envp *envp_dico, char *prompt)
 	{
 		in_put = readline(prompt);
 		if (in_put)
-			cmd_treatment(envp_dico, in_put);
+			g_rt = cmd_treatment(envp_dico, in_put);
 		else
 			return (clean_exit(envp_dico));
 	}

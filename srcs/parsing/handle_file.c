@@ -1,0 +1,57 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   handle_file.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/17 14:42:15 by lloisel           #+#    #+#             */
+/*   Updated: 2023/04/17 14:42:42 by lloisel          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../../includes/parsing.h"	
+#include "../../includes/error.h"	
+#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>		
+#include "../../libft/libft.h"
+
+int	handle_bis(t_cmd *cmd)
+{
+	int	fd;
+
+	unlink(cmd->filename_out);
+	fd = open(cmd->filename_out, O_WRONLY | O_CREAT, 0644);
+	if (fd < 0)
+		return (1);
+	close(fd);
+	return (0);
+}
+
+int	handle_file(t_cmd *cmd, t_envp *envp)
+{
+	int	fd;
+
+	cmd->filename_out = replace_dollards_string(cmd->filename_out, 0, envp);
+	fd = open(cmd->filename_out, O_DIRECTORY);
+	if (fd >= 0)
+	{
+		close(fd);
+		printf("minishell: %s: Is a directory\n", cmd->filename_out);
+		return (1);
+	}
+	if (cmd->append)
+	{
+		fd = open(cmd->filename_out, O_WRONLY | O_CREAT | O_APPEND, 0644);
+		if (fd < 0)
+			return (1);
+		close(fd);
+	}
+	else
+	{
+		if (handle_bis(cmd))
+			return (1);
+	}
+	return (0);
+}
