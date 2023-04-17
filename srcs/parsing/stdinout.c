@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 16:07:38 by lloisel           #+#    #+#             */
-/*   Updated: 2023/04/17 15:38:38 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/04/17 16:06:41 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ int	fill_stdin(t_parse *p, t_cmd *cmd, int i, t_envp *envp)
 
 	op = i;
 	i++;
-	display_parse(p);
 	if (cmd->s[0][i] && cmd->s[0][i] == '<')
 	{
 		tmp = here_doc(p, cmd, i + 1, op);

@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 17:59:28 by agengemb          #+#    #+#             */
-/*   Updated: 2023/04/17 13:05:09 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/17 16:01:29 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ char	*init_path(t_envp *envp, t_cmd *cmd)
 {
 	char	*home;
 	char	*default_folder;
+	char 	*old_pwd;
 
 	home = get_value(envp, "HOME");
 	if (!home)
@@ -39,7 +40,17 @@ char	*init_path(t_envp *envp, t_cmd *cmd)
 	else if (!cmd->cmd[2])
 	{
 		if (ft_strlen(cmd->cmd[1]) == 1 && cmd->cmd[1][0] == '-')
-			return (ft_strdup(".."));
+		{
+			free(default_folder);
+			old_pwd = get_value(envp, "OLDPWD");
+			if (old_pwd)
+				return (ft_strdup(old_pwd));
+			else
+			{
+				printf("OLDPWD is not present\n");
+				return (NULL);
+			}
+		}
 		return (replace_home(cmd, default_folder));
 	}
 	printf("minishell: cd: too many arguments\n");
