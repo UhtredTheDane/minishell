@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 14:42:15 by lloisel           #+#    #+#             */
-/*   Updated: 2023/04/17 20:12:13 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/04/18 01:36:41 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,5 +73,6 @@ int	handle_file_stdin(t_cmd *cmd)
 		printf("minishell: %s: no such file \n", cmd->filename_in);
 		return (1);
 	}
+	close(fd);
 	return (0);
 }

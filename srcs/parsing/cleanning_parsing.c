@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 15:12:01 by lloisel           #+#    #+#             */
-/*   Updated: 2023/04/18 01:28:58 by agengemb         ###   ########.fr       */
+/*   Updated: 2023/04/18 01:48:40 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,11 @@ void	free_cmd(t_cmd *cmd)
 	if (cmd->filename_out)
 		free(cmd->filename_out);
 	if (cmd->pipe_heredoc)
+	{
+		close(cmd->pipe_heredoc[0]);
+		close(cmd->pipe_heredoc[1]);
 		free(cmd->pipe_heredoc);
+	}
 }
 
 void	free_parse(t_parse *p)

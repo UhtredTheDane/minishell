@@ -6,7 +6,7 @@
 /*   By: lloisel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 15:36:51 by lloisel           #+#    #+#             */
-/*   Updated: 2023/04/17 18:18:05 by lloisel          ###   ########.fr       */
+/*   Updated: 2023/04/18 01:54:52 by lloisel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,9 @@ void	son_heredoc(t_parse *p, t_cmd *cmd, char *word)
 
 	return_code = run_heredoc(cmd, word, p->envp);
 	free(word);
+	close(p->default_in);
+	close(p->default_out);
+	free_parse(p);
 	exit(return_code);
 }
 
